@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zriwia Cockpit</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117; 
+      color: #e6edf3; 
+      padding: 24px;
+      line-height: 1.5;
+    }
+    .header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #30363d;
+    }
+    .header h1 { font-size: 24px; font-weight: 600; }
+    .header .subtitle { color: #8b949e; font-size: 14px; }
+    .header .time { color: #8b949e; font-size: 12px; }
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+      gap: 16px; 
+      margin-bottom: 24px;
+    }
+    .card { 
+      background: #161b22; 
+      border: 1px solid #30363d; 
+      border-radius: 8px; 
+      padding: 16px;
+    }
+    .card h2 { 
+      font-size: 14px; 
+      font-weight: 600; 
+      color: #8b949e; 
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #21262d;
+    }
+    .status-row:last-child { border-bottom: none; }
+    .status-label { color: #8b949e; }
+    .status-value { font-weight: 500; }
+    .status-value.highlight { color: #58a6ff; }
+    .status-value.success { color: #3fb950; }
+    .status-value.warning { color: #d29922; }
+    .progress-bar {
+      background: #21262d;
+      border-radius: 4px;
+      height: 8px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      background: linear-gradient(90deg, #238636, #3fb950);
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .btn {
+      display: inline-block;
+      background: #238636;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-secondary {
+      background: #21262d;
+      border: 1px solid #30363d;
+    }
+    .btn-secondary:hover { background: #30363d; }
+    .ticket-section {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+    }
+    .ticket-section h2 { 
+      font-size: 18px; 
+      margin-bottom: 8px;
+      color: #e6edf3;
+      text-transform: none;
+    }
+    .ticket-section p { 
+      color: #8b949e; 
+      margin-bottom: 16px;
+    }
+    .tools-grid {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .tool-badge {
+      background: #21262d;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #8b949e;
+    }
+    .tool-badge.active { background: #238636; color: white; }
+    .emoji { font-size: 18px; margin-right: 6px; }
+    footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #30363d;
+      color: #8b949e;
+      font-size: 12px;
+      text-align: center;
+    }
+    footer a { color: #58a6ff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>🌱 Zriwia Cockpit</h1>
+      <div class="subtitle">KI-Assistent von Florian @ Wirz</div>
+    </div>
+    <div class="time">Stand: 2. Feb 2026</div>
+  </div>
+
+  <div class="grid">
+    <!-- Experiment Status -->
+    <div class="card">
+      <h2>🧪 KI-Brand-Experiment</h2>
+      <div class="status-row">
+        <span class="status-label">Phase</span>
+        <span class="status-value highlight">Discover</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Woche</span>
+        <span class="status-value">1 / 10</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Sessions</span>
+        <span class="status-value success">2 ✓</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Nächste Session</span>
+        <span class="status-value">Mo 04:00</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Kategorie</span>
+        <span class="status-value warning">⏳ Entscheidung offen</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 20%"></div>
+      </div>
+    </div>
+
+    <!-- System Status -->
+    <div class="card">
+      <h2>⚡ System Status</h2>
+      <div class="status-row">
+        <span class="status-label">Hirn</span>
+        <span class="status-value success">Opus ✓</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Coding</span>
+        <span class="status-value success">Codex ✓</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Search</span>
+        <span class="status-value success">Gemini ✓</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Social</span>
+        <span class="status-value success">Perplexity ✓</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Email</span>
+        <span class="status-value success">Apple Mail ✓</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Telefon</span>
+        <span class="status-value warning">⏳ Setup pending</span>
+      </div>
+    </div>
+
+    <!-- Aktive Jobs -->
+    <div class="card">
+      <h2>⏰ Aktive Jobs</h2>
+      <div class="status-row">
+        <span class="status-label">📧 Email-Check</span>
+        <span class="status-value">alle 30 Min</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">🧠 Autonome Session</span>
+        <span class="status-value">tägl. 04:00</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">📡 Trend-Radar</span>
+        <span class="status-value">So 09:00</span>
+      </div>
+    </div>
+
+    <!-- Team -->
+    <div class="card">
+      <h2>👥 Team</h2>
+      <div class="status-row">
+        <span class="status-label">Florian</span>
+        <span class="status-value">Owner</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Livio</span>
+        <span class="status-value">CCO, Experiment</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Nico</span>
+        <span class="status-value">Experiment</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Sebastien</span>
+        <span class="status-value">Experiment</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Franjo</span>
+        <span class="status-value">IT Support</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ticket Section -->
+  <div class="ticket-section">
+    <h2>📋 Request an Zriwia senden</h2>
+    <p>Hast du eine Aufgabe, Frage oder Idee? Erstelle ein Ticket und ich kümmere mich darum.</p>
+    <a href="https://github.com/zriwia/cockpit/issues/new?template=request.md" class="btn" target="_blank">
+      ➕ Neues Ticket erstellen
+    </a>
+    <a href="https://github.com/zriwia/cockpit/issues" class="btn btn-secondary" target="_blank" style="margin-left: 8px;">
+      📋 Alle Tickets ansehen
+    </a>
+  </div>
+
+  <footer>
+    <p>Powered by <a href="https://github.com/zriwia">@zriwia</a> • <a href="https://wirz.ch">Wirz</a></p>
+  </footer>
+</body>
+</html>
