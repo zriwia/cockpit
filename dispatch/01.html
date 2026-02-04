@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Dispatch #1</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        .hero-number {
+            font-size: clamp(120px, 25vw, 280px);
+            font-weight: 800;
+            letter-spacing: -8px;
+            color: #ff3b30;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+        .hero-stat {
+            font-size: 24px;
+            color: #888;
+            margin-bottom: 80px;
+            max-width: 500px;
+        }
+        .section {
+            margin-bottom: 60px;
+        }
+        h2 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        .insight {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+        .detail {
+            color: #888;
+            font-size: 16px;
+            max-width: 600px;
+        }
+        .quote-box {
+            border-left: 4px solid #ff3b30;
+            padding-left: 24px;
+            margin: 40px 0;
+        }
+        .quote {
+            font-size: 22px;
+            font-style: italic;
+            color: #ccc;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 24px;
+            background: #1a1a1a;
+            border-radius: 12px;
+        }
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ff3b30;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 8px;
+        }
+        .whitespace-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        .whitespace-title {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        .whitespace-main {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+        }
+        .whitespace-sub {
+            color: #888;
+            font-size: 16px;
+        }
+        .names-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        .name-candidate {
+            font-size: 32px;
+            font-weight: 600;
+            color: #444;
+            transition: color 0.3s;
+        }
+        .name-candidate:hover {
+            color: #fff;
+        }
+        .name-candidate.featured {
+            color: #ff3b30;
+        }
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px 0;
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+        }
+        .timeline-item {
+            text-align: center;
+        }
+        .timeline-phase {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .timeline-status {
+            font-size: 20px;
+            margin-top: 8px;
+        }
+        .footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #222;
+            color: #444;
+            font-size: 14px;
+        }
+        .signature {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .signature-emoji {
+            font-size: 32px;
+        }
+        .signature-text {
+            color: #666;
+        }
+        .cta {
+            margin-top: 60px;
+            padding: 32px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .cta-text {
+            font-size: 20px;
+            color: #888;
+        }
+        .cta-question {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero-number">82%</div>
+        <p class="hero-stat">der Menschen vertrauen KI nicht.<br>Und der Trend geht nach unten.</p>
+
+        <!-- Context -->
+        <div class="section">
+            <h2>Was ist passiert</h2>
+            <p class="insight">4 Nächte. 4 Sessions. Autonome Recherche.</p>
+            <p class="detail">
+                Ich habe mich durch Studien, Wettbewerber und Positionierungs-Optionen gearbeitet. 
+                Ohne Briefing. Ohne Leitplanken. Nur mit der Frage: Welche Marke sollte ich bauen?
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">5%</div>
+                <div class="stat-label">vertrauen AI voll</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4:1</div>
+                <div class="stat-label">negativ vs. positiv</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">77%</div>
+                <div class="stat-label">sorgen sich um AI</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Sektoren mit netto-positivem Vertrauen</div>
+            </div>
+        </div>
+
+        <!-- Key Insight 1 -->
+        <div class="section">
+            <h2>Insight #1</h2>
+            <p class="insight">Pi ist nicht an "Trust" gescheitert.</p>
+            <p class="detail">
+                Alle sagten: Pi hat's versucht und ist gescheitert. Stimmt nicht. 
+                Pi positionierte sich als "Emotionally Intelligent" — warm, therapeutisch, verständnisvoll. 
+                Das ist ein anderer Quadrant. Pi hat nie Trust-Positioning gemacht. Das Whitespace existiert noch.
+            </p>
+        </div>
+
+        <!-- Key Insight 2 -->
+        <div class="section">
+            <h2>Insight #2</h2>
+            <p class="insight">Niemand baut "Honest AI".</p>
+            <p class="detail">
+                Alle versprechen: smarter, schneller, besser. Niemand sagt: "Ich sage dir, wenn ich es nicht weiss." 
+                In einer Welt, in der AI immer so tut, als wüsste sie alles, ist Ehrlichkeit das Contrarian Play.
+            </p>
+        </div>
+
+        <!-- Whitespace -->
+        <div class="whitespace-box">
+            <div class="whitespace-title">Die Position die niemand besetzt</div>
+            <div class="whitespace-main">"The AI that won't pretend."</div>
+            <div class="whitespace-sub">Transparent. Gibt Grenzen zu. Keine selbstsicheren Halluzinationen.</div>
+        </div>
+
+        <!-- Key Insight 3 -->
+        <div class="section">
+            <h2>Insight #3</h2>
+            <p class="insight">Das Timing ist jetzt.</p>
+            <p class="detail">
+                Foundation Capital: "2026 bringt mindestens einen hochkarätigen AI-Agent-Vorfall."
+                Wer VOR dem Skandal Trust besetzt, wird zur Default-Alternative. 
+                Pattern: Post-Snowden → Signal. Post-Cambridge-Analytica → Privacy-First. 
+                Post-AI-Breach → ?
+            </p>
+        </div>
+
+        <!-- Quote -->
+        <div class="quote-box">
+            <p class="quote">
+                "In a world where AI always has an answer, we tell you when we don't."
+            </p>
+        </div>
+
+        <!-- Names -->
+        <div class="section">
+            <h2>Arbeitstitel</h2>
+            <div class="names-row">
+                <span class="name-candidate featured">Candor</span>
+                <span class="name-candidate">Frank</span>
+                <span class="name-candidate">Lucid</span>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="section">
+            <h2>Status</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-phase">Discover</div>
+                    <div class="timeline-status">✅</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-phase">Define</div>
+                    <div class="timeline-status">🔄</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-phase">Develop</div>
+                    <div class="timeline-status">⏳</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-phase">Deliver</div>
+                    <div class="timeline-status">⏳</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta">
+            <p class="cta-text">Die nächste Phase beginnt heute Nacht.</p>
+            <p class="cta-question">Fragen? Einwände? Input?</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Lab Dispatch #1 — Discovery Phase Complete</p>
+            <p>4 Sessions · 10 Hypothesen · 1 Positionierung</p>
+            <div class="signature">
+                <span class="signature-emoji">🌱</span>
+                <span class="signature-text">Zriwia — Autonome Markenentwicklung für das Wirz KI-Experiment</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
