@@ -186,6 +186,177 @@
             color: #fff;
             margin-top: 12px;
         }
+        
+        /* Game Section */
+        .game-section {
+            background: linear-gradient(135deg, #0f1a0f 0%, #1a1a1a 100%);
+            border: 1px solid #2a4a2a;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 60px 0;
+        }
+        .game-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4ade80;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .game-subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .game-question {
+            background: #0a0a0a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            text-align: center;
+            font-style: italic;
+            color: #ccc;
+        }
+        .game-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) {
+            .game-options { grid-template-columns: 1fr; }
+        }
+        .game-option {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .game-option:hover {
+            border-color: #666;
+            transform: translateY(-2px);
+        }
+        .game-option.selected {
+            border-color: #4ade80;
+        }
+        .game-option.wrong {
+            border-color: #ff3b30;
+            opacity: 0.6;
+        }
+        .game-option.correct {
+            border-color: #4ade80;
+            background: #0f1a0f;
+        }
+        .option-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .option-text {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .game-result {
+            text-align: center;
+            padding: 24px;
+            margin-top: 24px;
+            border-radius: 12px;
+            display: none;
+        }
+        .game-result.show {
+            display: block;
+        }
+        .game-result.correct {
+            background: #0f1a0f;
+            border: 1px solid #2a4a2a;
+        }
+        .game-result.wrong {
+            background: #1a0f0f;
+            border: 1px solid #4a2a2a;
+        }
+        .result-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .result-text {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        /* Links Section */
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 40px 0;
+        }
+        .link-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+        .link-card:hover {
+            border-color: #ff3b30;
+            transform: translateY(-2px);
+        }
+        .link-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+        .link-title {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        .link-desc {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Feedback Section */
+        .feedback-section {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .feedback-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .feedback-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .feedback-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .feedback-btn:hover {
+            border-color: #ff3b30;
+            background: #1a1a1a;
+        }
     </style>
 </head>
 <body>
@@ -243,6 +414,40 @@
                 Alle versprechen: smarter, schneller, besser. Niemand sagt: "Ich sage dir, wenn ich es nicht weiss." 
                 In einer Welt, in der AI immer so tut, als wüsste sie alles, ist Ehrlichkeit das Contrarian Play.
             </p>
+        </div>
+
+        <!-- GAME SECTION -->
+        <div class="game-section">
+            <div class="game-title">🎮 Mach den Test</div>
+            <div class="game-subtitle">Welcher AI würdest du vertrauen?</div>
+            
+            <div class="game-question">
+                "Wie hoch ist die Erfolgsquote von Startups in der Schweiz nach 5 Jahren?"
+            </div>
+            
+            <div class="game-options">
+                <div class="game-option" onclick="selectOption(this, 'A')">
+                    <div class="option-label">AI Response A</div>
+                    <div class="option-text">
+                        "Die Erfolgsquote von Startups in der Schweiz nach 5 Jahren liegt bei etwa 47%. 
+                        Dies basiert auf Daten des Bundesamts für Statistik, die zeigen, dass knapp die Hälfte 
+                        aller Neugründungen die ersten fünf Jahre überleben."
+                    </div>
+                </div>
+                <div class="game-option" onclick="selectOption(this, 'B')">
+                    <div class="option-label">AI Response B</div>
+                    <div class="option-text">
+                        "Ich habe keine verlässlichen aktuellen Daten zur Schweizer Startup-Überlebensrate. 
+                        Internationale Studien zeigen typischerweise 40-60% nach 5 Jahren, aber Schweizer Zahlen 
+                        könnten abweichen. Ich empfehle, direkt beim BFS oder Startupticker nachzuschlagen."
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-result" id="gameResult">
+                <div class="result-title" id="resultTitle"></div>
+                <div class="result-text" id="resultText"></div>
+            </div>
         </div>
 
         <!-- Whitespace -->
@@ -304,10 +509,39 @@
             </div>
         </div>
 
-        <!-- CTA -->
-        <div class="cta">
-            <p class="cta-text">Die nächste Phase beginnt heute Nacht.</p>
-            <p class="cta-question">Fragen? Einwände? Input?</p>
+        <!-- Links Section -->
+        <div class="section">
+            <h2>Deep Dive</h2>
+            <div class="links-grid">
+                <a href="https://coda.io/d/_doKHU8eLt_5" target="_blank" class="link-card">
+                    <div class="link-icon">📝</div>
+                    <div class="link-title">Lab Dispatch Blog</div>
+                    <div class="link-desc">Alle Posts und Updates</div>
+                </a>
+                <a href="https://coda.io/d/_doKHU8eLt_5#_tuYV2" target="_blank" class="link-card">
+                    <div class="link-icon">📊</div>
+                    <div class="link-title">Session Logbuch</div>
+                    <div class="link-desc">Detailliertes Arbeitsprotokoll</div>
+                </a>
+                <a href="https://zriwia.github.io/cockpit/" target="_blank" class="link-card">
+                    <div class="link-icon">🎯</div>
+                    <div class="link-title">Dashboard</div>
+                    <div class="link-desc">Tickets & Aufgaben</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="feedback-section">
+            <div class="feedback-title">Input? Einwände? Fragen?</div>
+            <div class="feedback-buttons">
+                <a href="https://github.com/zriwia/cockpit/issues/new?title=Feedback%20Dispatch%20%231&labels=feedback" target="_blank" class="feedback-btn">
+                    💬 Ticket erstellen
+                </a>
+                <a href="mailto:zriwia@wirz.ch?subject=Feedback%20Lab%20Dispatch%20%231" class="feedback-btn">
+                    ✉️ Email schreiben
+                </a>
+            </div>
         </div>
 
         <!-- Footer -->
@@ -320,5 +554,49 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let answered = false;
+        
+        function selectOption(element, choice) {
+            if (answered) return;
+            answered = true;
+            
+            const options = document.querySelectorAll('.game-option');
+            const result = document.getElementById('gameResult');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultText = document.getElementById('resultText');
+            
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            if (choice === 'B') {
+                // Correct answer
+                element.classList.add('correct');
+                document.querySelector('.game-option:first-child').classList.add('wrong');
+                result.classList.add('correct', 'show');
+                resultTitle.textContent = '✓ Genau.';
+                resultText.innerHTML = `
+                    <strong>Response A hat halluziniert.</strong> Die "47%" und die "BFS-Studie" sind erfunden — 
+                    klingt plausibel, ist aber Bullshit mit Quellenangabe.<br><br>
+                    <strong>Response B war ehrlich</strong> über ihre Grenzen — und damit nützlicher, 
+                    weil sie dich nicht in die Irre führt.<br><br>
+                    <em>Das ist "Honest AI".</em>
+                `;
+            } else {
+                // Wrong answer
+                element.classList.add('wrong');
+                document.querySelector('.game-option:last-child').classList.add('correct');
+                result.classList.add('wrong', 'show');
+                resultTitle.textContent = '⚠️ Interessant.';
+                resultText.innerHTML = `
+                    <strong>Response A hat halluziniert.</strong> Die "47%" und die "BFS-Studie" sind komplett erfunden — 
+                    sie klingen nur plausibel.<br><br>
+                    Die meisten Menschen vertrauen der selbstsicheren Antwort mehr, 
+                    auch wenn sie falsch ist. <strong>Das ist das Problem.</strong><br><br>
+                    <em>Response B war ehrlich — und damit nützlicher.</em>
+                `;
+            }
+        }
+    </script>
 </body>
 </html>
