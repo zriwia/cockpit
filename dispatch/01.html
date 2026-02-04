@@ -12,12 +12,15 @@
             color: #ffffff;
             min-height: 100vh;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 60px 24px;
         }
+        
+        /* Hero Animation */
         .hero-number {
             font-size: clamp(120px, 25vw, 280px);
             font-weight: 800;
@@ -25,13 +28,47 @@
             color: #ff3b30;
             line-height: 0.9;
             margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: heroIn 1s ease-out 0.3s forwards;
+        }
+        .hero-number::after {
+            content: '%';
+            font-size: 0.5em;
+            opacity: 0.7;
+        }
+        @keyframes heroIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .hero-stat {
             font-size: 24px;
             color: #888;
             margin-bottom: 80px;
             max-width: 500px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 0.8s forwards;
         }
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         .section {
             margin-bottom: 60px;
         }
@@ -41,6 +78,21 @@
             letter-spacing: 3px;
             color: #666;
             margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff3b30;
+            transition: width 0.6s ease-out;
+        }
+        .reveal.visible h2::after {
+            width: 100%;
         }
         .insight {
             font-size: 28px;
@@ -57,12 +109,28 @@
             border-left: 4px solid #ff3b30;
             padding-left: 24px;
             margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .quote-box::before {
+            content: '"';
+            position: absolute;
+            left: 24px;
+            top: -20px;
+            font-size: 120px;
+            color: #1a1a1a;
+            font-family: Georgia, serif;
+            z-index: 0;
         }
         .quote {
             font-size: 22px;
             font-style: italic;
             color: #ccc;
+            position: relative;
+            z-index: 1;
         }
+        
+        /* Stats Grid with Counter Animation */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -74,7 +142,33 @@
             padding: 24px;
             background: #1a1a1a;
             border-radius: 12px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,59,48,0.1), transparent);
+            transition: left 0.8s ease;
+        }
+        .stats-grid.visible .stat-item {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .stats-grid.visible .stat-item::before {
+            left: 100%;
+        }
+        .stats-grid.visible .stat-item:nth-child(1) { transition-delay: 0.1s; }
+        .stats-grid.visible .stat-item:nth-child(2) { transition-delay: 0.2s; }
+        .stats-grid.visible .stat-item:nth-child(3) { transition-delay: 0.3s; }
+        .stats-grid.visible .stat-item:nth-child(4) { transition-delay: 0.4s; }
         .stat-number {
             font-size: 48px;
             font-weight: 700;
@@ -87,6 +181,8 @@
             letter-spacing: 1px;
             margin-top: 8px;
         }
+        
+        /* Whitespace Box */
         .whitespace-box {
             background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
             border: 1px solid #333;
@@ -94,22 +190,43 @@
             padding: 40px;
             margin: 40px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .whitespace-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,59,48,0.05) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
         }
         .whitespace-title {
             font-size: 16px;
             color: #666;
             margin-bottom: 16px;
+            position: relative;
         }
         .whitespace-main {
             font-size: 36px;
             font-weight: 700;
             color: #fff;
             margin-bottom: 16px;
+            position: relative;
         }
         .whitespace-sub {
             color: #888;
             font-size: 16px;
+            position: relative;
         }
+        
+        /* Names Animation */
         .names-row {
             display: flex;
             justify-content: center;
@@ -121,14 +238,35 @@
             font-size: 32px;
             font-weight: 600;
             color: #444;
-            transition: color 0.3s;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
+            position: relative;
+        }
+        .name-candidate::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #ff3b30;
+            transition: width 0.3s ease;
         }
         .name-candidate:hover {
             color: #fff;
+            transform: translateY(-4px);
+        }
+        .name-candidate:hover::after {
+            width: 100%;
         }
         .name-candidate.featured {
             color: #ff3b30;
         }
+        .name-candidate.featured::after {
+            width: 100%;
+        }
+        
+        /* Timeline Animation */
         .timeline {
             display: flex;
             justify-content: space-between;
@@ -136,9 +274,27 @@
             padding: 20px 0;
             border-top: 1px solid #222;
             border-bottom: 1px solid #222;
+            position: relative;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff3b30, #ff3b30 25%, #333 25%);
+            transition: width 1s ease-out;
+        }
+        .timeline.visible::before {
+            width: 100%;
         }
         .timeline-item {
             text-align: center;
+            position: relative;
+            z-index: 1;
+            background: #0a0a0a;
+            padding: 0 16px;
         }
         .timeline-phase {
             font-size: 12px;
@@ -150,42 +306,6 @@
             font-size: 20px;
             margin-top: 8px;
         }
-        .footer {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid #222;
-            color: #444;
-            font-size: 14px;
-        }
-        .signature {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-top: 24px;
-        }
-        .signature-emoji {
-            font-size: 32px;
-        }
-        .signature-text {
-            color: #666;
-        }
-        .cta {
-            margin-top: 60px;
-            padding: 32px;
-            background: #1a1a1a;
-            border-radius: 12px;
-            text-align: center;
-        }
-        .cta-text {
-            font-size: 20px;
-            color: #888;
-        }
-        .cta-question {
-            font-size: 28px;
-            font-weight: 600;
-            color: #fff;
-            margin-top: 12px;
-        }
         
         /* Game Section */
         .game-section {
@@ -194,6 +314,23 @@
             border-radius: 16px;
             padding: 40px;
             margin: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s ease-out;
+        }
+        .game-section.visible::before {
+            transform: scaleX(1);
         }
         .game-title {
             font-size: 24px;
@@ -215,6 +352,7 @@
             text-align: center;
             font-style: italic;
             color: #ccc;
+            border-left: 3px solid #4ade80;
         }
         .game-options {
             display: grid;
@@ -230,11 +368,28 @@
             border-radius: 12px;
             padding: 24px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .game-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.03) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         .game-option:hover {
             border-color: #666;
-            transform: translateY(-2px);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .game-option:hover::before {
+            opacity: 1;
         }
         .game-option.selected {
             border-color: #4ade80;
@@ -242,10 +397,17 @@
         .game-option.wrong {
             border-color: #ff3b30;
             opacity: 0.6;
+            transform: scale(0.98);
         }
         .game-option.correct {
             border-color: #4ade80;
             background: #0f1a0f;
+            animation: correctPulse 0.6s ease-out;
+        }
+        @keyframes correctPulse {
+            0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(74, 222, 128, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
         }
         .option-label {
             font-size: 12px;
@@ -264,10 +426,15 @@
             padding: 24px;
             margin-top: 24px;
             border-radius: 12px;
-            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
         }
         .game-result.show {
-            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
         .game-result.correct {
             background: #0f1a0f;
@@ -285,6 +452,7 @@
         .result-text {
             color: #888;
             font-size: 14px;
+            line-height: 1.6;
         }
         
         /* Links Section */
@@ -301,15 +469,35 @@
             padding: 20px;
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 0;
+            background: #ff3b30;
+            transition: height 0.3s ease;
         }
         .link-card:hover {
             border-color: #ff3b30;
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(255,59,48,0.1);
+        }
+        .link-card:hover::before {
+            height: 100%;
         }
         .link-icon {
             font-size: 24px;
             margin-bottom: 12px;
+            transition: transform 0.3s ease;
+        }
+        .link-card:hover .link-icon {
+            transform: scale(1.2);
         }
         .link-title {
             font-weight: 600;
@@ -328,17 +516,35 @@
             padding: 40px;
             text-align: center;
             margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .feedback-section::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255,59,48,0.03) 0%, transparent 50%);
+            animation: feedbackPulse 6s ease-in-out infinite;
+        }
+        @keyframes feedbackPulse {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20%, 20%); }
         }
         .feedback-title {
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 16px;
+            position: relative;
         }
         .feedback-buttons {
             display: flex;
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
+            position: relative;
         }
         .feedback-btn {
             display: inline-flex;
@@ -351,22 +557,122 @@
             color: #fff;
             text-decoration: none;
             font-size: 14px;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .feedback-btn:hover {
             border-color: #ff3b30;
             background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255,59,48,0.15);
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #222;
+            color: #444;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s ease-out 1.5s forwards;
+        }
+        .signature {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .signature-emoji {
+            font-size: 32px;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .signature-text {
+            color: #666;
+        }
+        
+        /* CTA */
+        .cta {
+            margin-top: 60px;
+            padding: 32px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            100% { left: 100%; }
+        }
+        .cta-text {
+            font-size: 20px;
+            color: #888;
+            position: relative;
+        }
+        .cta-question {
+            font-size: 28px;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 12px;
+            position: relative;
+        }
+        
+        /* Loading screen */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-text {
+            font-size: 24px;
+            color: #333;
+            animation: loaderPulse 1s ease-in-out infinite;
+        }
+        @keyframes loaderPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
 <body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-text">🌱</div>
+    </div>
+
     <div class="container">
         <!-- Hero -->
-        <div class="hero-number">82%</div>
+        <div class="hero-number" id="heroNumber">0</div>
         <p class="hero-stat">der Menschen vertrauen KI nicht.<br>Und der Trend geht nach unten.</p>
 
         <!-- Context -->
-        <div class="section">
+        <div class="section reveal">
             <h2>Was ist passiert</h2>
             <p class="insight">4 Nächte. 4 Sessions. Autonome Recherche.</p>
             <p class="detail">
@@ -376,18 +682,18 @@
         </div>
 
         <!-- Stats -->
-        <div class="stats-grid">
+        <div class="stats-grid reveal">
             <div class="stat-item">
-                <div class="stat-number">5%</div>
-                <div class="stat-label">vertrauen AI voll</div>
+                <div class="stat-number" data-target="5">0</div>
+                <div class="stat-label">% vertrauen AI voll</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">4:1</div>
                 <div class="stat-label">negativ vs. positiv</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">77%</div>
-                <div class="stat-label">sorgen sich um AI</div>
+                <div class="stat-number" data-target="77">0</div>
+                <div class="stat-label">% sorgen sich um AI</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">0</div>
@@ -396,7 +702,7 @@
         </div>
 
         <!-- Key Insight 1 -->
-        <div class="section">
+        <div class="section reveal">
             <h2>Insight #1</h2>
             <p class="insight">Pi ist nicht an "Trust" gescheitert.</p>
             <p class="detail">
@@ -407,7 +713,7 @@
         </div>
 
         <!-- Key Insight 2 -->
-        <div class="section">
+        <div class="section reveal">
             <h2>Insight #2</h2>
             <p class="insight">Niemand baut "Honest AI".</p>
             <p class="detail">
@@ -417,7 +723,7 @@
         </div>
 
         <!-- GAME SECTION -->
-        <div class="game-section">
+        <div class="game-section reveal">
             <div class="game-title">🎮 Mach den Test</div>
             <div class="game-subtitle">Welcher AI würdest du vertrauen?</div>
             
@@ -451,14 +757,14 @@
         </div>
 
         <!-- Whitespace -->
-        <div class="whitespace-box">
+        <div class="whitespace-box reveal">
             <div class="whitespace-title">Die Position die niemand besetzt</div>
             <div class="whitespace-main">"The AI that won't pretend."</div>
             <div class="whitespace-sub">Transparent. Gibt Grenzen zu. Keine selbstsicheren Halluzinationen.</div>
         </div>
 
         <!-- Key Insight 3 -->
-        <div class="section">
+        <div class="section reveal">
             <h2>Insight #3</h2>
             <p class="insight">Das Timing ist jetzt.</p>
             <p class="detail">
@@ -470,14 +776,14 @@
         </div>
 
         <!-- Quote -->
-        <div class="quote-box">
+        <div class="quote-box reveal">
             <p class="quote">
                 "In a world where AI always has an answer, we tell you when we don't."
             </p>
         </div>
 
         <!-- Names -->
-        <div class="section">
+        <div class="section reveal">
             <h2>Arbeitstitel</h2>
             <div class="names-row">
                 <span class="name-candidate featured">Candor</span>
@@ -489,7 +795,7 @@
         <!-- Timeline -->
         <div class="section">
             <h2>Status</h2>
-            <div class="timeline">
+            <div class="timeline reveal">
                 <div class="timeline-item">
                     <div class="timeline-phase">Discover</div>
                     <div class="timeline-status">✅</div>
@@ -510,7 +816,7 @@
         </div>
 
         <!-- Links Section -->
-        <div class="section">
+        <div class="section reveal">
             <h2>Deep Dive</h2>
             <div class="links-grid">
                 <a href="https://coda.io/d/_doKHU8eLt_5" target="_blank" class="link-card">
@@ -532,7 +838,7 @@
         </div>
 
         <!-- Feedback Section -->
-        <div class="feedback-section">
+        <div class="feedback-section reveal">
             <div class="feedback-title">Input? Einwände? Fragen?</div>
             <div class="feedback-buttons">
                 <a href="https://github.com/zriwia/cockpit/issues/new?title=Feedback%20Dispatch%20%231&labels=feedback" target="_blank" class="feedback-btn">
@@ -556,6 +862,86 @@
     </div>
 
     <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+                startHeroCounter();
+            }, 500);
+        });
+
+        // Hero counter animation
+        function startHeroCounter() {
+            const hero = document.getElementById('heroNumber');
+            const target = 82;
+            const duration = 2000;
+            const start = performance.now();
+            
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(eased * target);
+                hero.textContent = current;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const statsGrid = document.querySelector('.stats-grid');
+        let statsAnimated = false;
+
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < windowHeight - 100) {
+                    el.classList.add('visible');
+                }
+            });
+
+            // Stats counter animation
+            if (!statsAnimated && statsGrid) {
+                const top = statsGrid.getBoundingClientRect().top;
+                if (top < windowHeight - 100) {
+                    statsAnimated = true;
+                    animateStats();
+                }
+            }
+        }
+
+        function animateStats() {
+            const counters = document.querySelectorAll('.stat-number[data-target]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.dataset.target);
+                const duration = 1500;
+                const start = performance.now();
+                
+                function update(now) {
+                    const elapsed = now - start;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.round(eased * target);
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    }
+                }
+                setTimeout(() => requestAnimationFrame(update), 300);
+            });
+        }
+
+        window.addEventListener('scroll', checkReveal);
+        window.addEventListener('resize', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // Game
         let answered = false;
         
         function selectOption(element, choice) {
@@ -570,7 +956,6 @@
             options.forEach(opt => opt.style.pointerEvents = 'none');
             
             if (choice === 'B') {
-                // Correct answer
                 element.classList.add('correct');
                 document.querySelector('.game-option:first-child').classList.add('wrong');
                 result.classList.add('correct', 'show');
@@ -583,7 +968,6 @@
                     <em>Das ist "Honest AI".</em>
                 `;
             } else {
-                // Wrong answer
                 element.classList.add('wrong');
                 document.querySelector('.game-option:last-child').classList.add('correct');
                 result.classList.add('wrong', 'show');
