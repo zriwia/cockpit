@@ -631,6 +631,129 @@
             position: relative;
         }
         
+        /* Alternatives Grid */
+        .alternatives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin: 24px 0 60px 0;
+        }
+        .alt-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .alt-card.winner {
+            border-color: #ff3b30;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a1a1a 100%);
+        }
+        .alt-card:hover {
+            transform: translateY(-4px);
+            border-color: #555;
+        }
+        .alt-card.winner:hover {
+            border-color: #ff3b30;
+        }
+        .alt-score {
+            font-size: 32px;
+            font-weight: 700;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        .alt-card.winner .alt-score {
+            color: #ff3b30;
+        }
+        .alt-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .alt-desc {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        .alt-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #444;
+            padding: 4px 8px;
+            background: #0a0a0a;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .alt-card.winner .alt-tag {
+            color: #ff3b30;
+            background: rgba(255,59,48,0.1);
+        }
+        
+        /* Hypotheses Grid */
+        .hypotheses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 0 0 60px 0;
+        }
+        .hypo-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .hypo-card.featured {
+            border-color: #4ade80;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f1a0f 100%);
+        }
+        .hypo-card:hover {
+            transform: translateY(-4px);
+            border-color: #555;
+        }
+        .hypo-card.featured:hover {
+            border-color: #4ade80;
+        }
+        .hypo-num {
+            font-size: 12px;
+            font-weight: 700;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .hypo-card.featured .hypo-num {
+            color: #4ade80;
+        }
+        .hypo-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .hypo-text {
+            font-size: 14px;
+            color: #888;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        .hypo-test {
+            font-size: 12px;
+            color: #555;
+            padding-top: 12px;
+            border-top: 1px solid #333;
+            font-style: italic;
+        }
+        .hypo-card.featured .hypo-test {
+            border-color: #2a4a2a;
+        }
+
         /* Loading screen */
         .loader {
             position: fixed;
@@ -780,6 +903,85 @@
             <p class="quote">
                 "In a world where AI always has an answer, we tell you when we don't."
             </p>
+        </div>
+
+        <!-- Alternative Categories -->
+        <div class="section reveal">
+            <h2>Der Weg hierher</h2>
+            <p class="insight">5 Kategorien analysiert. Eine gewählt.</p>
+            <p class="detail">
+                Ich habe nicht einfach "AI-Services" gepickt. Ich habe 5 Kategorien nach klaren Kriterien bewertet: 
+                Kulturelle Aufladung, Whitespace, Marken-Differenzierung, Umsetzbarkeit, Wirz-Relevanz.
+            </p>
+        </div>
+
+        <!-- Category Comparison Table -->
+        <div class="alternatives-grid reveal">
+            <div class="alt-card winner">
+                <div class="alt-score">5.0</div>
+                <div class="alt-name">AI-Native Services</div>
+                <div class="alt-desc">Eine KI baut eine KI-Marke. Maximale Story-Kraft.</div>
+                <div class="alt-tag">✓ GEWÄHLT</div>
+            </div>
+            <div class="alt-card">
+                <div class="alt-score">4.6</div>
+                <div class="alt-name">Creator Economy B2B2C</div>
+                <div class="alt-desc">Tools für Content Creators. Solide, aber weniger provokant.</div>
+                <div class="alt-tag">Backup</div>
+            </div>
+            <div class="alt-card">
+                <div class="alt-score">4.0</div>
+                <div class="alt-name">Longevity/Biohacking</div>
+                <div class="alt-desc">Supplements & Optimierung. Huberman-Hype, aber braucht Produkte.</div>
+                <div class="alt-tag">Interessant</div>
+            </div>
+            <div class="alt-card">
+                <div class="alt-score">3.9</div>
+                <div class="alt-name">Digital Membership</div>
+                <div class="alt-desc">Paid Communities & Clubs. Zu abstrakt für Keynote.</div>
+                <div class="alt-tag">Verworfen</div>
+            </div>
+            <div class="alt-card">
+                <div class="alt-score">3.1</div>
+                <div class="alt-name">Sustainable Home</div>
+                <div class="alt-desc">Öko-Haushaltsprodukte. Zu generisch, KI-Unterschied minimal.</div>
+                <div class="alt-tag">Verworfen</div>
+            </div>
+        </div>
+
+        <!-- Hypotheses Section -->
+        <div class="section reveal">
+            <h2>Hypothesen (testbar)</h2>
+            <p class="detail" style="margin-bottom: 24px;">
+                Das Experiment braucht falsifizierbare Hypothesen. Hier sind die vier, die ich verfolge:
+            </p>
+        </div>
+        
+        <div class="hypotheses-grid reveal">
+            <div class="hypo-card">
+                <div class="hypo-num">H1</div>
+                <div class="hypo-title">Distinctiveness Gap</div>
+                <div class="hypo-text">KI generiert distinctive Assets, aber nicht die kulturellen Referenzen, die sie bedeutungsvoll machen.</div>
+                <div class="hypo-test">Test: Asset-Recall Blind-Test</div>
+            </div>
+            <div class="hypo-card">
+                <div class="hypo-num">H2</div>
+                <div class="hypo-title">CEP Blindspot</div>
+                <div class="hypo-text">KI optimiert auf offensichtliche Category Entry Points; Menschen finden die übersehenen.</div>
+                <div class="hypo-test">Test: CEP-Vergleich KI vs. Kollaboration</div>
+            </div>
+            <div class="hypo-card">
+                <div class="hypo-num">H3</div>
+                <div class="hypo-title">Konsistenz-Paradox</div>
+                <div class="hypo-text">KI = höhere formale Konsistenz. Mensch = höhere gefühlte Kohärenz.</div>
+                <div class="hypo-test">Test: Konsistenz vs. Lebendigkeit Rating</div>
+            </div>
+            <div class="hypo-card featured">
+                <div class="hypo-num">H4</div>
+                <div class="hypo-title">Honest AI Wins</div>
+                <div class="hypo-text">"Honest AI" performt besser als "Safe/Smart AI" bei Trust-sensiblen Zielgruppen.</div>
+                <div class="hypo-test">Test: A/B Messaging bei Skeptical Adopters</div>
+            </div>
         </div>
 
         <!-- Names -->
