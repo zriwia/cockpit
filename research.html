@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Stack — Zriwia Cockpit</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117; 
+      color: #e6edf3; 
+      padding: 24px;
+      line-height: 1.6;
+    }
+    .header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #30363d;
+    }
+    .header h1 { font-size: 24px; font-weight: 600; }
+    .header .subtitle { color: #8b949e; font-size: 14px; }
+    .back-link { color: #58a6ff; text-decoration: none; font-size: 14px; }
+    .back-link:hover { text-decoration: underline; }
+    .grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+      gap: 16px; 
+      margin-bottom: 24px;
+    }
+    .card { 
+      background: #161b22; 
+      border: 1px solid #30363d; 
+      border-radius: 8px; 
+      padding: 20px;
+    }
+    .card.full-width {
+      grid-column: 1 / -1;
+    }
+    .card h2 { 
+      font-size: 16px; 
+      font-weight: 600; 
+      color: #e6edf3;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h3 {
+      font-size: 13px;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 16px 0 8px 0;
+    }
+    .card h3:first-of-type { margin-top: 0; }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      font-size: 13px;
+    }
+    th { 
+      text-align: left; 
+      color: #8b949e; 
+      font-weight: 500;
+      padding: 8px 12px;
+      border-bottom: 1px solid #30363d;
+    }
+    td { 
+      padding: 10px 12px; 
+      border-bottom: 1px solid #21262d;
+    }
+    tr:last-child td { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .badge.green { background: #238636; color: white; }
+    .badge.yellow { background: #9e6a03; color: white; }
+    .badge.blue { background: #1f6feb; color: white; }
+    .badge.gray { background: #30363d; color: #8b949e; }
+    .badge.purple { background: #8957e5; color: white; }
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .status-dot.active { background: #3fb950; }
+    .status-dot.pending { background: #d29922; }
+    .status-dot.inactive { background: #484f58; }
+    .tool-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .tool-badge {
+      background: #21262d;
+      border: 1px solid #30363d;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tool-badge.highlight {
+      background: #1f6feb20;
+      border-color: #1f6feb;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .summary-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .summary-card .number {
+      font-size: 32px;
+      font-weight: 700;
+      color: #58a6ff;
+    }
+    .summary-card .label {
+      font-size: 12px;
+      color: #8b949e;
+      margin-top: 4px;
+    }
+    .workflow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #21262d;
+    }
+    .workflow-step:last-child { border-bottom: none; }
+    .workflow-number {
+      background: #238636;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .workflow-content h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .workflow-content p {
+      font-size: 12px;
+      color: #8b949e;
+    }
+    code {
+      background: #21262d;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: 'SF Mono', Consolas, monospace;
+    }
+    footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #30363d;
+      color: #8b949e;
+      font-size: 12px;
+      text-align: center;
+    }
+    footer a { color: #58a6ff; text-decoration: none; }
+    @media (max-width: 768px) {
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <a href="index.html" class="back-link">← Zurück zum Cockpit</a>
+      <h1>🔬 Research Stack</h1>
+      <div class="subtitle">Wirz Intelligence Platform — Was ich alles kann</div>
+    </div>
+    <div style="color: #8b949e; font-size: 12px;">Stand: 5. Feb 2026</div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="number">12</div>
+      <div class="label">Core Tools</div>
+    </div>
+    <div class="summary-card">
+      <div class="number">7</div>
+      <div class="label">Research Skills</div>
+    </div>
+    <div class="summary-card">
+      <div class="number">4</div>
+      <div class="label">APIs</div>
+    </div>
+    <div class="summary-card">
+      <div class="number">∞</div>
+      <div class="label">Sub-Agenten</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- Core Tools -->
+    <div class="card">
+      <h2>🔧 Core Tools (Built-in)</h2>
+      
+      <h3>Web & Search</h3>
+      <table>
+        <tr>
+          <td><code>web_search</code></td>
+          <td>Brave Search API</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+        <tr>
+          <td><code>web_fetch</code></td>
+          <td>URL → Markdown</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+        <tr>
+          <td><code>browser</code></td>
+          <td>Headless Chrome</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+      </table>
+
+      <h3>Dateien & Code</h3>
+      <table>
+        <tr>
+          <td><code>read/write/edit</code></td>
+          <td>Dateisystem</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+        <tr>
+          <td><code>exec</code></td>
+          <td>Shell, Scripts, Python</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+      </table>
+
+      <h3>Multimedia</h3>
+      <table>
+        <tr>
+          <td><code>image</code></td>
+          <td>Vision Analysis</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+        <tr>
+          <td><code>tts</code></td>
+          <td>Text-to-Speech</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+      </table>
+
+      <h3>Orchestrierung</h3>
+      <table>
+        <tr>
+          <td><code>sessions_spawn</code></td>
+          <td>Parallele Sub-Agenten</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+        <tr>
+          <td><code>cron</code></td>
+          <td>Scheduled Jobs</td>
+          <td><span class="badge green">Aktiv</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Research Skills -->
+    <div class="card">
+      <h2>📦 Research Skills (Installiert)</h2>
+      <table>
+        <tr>
+          <th>Skill</th>
+          <th>Funktion</th>
+          <th>API</th>
+        </tr>
+        <tr>
+          <td><strong>last30days-lite</strong></td>
+          <td>Reddit + X + Web Synthese</td>
+          <td><span class="badge green">Keine</span></td>
+        </tr>
+        <tr>
+          <td><strong>reddit-scraper</strong></td>
+          <td>Reddit via old.reddit.com</td>
+          <td><span class="badge green">Keine</span></td>
+        </tr>
+        <tr>
+          <td><strong>bird</strong></td>
+          <td>Twitter/X lesen & suchen</td>
+          <td><span class="badge gray">Cookies</span></td>
+        </tr>
+        <tr>
+          <td><strong>exa-web-search-free</strong></td>
+          <td>AI-powered Search</td>
+          <td><span class="badge green">Keine!</span></td>
+        </tr>
+        <tr>
+          <td><strong>agent-browser</strong></td>
+          <td>Advanced Browser CLI</td>
+          <td><span class="badge green">Keine</span></td>
+        </tr>
+        <tr>
+          <td><strong>literature-review</strong></td>
+          <td>Academic Papers</td>
+          <td><span class="badge green">Keine</span></td>
+        </tr>
+        <tr>
+          <td><strong>arxiv-watcher</strong></td>
+          <td>ArXiv Search</td>
+          <td><span class="badge green">Keine</span></td>
+        </tr>
+      </table>
+      
+      <h3 style="margin-top: 16px;">Bundled Skills</h3>
+      <div class="tool-grid">
+        <span class="tool-badge">📹 summarize</span>
+        <span class="tool-badge">🐙 github</span>
+        <span class="tool-badge">🌤️ weather</span>
+      </div>
+    </div>
+
+    <!-- APIs & Models -->
+    <div class="card">
+      <h2>🔑 APIs & Externe Services</h2>
+      <table>
+        <tr>
+          <th>Service</th>
+          <th>Funktion</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <td><strong>Brave Search</strong></td>
+          <td>Web Search</td>
+          <td><span class="status-dot active"></span>Konfiguriert</td>
+        </tr>
+        <tr>
+          <td><strong>OpenAI</strong></td>
+          <td>GPT-4o, DALL-E, TTS</td>
+          <td><span class="status-dot active"></span>Konfiguriert</td>
+        </tr>
+        <tr>
+          <td><strong>Perplexity</strong></td>
+          <td>AI Search mit Quellen</td>
+          <td><span class="status-dot active"></span>Konfiguriert</td>
+        </tr>
+        <tr>
+          <td><strong>Gemini</strong></td>
+          <td>Summarize, Analysis</td>
+          <td><span class="status-dot active"></span>Konfiguriert</td>
+        </tr>
+      </table>
+
+      <h3 style="margin-top: 16px;">Optional (Nicht konfiguriert)</h3>
+      <table>
+        <tr>
+          <td style="color: #8b949e;">YouTube Data API</td>
+          <td style="color: #8b949e;">Bulk Video-Metadaten</td>
+          <td><span class="status-dot pending"></span></td>
+        </tr>
+        <tr>
+          <td style="color: #8b949e;">Bright Data</td>
+          <td style="color: #8b949e;">Anti-Bot Scraping</td>
+          <td><span class="status-dot pending"></span></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Data Sources -->
+    <div class="card">
+      <h2>📊 Datenquellen</h2>
+      
+      <h3>Quantitativ</h3>
+      <div class="tool-grid">
+        <span class="tool-badge highlight">📈 Google Trends</span>
+        <span class="tool-badge highlight">📺 YouTube</span>
+        <span class="tool-badge">📊 OECD</span>
+        <span class="tool-badge">🌍 Our World in Data</span>
+      </div>
+
+      <h3>Qualitativ</h3>
+      <div class="tool-grid">
+        <span class="tool-badge highlight">💬 Reddit</span>
+        <span class="tool-badge highlight">🐦 Twitter/X</span>
+        <span class="tool-badge">⭐ TripAdvisor</span>
+        <span class="tool-badge">💭 Travel Forums</span>
+      </div>
+
+      <h3>Visual</h3>
+      <div class="tool-grid">
+        <span class="tool-badge">📸 Instagram</span>
+        <span class="tool-badge">📌 Pinterest</span>
+        <span class="tool-badge">🎬 YouTube Thumbnails</span>
+      </div>
+
+      <h3>Industry</h3>
+      <div class="tool-grid">
+        <span class="tool-badge highlight">📄 Reports & Articles</span>
+        <span class="tool-badge highlight">🎓 Academic Papers</span>
+        <span class="tool-badge">📰 News</span>
+        <span class="tool-badge">🏢 Competitor Sites</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Workflow -->
+  <div class="card full-width">
+    <h2>🚀 Research Workflow</h2>
+    <div class="grid" style="margin: 0; gap: 24px;">
+      <div>
+        <div class="workflow-step">
+          <div class="workflow-number">1</div>
+          <div class="workflow-content">
+            <h4>Phase 1: Quantitative Signals</h4>
+            <p>Google Trends → YouTube Analysis → Social Volume</p>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-number">2</div>
+          <div class="workflow-content">
+            <h4>Phase 2: Qualitative Depth</h4>
+            <p>Reddit Mining → Twitter Sentiment → Review Analysis → Forum Threads</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="workflow-step">
+          <div class="workflow-number">3</div>
+          <div class="workflow-content">
+            <h4>Phase 3: Industry Intelligence</h4>
+            <p>Reports & Articles → Academic Research → Competitor Analysis</p>
+          </div>
+        </div>
+        <div class="workflow-step">
+          <div class="workflow-number">4</div>
+          <div class="workflow-content">
+            <h4>Phase 4: Synthesis</h4>
+            <p>Triangulation → Personas → Gap Analysis → Recommendations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sub-Agent Architecture -->
+  <div class="card full-width">
+    <h2>🤖 Sub-Agenten Architektur</h2>
+    <p style="color: #8b949e; margin-bottom: 16px;">Für parallele Research-Tasks können beliebig viele Sub-Agenten gestartet werden:</p>
+    <div style="background: #0d1117; border-radius: 6px; padding: 16px; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; overflow-x: auto;">
+      <pre style="margin: 0; color: #8b949e;">
+<span style="color: #79c0ff;">sessions_spawn</span>(task=<span style="color: #a5d6ff;">"Analysiere Reddit r/travel für Schweiz Herbst"</span>)
+<span style="color: #79c0ff;">sessions_spawn</span>(task=<span style="color: #a5d6ff;">"Recherchiere Google Trends für 'Switzerland autumn'"</span>)
+<span style="color: #79c0ff;">sessions_spawn</span>(task=<span style="color: #a5d6ff;">"Finde Academic Papers zu Alpine Tourism"</span>)
+      </pre>
+    </div>
+    <p style="color: #8b949e; margin-top: 12px; font-size: 13px;">→ Ergebnisse werden automatisch zurück an den Main Agent gemeldet für Synthese.</p>
+  </div>
+
+  <footer>
+    <p>
+      <a href="index.html">← Cockpit</a> • 
+      Powered by <a href="https://github.com/zriwia">@zriwia</a> • 
+      <a href="https://wirz.ch">Wirz</a>
+    </p>
+  </footer>
+</body>
+</html>
