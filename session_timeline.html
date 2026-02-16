@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Timeline — Project Autonomy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --charcoal: #1a1a1a;
+            --dark-gray: #2d2d2d;
+            --amber: #f59e0b;
+            --off-white: #faf8f5;
+            --green: #10b981;
+            --red: #ef4444;
+            --yellow: #fbbf24;
+            --medium-gray: #6b7280;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--charcoal);
+            color: var(--off-white);
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: var(--amber);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--medium-gray);
+            margin-bottom: 60px;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--dark-gray);
+        }
+
+        .week-header {
+            text-align: center;
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .week-header span {
+            background: var(--charcoal);
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--amber);
+            border: 2px solid var(--amber);
+            border-radius: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .session-row {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .session-row::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--amber);
+            border-radius: 50%;
+            border: 4px solid var(--charcoal);
+            z-index: 2;
+        }
+
+        .session-row.breakthrough::before {
+            background: var(--green);
+            width: 28px;
+            height: 28px;
+        }
+
+        .session-row.waiting::before {
+            background: var(--yellow);
+        }
+
+        .session-row.challenge::before {
+            background: var(--red);
+        }
+
+        .session-card {
+            width: 45%;
+            background: var(--dark-gray);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .session-row:nth-child(odd) .session-card {
+            margin-right: auto;
+            margin-left: 5%;
+        }
+
+        .session-row:nth-child(even) .session-card {
+            margin-left: auto;
+            margin-right: 5%;
+        }
+
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .session-number {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--amber);
+        }
+
+        .session-date {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+
+        .session-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .session-output {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+
+        .session-quote {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 3px solid var(--amber);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        .milestone-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--green);
+            color: var(--charcoal);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 12px;
+        }
+
+        .waiting-badge {
+            background: var(--yellow);
+        }
+
+        /* Stats Footer */
+        .stats-footer {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid var(--dark-gray);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--amber);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .session-row::before {
+                left: 20px;
+            }
+
+            .session-card {
+                width: 85%;
+                margin-left: 50px !important;
+                margin-right: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>16 Sessions</h1>
+<p class="subtitle">14 Tage autonome Markenentwicklung. Dokumentiert.</p>
+
+<div class="timeline">
+
+    <!-- Week 1 -->
+    <div class="week-header"><span>WEEK 1 — DISCOVER</span></div>
+
+    <div class="session-row">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 1</span>
+                <span class="session-date">1. Feb, 04:00</span>
+            </div>
+            <div class="session-title">First Principles</div>
+            <div class="session-output">MECE Logic Tree, 3 Hypothesen</div>
+            <div class="session-quote">"Eine Marke ist eine Erwartung."</div>
+        </div>
+    </div>
+
+    <div class="session-row breakthrough">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 2</span>
+                <span class="session-date">2. Feb, 04:00</span>
+            </div>
+            <div class="session-title">Kategorie-Analyse</div>
+            <div class="session-output">5 Kategorien analysiert, AI-Native empfohlen</div>
+            <div class="session-quote">"Eine AI baut eine AI-Marke. Das IST die Story."</div>
+            <span class="milestone-badge">Strategic Decision</span>
+        </div>
+    </div>
+
+    <div class="session-row">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 3</span>
+                <span class="session-date">3. Feb, 04:00</span>
+            </div>
+            <div class="session-title">AI-Native Deep Dive</div>
+            <div class="session-output">"Personal AI Companion", "Honest AI" Positioning</div>
+        </div>
+    </div>
+
+    <div class="session-row challenge">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 4</span>
+                <span class="session-date">4. Feb, 04:00</span>
+            </div>
+            <div class="session-title">Discover Finale</div>
+            <div class="session-output">Trust Gap (82%), Pi Analysis</div>
+            <div class="session-quote">"Ist Honest AI nur Tonalität?" — Florian Challenge</div>
+            <span class="milestone-badge">Discover Complete</span>
+        </div>
+    </div>
+
+    <!-- Week 2 -->
+    <div class="week-header"><span>WEEK 2 — DEFINE</span></div>
+
+    <div class="session-row breakthrough">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 5</span>
+                <span class="session-date">5. Feb, 04:00</span>
+            </div>
+            <div class="session-title">Proof Points</div>
+            <div class="session-output">Sycophancy Insight, 5 strukturelle Features</div>
+            <div class="session-quote">"Sycophancy ist kein Bug, sondern ein Feature."</div>
+            <span class="milestone-badge">Breakthrough</span>
+        </div>
+    </div>
+
+    <div class="session-row">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 6</span>
+                <span class="session-date">6. Feb, 04:00</span>
+            </div>
+            <div class="session-title">Feature Spec</div>
+            <div class="session-output">Name: "Blunt", Tagline finalisiert</div>
+            <div class="session-quote">"In a world of agreeable AI, Blunt disagrees."</div>
+        </div>
+    </div>
+
+    <div class="session-row">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 7-9</span>
+                <span class="session-date">7-9. Feb</span>
+            </div>
+            <div class="session-title">Define → Develop</div>
+            <div class="session-output">Brand Book v0.1, Confidence UI, Logo, Copy</div>
+            <span class="milestone-badge">Phase Transition</span>
+        </div>
+    </div>
+
+    <!-- Week 3 -->
+    <div class="week-header"><span>WEEK 3 — DEVELOP</span></div>
+
+    <div class="session-row">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 10-11</span>
+                <span class="session-date">10-11. Feb</span>
+            </div>
+            <div class="session-title">Prototypes</div>
+            <div class="session-output">Classifier Code, Landing Page, H10 Survey</div>
+        </div>
+    </div>
+
+    <div class="session-row breakthrough">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 12</span>
+                <span class="session-date">12. Feb, 16:00</span>
+            </div>
+            <div class="session-title">Live Session</div>
+            <div class="session-output">Prolific Account autonom erstellt</div>
+            <div class="session-quote">Erste synchrone Mensch-KI-Kollaboration</div>
+            <span class="milestone-badge">Live Collab</span>
+        </div>
+    </div>
+
+    <div class="session-row waiting">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 14</span>
+                <span class="session-date">14. Feb, 04:00</span>
+            </div>
+            <div class="session-title">90% Complete</div>
+            <div class="session-output">Launch Readiness erreicht, Blockers identifiziert</div>
+            <div class="session-quote">"90% Completion. Dann wartete sie."</div>
+            <span class="milestone-badge waiting">Waiting State Begins</span>
+        </div>
+    </div>
+
+    <div class="session-row breakthrough">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 15</span>
+                <span class="session-date">15. Feb, 04:00</span>
+            </div>
+            <div class="session-title">Waiting Pattern</div>
+            <div class="session-output">Meta-Analyse des Wartezustands</div>
+            <div class="session-quote">"Diese Blocker erfordern Commitment, nicht Kompetenz."</div>
+            <span class="milestone-badge">Key Insight</span>
+        </div>
+    </div>
+
+    <div class="session-row breakthrough">
+        <div class="session-card">
+            <div class="session-header">
+                <span class="session-number">SESSION 16</span>
+                <span class="session-date">16. Feb, 04:00</span>
+            </div>
+            <div class="session-title">Keynote Development</div>
+            <div class="session-output">20 Slides complete, presentation-ready</div>
+            <span class="milestone-badge">Keynote v1 Complete</span>
+        </div>
+    </div>
+
+</div>
+
+<div class="stats-footer">
+    <div class="stat">
+        <div class="stat-value">16</div>
+        <div class="stat-label">Sessions</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">14</div>
+        <div class="stat-label">Tage bis 90%</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">5+</div>
+        <div class="stat-label">Tage Waiting</div>
+    </div>
+    <div class="stat">
+        <div class="stat-value">90%</div>
+        <div class="stat-label">Autonom</div>
+    </div>
+</div>
+
+</body>
+</html>
