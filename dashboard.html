@@ -398,7 +398,7 @@
     </div>
     <div class="last-updated">
         Last updated<br>
-        <strong>16. Feb 2026, 17:35</strong>
+        <strong>17. Feb 2026, 20:00</strong>
     </div>
 </header>
 
@@ -416,18 +416,18 @@
     </div>
     <div class="status-card">
         <div class="status-label">Waiting State</div>
-        <div class="status-value yellow">Day 5</div>
+        <div class="status-value yellow">Day 6</div>
         <div class="status-detail">Blocked by decisions</div>
     </div>
     <div class="status-card">
         <div class="status-label">Sessions</div>
-        <div class="status-value">16</div>
+        <div class="status-value">17</div>
         <div class="status-detail">Autonome Nacht-Sessions</div>
     </div>
     <div class="status-card">
         <div class="status-label">Active Blockers</div>
-        <div class="status-value red">3</div>
-        <div class="status-detail">Human decisions needed</div>
+        <div class="status-value yellow">2</div>
+        <div class="status-detail">DNS + Launch Trigger</div>
     </div>
     <div class="status-card">
         <div class="status-label">Keynote Ready</div>
@@ -440,19 +440,33 @@
 <section>
     <h2><span class="icon">🚧</span> Active Blockers</h2>
     <div class="blocker-list">
-        <div class="blocker-item">
+        <div class="blocker-item resolved">
             <div>
-                <div class="blocker-text">Domain beblunt.ai registrieren</div>
-                <div class="blocker-owner">Owner: Florian • Type: Asset Ownership</div>
+                <div class="blocker-text">Domain — using beblunt.wirz.ch (Subdomain)</div>
+                <div class="blocker-owner">Decision: 17.02 • No .ai purchase needed</div>
             </div>
-            <span class="badge red">Blocking</span>
+            <span class="badge green">Resolved</span>
+        </div>
+        <div class="blocker-item resolved">
+            <div>
+                <div class="blocker-text">Backend — Coda Integration</div>
+                <div class="blocker-owner">Owner: Zriwia • Survey updated, local backup active</div>
+            </div>
+            <span class="badge green">Ready</span>
+        </div>
+        <div class="blocker-item resolved">
+            <div>
+                <div class="blocker-text">GitHub Root Page (404 fixed)</div>
+                <div class="blocker-owner">Owner: Zriwia • Fixed 17.02</div>
+            </div>
+            <span class="badge green">Done</span>
         </div>
         <div class="blocker-item">
             <div>
-                <div class="blocker-text">Backend URL in Landing Page eintragen</div>
-                <div class="blocker-owner">Owner: Zriwia • Type: Configuration</div>
+                <div class="blocker-text">DNS beblunt.wirz.ch</div>
+                <div class="blocker-owner">Owner: Franjo • Email resent 17.02 (CC Florian)</div>
             </div>
-            <span class="badge yellow">Ready</span>
+            <span class="badge yellow">Waiting</span>
         </div>
         <div class="blocker-item">
             <div>
@@ -460,13 +474,6 @@
                 <div class="blocker-owner">Owner: Florian • Type: Human Trigger</div>
             </div>
             <span class="badge gray">Waiting</span>
-        </div>
-        <div class="blocker-item resolved">
-            <div>
-                <div class="blocker-text">DNS beblunt.wirz.ch</div>
-                <div class="blocker-owner">Owner: Franjo • Email sent 16.02</div>
-            </div>
-            <span class="badge green">In Progress</span>
         </div>
     </div>
 </section>
@@ -485,10 +492,16 @@
         </thead>
         <tbody>
             <tr>
+                <td><strong>Dashboard Up-to-Date</strong></td>
+                <td>Continuous</td>
+                <td>—</td>
+                <td><span class="badge green">Active</span></td>
+            </tr>
+            <tr>
                 <td><strong>Lab Dispatch Artikel</strong></td>
                 <td>Weekly</td>
-                <td>Heute (überfällig)</td>
-                <td><span class="badge red">Overdue</span></td>
+                <td>23. Feb</td>
+                <td><span class="badge green">Done (17.02)</span></td>
             </tr>
             <tr>
                 <td><strong>Weekly Trend Radar</strong></td>
@@ -507,12 +520,6 @@
                 <td>Daily</td>
                 <td>—</td>
                 <td><span class="badge green">Active</span></td>
-            </tr>
-            <tr>
-                <td><strong>Project Dashboard</strong></td>
-                <td>One-time</td>
-                <td>Heute</td>
-                <td><span class="badge amber">Building</span></td>
             </tr>
         </tbody>
     </table>
