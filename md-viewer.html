@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Viewer - Project Autonomy</title>
+  <style>
+    * { box-sizing:border-box; }
+    :root {
+      --bg:#0d1117; --panel:#161b22; --paper:#f7f3ea; --ink:#14191f;
+      --muted:#68717d; --line:#d8d0c2; --accent:#0969da; --accent-dark:#58a6ff;
+    }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:var(--bg); color:#e6edf3; }
+    a { color:var(--accent); }
+    .topbar { position:sticky; top:0; z-index:2; display:flex; justify-content:space-between; gap:16px; align-items:center; padding:12px 18px; background:rgba(13,17,23,.94); border-bottom:1px solid #30363d; backdrop-filter:blur(12px); }
+    .topbar a { color:var(--accent-dark); text-decoration:none; font-size:14px; }
+    .topbar a:hover { text-decoration:underline; }
+    .meta { min-width:0; color:#8b949e; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .shell { max-width:1040px; margin:0 auto; padding:34px 20px 56px; }
+    .doc { background:var(--paper); color:var(--ink); border:1px solid #eadfce; border-radius:8px; box-shadow:0 24px 70px rgba(0,0,0,.28); padding:52px min(7vw,76px); }
+    .doc h1,.doc h2,.doc h3 { line-height:1.12; color:#101418; margin:1.45em 0 .55em; }
+    .doc h1 { margin-top:0; font-size:clamp(34px,5vw,58px); letter-spacing:0; border-bottom:1px solid var(--line); padding-bottom:20px; }
+    .doc h2 { font-size:clamp(25px,3.2vw,36px); }
+    .doc h3 { font-size:21px; }
+    .doc p,.doc li { font-size:18px; line-height:1.72; }
+    .doc p { margin:0 0 1.1em; }
+    .doc ul,.doc ol { padding-left:1.4em; margin:0 0 1.35em; }
+    .doc li { margin:.28em 0; }
+    .doc blockquote { margin:1.5em 0; padding:14px 20px; border-left:4px solid #0969da; background:#ebe6dc; color:#24292f; }
+    .doc code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; background:#e8dfd0; color:#24292f; padding:2px 5px; border-radius:4px; font-size:.88em; }
+    .doc pre { overflow:auto; background:#111820; color:#e6edf3; border-radius:8px; padding:18px; margin:1.5em 0; }
+    .doc pre code { background:transparent; color:inherit; padding:0; }
+    .doc table { width:100%; border-collapse:collapse; margin:1.4em 0; font-size:15px; display:block; overflow:auto; }
+    .doc th,.doc td { border:1px solid var(--line); padding:9px 11px; vertical-align:top; }
+    .doc th { background:#e8dfd0; text-align:left; }
+    .doc hr { border:0; border-top:1px solid var(--line); margin:1.6em 0 2em; }
+    .doc img { max-width:100%; border-radius:6px; }
+    .error { background:#2f1518; border:1px solid #7d2931; color:#ffd7d7; padding:18px; border-radius:8px; }
+    @media (max-width:720px) { .topbar { align-items:flex-start; flex-direction:column; } .shell { padding:18px 12px 38px; } .doc { padding:28px 18px; } .doc p,.doc li { font-size:16px; } }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="assets.html">Back to Asset Dashboard</a>
+    <div class="meta" id="fileMeta">Loading Markdown...</div>
+    <a id="rawLink" href="#">Raw file</a>
+  </div>
+  <main class="shell">
+    <article class="doc" id="doc">Loading...</article>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const file = params.get('file') || '';
+    const doc = document.getElementById('doc');
+    const fileMeta = document.getElementById('fileMeta');
+    const rawLink = document.getElementById('rawLink');
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
+    }
+
+    function inline(text) {
+      let html = escapeHtml(text);
+      html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      return html;
+    }
+
+    function tableHtml(lines) {
+      const rows = lines.map(line => line.trim().replace(/^\||\|$/g, '').split('|').map(cell => inline(cell.trim())));
+      const head = rows.shift() || [];
+      if (rows.length && rows[0].every(cell => /^:?-{3,}:?$/.test(cell.replace(/<[^>]+>/g, '')))) rows.shift();
+      return '<table><thead><tr>' + head.map(cell => '<th>' + cell + '</th>').join('') + '</tr></thead><tbody>' + rows.map(row => '<tr>' + row.map(cell => '<td>' + cell + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+    }
+
+    function markdownToHtml(markdown) {
+      const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+      const html = [];
+      let i = 0;
+      while (i < lines.length) {
+        const line = lines[i];
+        if (!line.trim()) { i += 1; continue; }
+        if (/^```/.test(line)) {
+          const code = [];
+          i += 1;
+          while (i < lines.length && !/^```/.test(lines[i])) { code.push(lines[i]); i += 1; }
+          i += 1;
+          html.push('<pre><code>' + escapeHtml(code.join('\n')) + '</code></pre>');
+          continue;
+        }
+        const heading = line.match(/^(#{1,3})\s+(.+)$/);
+        if (heading) {
+          const level = heading[1].length;
+          html.push('<h' + level + '>' + inline(heading[2]) + '</h' + level + '>');
+          i += 1;
+          continue;
+        }
+        if (/^\s*---+\s*$/.test(line)) { html.push('<hr>'); i += 1; continue; }
+        if (/^\s*>/.test(line)) {
+          const quote = [];
+          while (i < lines.length && /^\s*>/.test(lines[i])) { quote.push(lines[i].replace(/^\s*>\s?/, '')); i += 1; }
+          html.push('<blockquote>' + quote.map(inline).join('<br>') + '</blockquote>');
+          continue;
+        }
+        if (line.includes('|') && i + 1 < lines.length && /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(lines[i + 1])) {
+          const table = [line, lines[i + 1]];
+          i += 2;
+          while (i < lines.length && lines[i].includes('|') && lines[i].trim()) { table.push(lines[i]); i += 1; }
+          html.push(tableHtml(table));
+          continue;
+        }
+        if (/^\s*[-*]\s+/.test(line)) {
+          const list = [];
+          while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) { list.push(lines[i].replace(/^\s*[-*]\s+/, '')); i += 1; }
+          html.push('<ul>' + list.map(item => '<li>' + inline(item) + '</li>').join('') + '</ul>');
+          continue;
+        }
+        if (/^\s*\d+\.\s+/.test(line)) {
+          const list = [];
+          while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) { list.push(lines[i].replace(/^\s*\d+\.\s+/, '')); i += 1; }
+          html.push('<ol>' + list.map(item => '<li>' + inline(item) + '</li>').join('') + '</ol>');
+          continue;
+        }
+        const para = [line];
+        i += 1;
+        while (i < lines.length && lines[i].trim() && !/^(#{1,3})\s+/.test(lines[i]) && !/^```/.test(lines[i]) && !/^\s*[-*]\s+/.test(lines[i]) && !/^\s*\d+\.\s+/.test(lines[i]) && !/^\s*>/.test(lines[i])) { para.push(lines[i]); i += 1; }
+        html.push('<p>' + inline(para.join(' ')) + '</p>');
+      }
+      return html.join('\n');
+    }
+
+    function validPath(path) {
+      return /^project-assets\/experiment\/.+\.md$/i.test(path) && !path.includes('..');
+    }
+
+    if (!validPath(file)) {
+      doc.innerHTML = '<div class="error">Missing or invalid Markdown file.</div>';
+    } else {
+      fileMeta.textContent = file.replace(/^project-assets\/experiment\//, 'experiment/');
+      rawLink.href = file;
+      fetch(file)
+        .then(response => {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.text();
+        })
+        .then(markdown => { doc.innerHTML = markdownToHtml(markdown); })
+        .catch(error => { doc.innerHTML = '<div class="error">Could not load Markdown: ' + escapeHtml(error.message) + '</div>'; });
+    }
+  </script>
+</body>
+</html>
