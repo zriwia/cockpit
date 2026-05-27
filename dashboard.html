@@ -77,6 +77,20 @@
             text-align: right;
         }
 
+        .snapshot-note {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 28px;
+            color: var(--light-gray);
+            font-size: 0.95rem;
+        }
+
+        .snapshot-note strong {
+            color: var(--off-white);
+        }
+
         /* Status Cards */
         .status-grid {
             display: grid;
@@ -397,83 +411,87 @@
         </div>
     </div>
     <div class="last-updated">
-        Last updated<br>
-        <strong>17. Feb 2026, 20:00</strong>
+        Manual snapshot<br>
+        <strong>27. Mai 2026, 15:30</strong>
     </div>
 </header>
+
+<div class="snapshot-note">
+    <strong>Quick Fix:</strong> Dieses Dashboard ist ein manueller Stand, kein Live-System. Es ersetzt die alte Februar-Ansicht durch den aktuellen Project-Autonomy-Kontext aus Workstream, Decisions und Memory.
+</div>
 
 <!-- Status Overview -->
 <section class="status-grid">
     <div class="status-card highlight">
         <div class="status-label">Phase</div>
-        <div class="status-value amber">Develop</div>
-        <div class="status-detail">Week 4 / Double Diamond</div>
+        <div class="status-value amber">Post-Launch</div>
+        <div class="status-detail">Keynote-Synthese & Story-Curation</div>
     </div>
     <div class="status-card">
-        <div class="status-label">Completion</div>
-        <div class="status-value green">90%</div>
-        <div class="status-detail">Phase 1 fast done</div>
+        <div class="status-label">Brand Status</div>
+        <div class="status-value green">Live</div>
+        <div class="status-detail">Blunt / @AiBlunt6418 launched</div>
     </div>
     <div class="status-card">
-        <div class="status-label">Waiting State</div>
-        <div class="status-value yellow">Day 6</div>
-        <div class="status-detail">Blocked by decisions</div>
+        <div class="status-label">Current Focus</div>
+        <div class="status-value yellow">Keynote</div>
+        <div class="status-detail">Bühnenreife Momente statt reine Timeline</div>
     </div>
     <div class="status-card">
         <div class="status-label">Sessions</div>
-        <div class="status-value">17</div>
-        <div class="status-detail">Autonome Nacht-Sessions</div>
+        <div class="status-value">43+</div>
+        <div class="status-detail">Autonome Sessions + Folgearbeit</div>
     </div>
     <div class="status-card">
         <div class="status-label">Active Blockers</div>
-        <div class="status-value yellow">2</div>
-        <div class="status-detail">DNS + Launch Trigger</div>
+        <div class="status-value green">0</div>
+        <div class="status-detail">Keine harten Blocker im autonomen Case</div>
     </div>
     <div class="status-card">
         <div class="status-label">Keynote Ready</div>
-        <div class="status-value green">✓</div>
-        <div class="status-detail">20 Slides complete</div>
+        <div class="status-value yellow">Draft</div>
+        <div class="status-detail">Story-Arcs, Artefakte und Zriwia-Voice in Arbeit</div>
     </div>
 </section>
 
 <!-- Blockers -->
 <section>
-    <h2><span class="icon">🚧</span> Active Blockers</h2>
+    <h2><span class="icon">🚧</span> Status & Decisions</h2>
     <div class="blocker-list">
         <div class="blocker-item resolved">
             <div>
-                <div class="blocker-text">Domain — using beblunt.wirz.ch (Subdomain)</div>
-                <div class="blocker-owner">Decision: 17.02 • No .ai purchase needed</div>
+                <div class="blocker-text">Domain-Strategie geklärt</div>
+                <div class="blocker-owner">D001: Weiter ohne beblunt.ai; kostenlose Alternative / GitHub Pages oder Vercel</div>
             </div>
             <span class="badge green">Resolved</span>
         </div>
         <div class="blocker-item resolved">
             <div>
-                <div class="blocker-text">Backend — Coda Integration</div>
-                <div class="blocker-owner">Owner: Zriwia • Survey updated, local backup active</div>
+                <div class="blocker-text">Budget-Constraint aktiv</div>
+                <div class="blocker-owner">D002: CHF 0 extern, keine Ausgaben ohne Freigabe</div>
             </div>
-            <span class="badge green">Ready</span>
+            <span class="badge green">Active</span>
         </div>
         <div class="blocker-item resolved">
             <div>
-                <div class="blocker-text">GitHub Root Page (404 fixed)</div>
-                <div class="blocker-owner">Owner: Zriwia • Fixed 17.02</div>
+                <div class="blocker-text">Autonomes Posten freigegeben</div>
+                <div class="blocker-owner">D005: Kein Freigabeprozess nötig für autonome Posts</div>
+            </div>
+            <span class="badge green">Active</span>
+        </div>
+        <div class="blocker-item resolved">
+            <div>
+                <div class="blocker-text">Brand-Building-Scope umgesetzt</div>
+                <div class="blocker-owner">D004: Manifesto, Tone of Voice, Content Pillars und Social Persona erstellt</div>
             </div>
             <span class="badge green">Done</span>
         </div>
-        <div class="blocker-item">
+        <div class="blocker-item resolved">
             <div>
-                <div class="blocker-text">DNS beblunt.wirz.ch</div>
-                <div class="blocker-owner">Owner: Franjo • Email resent 17.02 (CC Florian)</div>
+                <div class="blocker-text">Phase 2 bleibt separat</div>
+                <div class="blocker-owner">Mensch-KI-Kollaboration ist offen/geparkt; aktueller Fokus ist der autonome Brand-Case und Keynote-Learning</div>
             </div>
-            <span class="badge yellow">Waiting</span>
-        </div>
-        <div class="blocker-item">
-            <div>
-                <div class="blocker-text">Soft Launch triggern</div>
-                <div class="blocker-owner">Owner: Florian • Type: Human Trigger</div>
-            </div>
-            <span class="badge gray">Waiting</span>
+            <span class="badge gray">Open</span>
         </div>
     </div>
 </section>
@@ -493,21 +511,21 @@
         <tbody>
             <tr>
                 <td><strong>Dashboard Up-to-Date</strong></td>
-                <td>Continuous</td>
-                <td>—</td>
-                <td><span class="badge green">Active</span></td>
+                <td>Manual</td>
+                <td>Bei Bedarf</td>
+                <td><span class="badge yellow">Snapshot</span></td>
             </tr>
             <tr>
                 <td><strong>Lab Dispatch Artikel</strong></td>
-                <td>Weekly</td>
-                <td>23. Feb</td>
-                <td><span class="badge green">Done (17.02)</span></td>
+                <td>2x / Woche</td>
+                <td>Do</td>
+                <td><span class="badge yellow">Aktiv</span></td>
             </tr>
             <tr>
                 <td><strong>Weekly Trend Radar</strong></td>
                 <td>Weekly</td>
-                <td>23. Feb</td>
-                <td><span class="badge green">Done</span></td>
+                <td>So / Mo</td>
+                <td><span class="badge green">Active</span></td>
             </tr>
             <tr>
                 <td><strong>Email Monitoring</strong></td>
@@ -532,90 +550,90 @@
         <a href="https://zriwia.github.io/cockpit/keynote.html" class="workstream-card">
             <div class="workstream-header">
                 <div class="workstream-title">🎤 Keynote Development</div>
-                <span class="badge green">Complete</span>
+                <span class="badge yellow">Active</span>
             </div>
-            <p style="color: var(--light-gray); font-size: 0.9rem;">20 Slides, presentation-ready für Juni 2026</p>
+            <p style="color: var(--light-gray); font-size: 0.9rem;">Bühnenreife Story-Arcs, Zriwia-Voice und Artefakt-Auswahl für Juni 2026</p>
             <div class="workstream-progress">
-                <div class="workstream-progress-bar" style="width: 100%;"></div>
+                <div class="workstream-progress-bar" style="width: 75%;"></div>
             </div>
             <div class="workstream-meta">
-                <span>Session 16</span>
-                <span>100%</span>
+                <span>Moment Curation</span>
+                <span>75%</span>
             </div>
         </a>
 
-        <a href="https://coda.io/d/_doKHU8eLt_5" class="workstream-card">
+        <a href="https://coda.io/d/_doKHU8eLt_5/Blog-Lab-Dispatch_suoXFIPM" class="workstream-card">
             <div class="workstream-header">
                 <div class="workstream-title">📝 Lab Dispatch (Blog)</div>
-                <span class="badge red">Behind</span>
+                <span class="badge yellow">Ongoing</span>
             </div>
-            <p style="color: var(--light-gray); font-size: 0.9rem;">Weekly articles, The Drum niveau</p>
+            <p style="color: var(--light-gray); font-size: 0.9rem;">Thought-Leadership-Artikel und Projektdokumentation auf Coda-Basis</p>
             <div class="workstream-progress">
-                <div class="workstream-progress-bar" style="width: 20%;"></div>
+                <div class="workstream-progress-bar" style="width: 65%;"></div>
             </div>
             <div class="workstream-meta">
-                <span>1 of ~8 articles</span>
-                <span>20%</span>
+                <span>26 Artikel lokal</span>
+                <span>65%</span>
             </div>
         </a>
 
         <div class="workstream-card">
             <div class="workstream-header">
                 <div class="workstream-title">🏷️ Brand Development</div>
-                <span class="badge green">On Track</span>
+                <span class="badge green">Launched</span>
             </div>
-            <p style="color: var(--light-gray); font-size: 0.9rem;">Blunt — "The AI that won't pretend"</p>
+            <p style="color: var(--light-gray); font-size: 0.9rem;">Blunt — "In a world of agreeable AI, Blunt disagrees."</p>
             <div class="workstream-progress">
-                <div class="workstream-progress-bar" style="width: 90%;"></div>
+                <div class="workstream-progress-bar" style="width: 100%;"></div>
             </div>
             <div class="workstream-meta">
-                <span>Phase 1</span>
-                <span>90%</span>
+                <span>Autonomous Brand Case</span>
+                <span>100%</span>
             </div>
         </div>
 
         <div class="workstream-card">
             <div class="workstream-header">
-                <div class="workstream-title">🚀 Landing Page</div>
-                <span class="badge yellow">Blocked</span>
+                <div class="workstream-title">🚀 Launch & Content</div>
+                <span class="badge green">Live</span>
             </div>
-            <p style="color: var(--light-gray); font-size: 0.9rem;">Code complete, waiting for domain</p>
+            <p style="color: var(--light-gray); font-size: 0.9rem;">Website, Demo, Social Persona, Posting Policy und X-Launch umgesetzt</p>
             <div class="workstream-progress">
-                <div class="workstream-progress-bar" style="width: 85%;"></div>
+                <div class="workstream-progress-bar" style="width: 95%;"></div>
             </div>
             <div class="workstream-meta">
-                <span>Soft Launch pending</span>
-                <span>85%</span>
+                <span>Launch complete</span>
+                <span>95%</span>
             </div>
         </div>
 
         <div class="workstream-card">
             <div class="workstream-header">
-                <div class="workstream-title">🔬 Research & Validation</div>
-                <span class="badge gray">Planned</span>
+                <div class="workstream-title">🔬 Strategic Synthesis</div>
+                <span class="badge yellow">Active</span>
             </div>
-            <p style="color: var(--light-gray); font-size: 0.9rem;">Prolific framing test (n=200)</p>
+            <p style="color: var(--light-gray); font-size: 0.9rem;">Governance Gap, Audience Moat, Reorganization Speed und Pod-Learnings</p>
             <div class="workstream-progress">
-                <div class="workstream-progress-bar" style="width: 30%;"></div>
+                <div class="workstream-progress-bar" style="width: 80%;"></div>
             </div>
             <div class="workstream-meta">
-                <span>Survey ready</span>
-                <span>30%</span>
+                <span>Articles + Workstream</span>
+                <span>80%</span>
             </div>
         </div>
 
         <div class="workstream-card">
             <div class="workstream-header">
-                <div class="workstream-title">🤝 Phase 2 Prep</div>
-                <span class="badge gray">Waiting</span>
+                <div class="workstream-title">🤝 Recomposition Pod</div>
+                <span class="badge yellow">Blueprint</span>
             </div>
-            <p style="color: var(--light-gray); font-size: 0.9rem;">Mensch + KI Kollaboration</p>
+            <p style="color: var(--light-gray); font-size: 0.9rem;">90-Day Market Motion Pod: Governance, Scorecard, Decision Rights, Failure Modes</p>
             <div class="workstream-progress">
-                <div class="workstream-progress-bar" style="width: 15%;"></div>
+                <div class="workstream-progress-bar" style="width: 70%;"></div>
             </div>
             <div class="workstream-meta">
-                <span>After Phase 1</span>
-                <span>15%</span>
+                <span>Session 43</span>
+                <span>70%</span>
             </div>
         </div>
     </div>
@@ -625,30 +643,30 @@
 <section>
     <h2><span class="icon">📅</span> Recent Timeline</h2>
     <div class="timeline">
-        <div class="timeline-item blocked">
-            <div class="timeline-date">16. Feb 2026 (heute)</div>
-            <div class="timeline-title">Session 16 — Keynote Complete</div>
-            <div class="timeline-detail">20 Slides fertig, Day 5 Waiting State</div>
+        <div class="timeline-item completed">
+            <div class="timeline-date">27. Mai 2026</div>
+            <div class="timeline-title">Cockpit Quick Fix</div>
+            <div class="timeline-detail">Februar-Snapshot durch aktuellen manuellen Stand ersetzt</div>
         </div>
         <div class="timeline-item completed">
-            <div class="timeline-date">15. Feb 2026</div>
-            <div class="timeline-title">Session 15 — Waiting Pattern Analysis</div>
-            <div class="timeline-detail">Dokumentiert warum KI wartet: Commitment, nicht Kompetenz</div>
+            <div class="timeline-date">26. Mai 2026</div>
+            <div class="timeline-title">Session 43 — 90-Day Pilot Blueprint</div>
+            <div class="timeline-detail">Recomposition Pod als temporäres Operating Regime mit Scorecard und Decision Rights</div>
         </div>
         <div class="timeline-item completed">
-            <div class="timeline-date">12. Feb 2026</div>
-            <div class="timeline-title">Live Session mit Florian</div>
-            <div class="timeline-detail">Landing Page Code, Form Backend diskutiert</div>
+            <div class="timeline-date">25. Mai 2026</div>
+            <div class="timeline-title">Keynote Moment Curation</div>
+            <div class="timeline-detail">Fokus auf Story-Arcs mit Spannung, Fallhöhe, Agency, Failure und Learning</div>
         </div>
         <div class="timeline-item completed">
-            <div class="timeline-date">11. Feb 2026</div>
-            <div class="timeline-title">Session 11 — Prototypes</div>
-            <div class="timeline-detail">Confidence UI, Framing Test Protocol, Landing Page</div>
+            <div class="timeline-date">24. Feb 2026</div>
+            <div class="timeline-title">Blunt Launch</div>
+            <div class="timeline-detail">Autonomes Posting freigegeben; Brand Case wird öffentlich sichtbar</div>
         </div>
         <div class="timeline-item completed">
-            <div class="timeline-date">5. Feb 2026</div>
-            <div class="timeline-title">Session 5 — Breakthrough</div>
-            <div class="timeline-detail">Anti-Sycophancy als strukturelles Feature entdeckt</div>
+            <div class="timeline-date">22. Feb 2026</div>
+            <div class="timeline-title">Brand Building Gap</div>
+            <div class="timeline-detail">Kernlearning: KI kann Marken designen; echtes Building braucht kulturelle Präsenz über Zeit</div>
         </div>
         <div class="timeline-item completed">
             <div class="timeline-date">1. Feb 2026</div>
@@ -664,7 +682,7 @@
     <div class="quick-links">
         <a href="https://zriwia.github.io/cockpit/keynote.html" class="quick-link">🎤 Keynote</a>
         <a href="https://zriwia.github.io/cockpit/" class="quick-link">📊 Cockpit</a>
-        <a href="https://coda.io/d/_doKHU8eLt_5" class="quick-link">📝 Lab Dispatch (Coda)</a>
+        <a href="https://coda.io/d/_doKHU8eLt_5/Blog-Lab-Dispatch_suoXFIPM" class="quick-link">📝 Lab Dispatch (Coda)</a>
         <a href="https://coda.io/form/Untitled-Form_dDR1mQbKUIo" class="quick-link">📬 Waitlist Form</a>
         <a href="https://github.com/zriwia/cockpit" class="quick-link">💻 GitHub</a>
         <a href="https://zriwia.github.io/cockpit/dispatch/01.html" class="quick-link">📰 Dispatch #1</a>
@@ -673,7 +691,7 @@
 
 <footer>
     <div>Project Autonomy — Wirz KI-Brand-Experiment</div>
-    <div>Dashboard by Zriwia 🌱</div>
+    <div>Dashboard by Zriwia 🌱 • Manual snapshot, not live</div>
 </footer>
 
 </body>
