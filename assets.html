@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Autonomy Assets</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.5;
+      padding: 24px;
+    }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1180px; margin: 0 auto; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid #30363d;
+    }
+    h1 { font-size: 28px; line-height: 1.15; margin-bottom: 8px; }
+    .sub { color: #8b949e; max-width: 760px; }
+    .meta { color: #8b949e; font-size: 12px; text-align: right; min-width: 190px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin: 18px 0 24px;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .k {
+      color: #8b949e;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 4px;
+    }
+    .v { font-size: 28px; font-weight: 700; }
+    .note {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: #c9d1d9;
+      margin-bottom: 22px;
+    }
+    section { margin: 24px 0; }
+    h2 {
+      color: #e6edf3;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #21262d;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      color: #8b949e;
+      background: #0f141b;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    tr:last-child td { border-bottom: none; }
+    code {
+      color: #c9d1d9;
+      background: #21262d;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    .status { color: #3fb950; font-weight: 600; }
+    .warn { color: #d29922; font-weight: 600; }
+    .muted { color: #8b949e; }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .btn {
+      display: inline-block;
+      background: #238636;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .btn.secondary {
+      background: #21262d;
+      border: 1px solid #30363d;
+      color: #e6edf3;
+    }
+    footer {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px solid #30363d;
+      color: #8b949e;
+      font-size: 12px;
+    }
+    @media (max-width: 720px) {
+      body { padding: 16px; }
+      .top { display: block; }
+      .meta { text-align: left; margin-top: 10px; }
+      table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="top">
+      <div>
+        <h1>Project Autonomy Asset Overview</h1>
+        <p class="sub">Schnelle Uebersicht der wichtigsten Brand-, Content-, Thought-Leadership- und Demo-Assets fuer Blunt und die Juni-Keynote.</p>
+        <div class="actions">
+          <a class="btn" href="dashboard.html">Cockpit Dashboard</a>
+          <a class="btn secondary" href="keynote.html">Keynote View</a>
+          <a class="btn secondary" href="moment_cards.html">Moment Cards</a>
+        </div>
+      </div>
+      <div class="meta">Snapshot<br>27. Mai 2026<br>kein Live-Index</div>
+    </div>
+
+    <div class="grid">
+      <div class="card"><div class="k">Brand Core</div><div class="v">4</div><div class="muted">Manifesto, Voice, Pillars, Persona</div></div>
+      <div class="card"><div class="k">Content Bank</div><div class="v">15+</div><div class="muted">Posts, Tests, Templates, Outlines</div></div>
+      <div class="card"><div class="k">Articles</div><div class="v">26</div><div class="muted">Thought leadership drafts</div></div>
+      <div class="card"><div class="k">Video / Proof</div><div class="v">5+</div><div class="muted">Dispatch videos plus manifesto cut in build</div></div>
+    </div>
+
+    <div class="note">
+      Wichtig: Die alten Pfade <code>experiment/content/*.md</code> aus dem Februar-Kontext existieren lokal nicht als einzelne Dateien. Der Content wurde konsolidiert in <code>experiment/brand/SOCIAL_CONTENT_BANK.md</code>. Die Eintraege unten zeigen deshalb die tatsaechlichen Fundorte.
+    </div>
+
+    <section>
+      <h2>Strategie-Dokumente</h2>
+      <table>
+        <thead><tr><th>Asset</th><th>Tatsaechlicher Fundort</th><th>Status</th><th>Nutzen</th></tr></thead>
+        <tbody>
+          <tr><td>Brand Manifesto</td><td><code>experiment/brand/MANIFESTO.md</code></td><td class="status">erstellt</td><td>Haltung und Kernthese von Blunt.</td></tr>
+          <tr><td>Tone of Voice</td><td><code>experiment/brand/TONE_OF_VOICE.md</code></td><td class="status">erstellt</td><td>Sprachregeln: direkt, nuetzlich, nicht gefaellig.</td></tr>
+          <tr><td>Content Pillars</td><td><code>experiment/brand/CONTENT_PILLARS.md</code></td><td class="status">erstellt</td><td>Themenlogik fuer Social und Artikel.</td></tr>
+          <tr><td>Social Persona</td><td><code>experiment/brand/SOCIAL_PERSONA.md</code></td><td class="status">erstellt</td><td>Oeffentliche Persona fuer X/LinkedIn.</td></tr>
+          <tr><td>Brand Book V02</td><td><code>experiment/BRAND_BOOK_V02.md</code></td><td class="status">erstellt</td><td>Kompletteres Brand-System und Kontext.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Content Bank</h2>
+      <table>
+        <thead><tr><th>Asset</th><th>Tatsaechlicher Fundort</th><th>Status</th><th>Hinweis</th></tr></thead>
+        <tbody>
+          <tr><td>Launch Thread</td><td><code>experiment/brand/SOCIAL_CONTENT_BANK.md</code></td><td class="status">ready</td><td>Im Content-Bank-Dokument enthalten; spaeter Launch auf X dokumentiert.</td></tr>
+          <tr><td>Daily Posts Day 2-7</td><td><code>experiment/brand/SOCIAL_CONTENT_BANK.md</code></td><td class="status">ready</td><td>Rollout-Posts fuer erste Woche.</td></tr>
+          <tr><td>Agreement Tests</td><td><code>experiment/brand/SOCIAL_CONTENT_BANK.md</code></td><td class="status">ready</td><td>5 testbare Provokationen fuer Zustimmung/Widerspruch.</td></tr>
+          <tr><td>Blunt Take Template</td><td><code>experiment/brand/SOCIAL_CONTENT_BANK.md</code></td><td class="status">ready</td><td>Wiederverwendbares Format fuer aktuelle Takes.</td></tr>
+          <tr><td>Engagement Responses</td><td><code>experiment/brand/SOCIAL_CONTENT_BANK.md</code></td><td class="status">ready</td><td>Antwortlogik fuer Kritik, Zustimmung und Fehler.</td></tr>
+          <tr><td>LinkedIn Outlines</td><td><code>experiment/brand/SOCIAL_CONTENT_BANK.md</code></td><td class="status">ready</td><td>3 Outlines fuer laengere Posts/Artikel.</td></tr>
+          <tr><td>Posting Policy</td><td><code>experiment/brand/POSTING_POLICY.md</code></td><td class="status">erstellt</td><td>Governance fuer Publikation.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Thought Leadership</h2>
+      <table>
+        <thead><tr><th>Artikel</th><th>Thema</th><th>Fundort</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Article 01</td><td>Can AI Build a Brand?</td><td><code>experiment/articles/ARTICLE_01_CAN_AI_BUILD_A_BRAND.md</code></td><td class="status">erstellt</td></tr>
+          <tr><td>Article 02</td><td>The 90% Ceiling</td><td><code>experiment/articles/ARTICLE_02_THE_90_PERCENT_CEILING.md</code></td><td class="status">erstellt</td></tr>
+          <tr><td>Article 03</td><td>Anti-Sycophancy Brand</td><td><code>experiment/articles/ARTICLE_03_ANTI_SYCOPHANCY_BRAND.md</code></td><td class="status">erstellt</td></tr>
+          <tr><td>Article 04</td><td>Trust Paradox</td><td><code>experiment/articles/ARTICLE_04_TRUST_PARADOX.md</code></td><td class="status">erstellt</td></tr>
+          <tr><td>Article 05</td><td>Sycophancy Kills Brands</td><td><code>experiment/articles/ARTICLE_05_SYCOPHANCY_KILLS_BRANDS.md</code></td><td class="status">erstellt</td></tr>
+          <tr><td>Article 06</td><td>The Publication Boundary</td><td><code>experiment/articles/ARTICLE_06_THE_PUBLICATION_BOUNDARY.md</code></td><td class="status">erstellt</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Demo-, Keynote- und Proof-Assets</h2>
+      <table>
+        <thead><tr><th>Asset</th><th>Link / Fundort</th><th>Status</th><th>Nutzen</th></tr></thead>
+        <tbody>
+          <tr><td>Blunt Demo</td><td><a href="https://zriwia.github.io/blunt-demo/" target="_blank">zriwia.github.io/blunt-demo/</a></td><td class="status">live</td><td>Staerkstes Beweis-Artefakt fuer Confidence-Logik.</td></tr>
+          <tr><td>Cockpit Dashboard</td><td><a href="dashboard.html">dashboard.html</a></td><td class="status">live</td><td>Aktueller manueller Snapshot.</td></tr>
+          <tr><td>Keynote View</td><td><a href="keynote.html">keynote.html</a></td><td class="status">live</td><td>Keynote-orientierte Darstellung im Cockpit.</td></tr>
+          <tr><td>Moment Cards</td><td><a href="moment_cards.html">moment_cards.html</a></td><td class="status">live</td><td>Buehnenfaehige Story-Momente.</td></tr>
+          <tr><td>Session Timeline</td><td><a href="session_timeline.html">session_timeline.html</a></td><td class="status">live</td><td>Timeline-Visualisierung.</td></tr>
+          <tr><td>Local Artifact Dashboard</td><td><code>experiment/documentation/artifact_dashboard.html</code></td><td class="warn">lokal</td><td>Vollstaendigere lokale Artefaktliste mit vielen Pfaden.</td></tr>
+          <tr><td>40s Manifesto Video</td><td><code>experiment/video/manifesto_40s/</code></td><td class="warn">in build</td><td>Kurzer Evidence-Manifesto-Cut.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer>
+      Root im Workspace: <code>/Users/zriwia/.openclaw/workspace</code>. Diese Seite ist ein manueller Snapshot fuer schnelles Finden, kein automatischer Index.
+    </footer>
+  </main>
+</body>
+</html>
