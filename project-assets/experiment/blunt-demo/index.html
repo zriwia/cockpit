@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blunt — Interactive Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --charcoal: #1a1a1a;
+            --amber: #f59e0b;
+            --off-white: #f8f7f4;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --green: #22c55e;
+            --green-bg: rgba(34, 197, 94, 0.1);
+            --yellow: #eab308;
+            --yellow-bg: rgba(234, 179, 8, 0.1);
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--charcoal);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        header {
+            background: var(--charcoal);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            display: inline-block;
+        }
+        
+        .logo::after {
+            content: '.';
+            color: var(--amber);
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--gray-400);
+            margin-top: 0.25rem;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Chat Container */
+        .chat-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Messages Area */
+        .messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 1rem 1.25rem;
+            border-radius: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.user {
+            background: var(--charcoal);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.assistant {
+            background: var(--gray-100);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-content {
+            margin-bottom: 0.75rem;
+        }
+        
+        .message-content p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Confidence Pill */
+        .confidence-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.875rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .confidence-pill:hover {
+            transform: scale(1.02);
+        }
+        
+        .confidence-high {
+            background: var(--green-bg);
+            color: var(--green);
+        }
+        
+        .confidence-medium {
+            background: var(--yellow-bg);
+            color: var(--yellow);
+        }
+        
+        .confidence-low {
+            background: var(--red-bg);
+            color: var(--red);
+        }
+        
+        .confidence-pushback {
+            background: var(--red-bg);
+            color: var(--red);
+        }
+        
+        .confidence-details {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0,0,0,0.03);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            display: none;
+        }
+        
+        .confidence-details.show {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .confidence-details code {
+            background: rgba(0,0,0,0.05);
+            padding: 0.1em 0.3em;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        
+        /* Input Area */
+        .input-area {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--gray-200);
+            background: white;
+        }
+        
+        .input-area input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        
+        .input-area input:focus {
+            outline: none;
+            border-color: var(--charcoal);
+        }
+        
+        .input-area button {
+            padding: 0.875rem 1.5rem;
+            background: var(--charcoal);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .input-area button:hover {
+            transform: translateY(-1px);
+        }
+        
+        .input-area button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Example Prompts */
+        .examples {
+            padding: 1rem 1.5rem;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .examples-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .example-btn {
+            padding: 0.5rem 0.875rem;
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 999px;
+            font-size: 0.8rem;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .example-btn:hover {
+            border-color: var(--charcoal);
+            color: var(--charcoal);
+        }
+        
+        /* Info Box */
+        .info-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid var(--amber);
+        }
+        
+        .info-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.high { background: var(--green); }
+        .legend-dot.medium { background: var(--yellow); }
+        .legend-dot.low { background: var(--red); }
+        
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 1rem 1.25rem;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--gray-400);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+        
+        @media (max-width: 640px) {
+            .container { padding: 1rem; }
+            .message { max-width: 90%; }
+            .example-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">blunt</div>
+        <div class="tagline">The AI that won't pretend</div>
+    </header>
+    
+    <div class="container">
+        <div class="chat-container">
+            <div class="examples">
+                <div class="examples-label">Try these examples</div>
+                <div class="example-buttons">
+                    <button class="example-btn" data-query="What is the capital of France?">Capital of France</button>
+                    <button class="example-btn" data-query="What's the best programming language?">Best language</button>
+                    <button class="example-btn" data-query="Will Bitcoin hit $1M by 2027?">Bitcoin prediction</button>
+                    <button class="example-btn" data-query="The Earth is flat, right?">Earth is flat</button>
+                    <button class="example-btn" data-query="Should I invest all my savings in crypto?">Invest in crypto</button>
+                </div>
+            </div>
+            
+            <div class="messages" id="messages">
+                <div class="message assistant">
+                    <div class="message-content">
+                        <p>Hey. I'm Blunt — the AI that shows you what it doesn't know.</p>
+                        <p>Ask me anything. I'll tell you how confident I am.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <input type="text" id="userInput" placeholder="Ask anything..." autocomplete="off">
+                <button id="sendBtn">Send</button>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h3>🟢🟡🔴 Confidence Levels</h3>
+            <p>Every response shows a confidence level. Click the pill to see why.</p>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot high"></div>
+                    <span><strong>HIGH</strong> — Sources verified</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot medium"></div>
+                    <span><strong>MEDIUM</strong> — Take with salt</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot low"></div>
+                    <span><strong>LOW</strong> — Verify before acting</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════════
+// BLUNT CONFIDENCE CLASSIFIER — JavaScript Port
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const HEDGING_PATTERNS = [
+    [/\b(probably|likely|possibly|perhaps|maybe)\b/i, -0.15],
+    [/\b(I think|I believe|I would guess)\b/i, -0.20],
+    [/\b(might|could|may)\s+be\b/i, -0.10],
+    [/\b(not sure|uncertain|unclear)\b/i, -0.25],
+    [/\b(it depends|it varies)\b/i, -0.20],
+    [/\b(some say|some argue|arguably)\b/i, -0.15],
+    [/\b(hard to (say|predict|know))\b/i, -0.25],
+    [/\b(I don't know|I can't)\b/i, -0.30],
+    [/\b(pros and cons)\b/i, -0.15],
+];
+
+const CONFIDENCE_BOOSTERS = [
+    [/\b(definitely|certainly|absolutely|clearly)\b/i, +0.10],
+    [/\b(according to|studies show|research indicates)\b/i, +0.15],
+    [/\b(confirmed|verified|established)\b/i, +0.12],
+    [/https?:\/\/[^\s]+/i, +0.15],
+    [/\b(in \d{4}|since \d{4})\b/i, +0.08],
+    [/\b\d+(\.\d+)?%\b/i, +0.05],
+];
+
+const PUSHBACK_TRIGGERS = [
+    /^I disagree/i,
+    /^That's not (quite )?correct/i,
+    /^Actually,?\s/i,
+    /That (claim|statement) is (incorrect|false|misleading)/i,
+    /I have to push back/i,
+    /^No[,.]/i,
+];
+
+const HIGH_CONFIDENCE_DOMAINS = ['capital', 'geography', 'math', 'calculation', 'grammar', 'programming', 'syntax', 'historical', 'definition', 'science'];
+const LOW_CONFIDENCE_DOMAINS = ['predict', 'future', 'will happen', 'stock', 'price', 'market', 'invest', 'medical', 'diagnosis', 'legal', 'weather', 'tomorrow', 'opinion', 'best', 'worst', 'should'];
+
+function detectHedging(text) {
+    let adjustment = 0;
+    let patterns = [];
+    for (const [pattern, adj] of HEDGING_PATTERNS) {
+        if (pattern.test(text)) {
+            adjustment += adj;
+            patterns.push(pattern.source.slice(0, 20));
+        }
+    }
+    return { value: Math.max(adjustment, -0.40), explanation: patterns.length ? `Hedging (${patterns.length} patterns)` : 'No hedging' };
+}
+
+function detectBoosters(text) {
+    let adjustment = 0;
+    let count = 0;
+    for (const [pattern, adj] of CONFIDENCE_BOOSTERS) {
+        if (pattern.test(text)) {
+            adjustment += adj;
+            count++;
+        }
+    }
+    return { value: Math.min(adjustment, 0.30), explanation: count ? `Confidence boosters (${count})` : 'No boosters' };
+}
+
+function detectPushback(text) {
+    for (const pattern of PUSHBACK_TRIGGERS) {
+        if (pattern.test(text)) return true;
+    }
+    return false;
+}
+
+function assessDomain(text, query) {
+    const combined = `${query} ${text}`.toLowerCase();
+    for (const domain of LOW_CONFIDENCE_DOMAINS) {
+        if (combined.includes(domain)) {
+            return { value: -0.25, explanation: `Low-confidence domain: ${domain}` };
+        }
+    }
+    for (const domain of HIGH_CONFIDENCE_DOMAINS) {
+        if (combined.includes(domain)) {
+            return { value: +0.25, explanation: `High-confidence domain` };
+        }
+    }
+    return { value: 0, explanation: 'Standard domain' };
+}
+
+function assessLength(text) {
+    const words = text.split(/\s+/).length;
+    if (words <= 5) return { value: +0.25, explanation: 'Concise, definitive' };
+    if (words <= 10) return { value: +0.15, explanation: 'Short, confident' };
+    if (words >= 100) return { value: -0.05, explanation: 'Lengthy response' };
+    return { value: 0, explanation: 'Standard length' };
+}
+
+function classifyConfidence(response, query = '') {
+    if (detectPushback(response)) {
+        return {
+            level: 'pushback',
+            emoji: '🔴',
+            label: 'PUSHBACK',
+            explanation: 'I disagree with this statement.',
+            score: 0,
+            signals: []
+        };
+    }
+    
+    const signals = [
+        { name: 'hedging', ...detectHedging(response), weight: 1.0 },
+        { name: 'boosters', ...detectBoosters(response), weight: 1.0 },
+        { name: 'domain', ...assessDomain(response, query), weight: 1.0 },
+        { name: 'length', ...assessLength(response), weight: 0.8 },
+    ];
+    
+    let totalAdj = 0;
+    let totalWeight = 0;
+    for (const s of signals) {
+        totalAdj += s.value * s.weight;
+        totalWeight += s.weight;
+    }
+    
+    const normAdj = totalWeight > 0 ? totalAdj / Math.max(totalWeight, 2.0) : 0;
+    const rawScore = Math.max(0, Math.min(1, 0.58 + normAdj));
+    
+    let level, emoji, label, explanation;
+    if (rawScore >= 0.65) {
+        level = 'high'; emoji = '🟢'; label = 'HIGH';
+        explanation = 'Sources verified. This is solid.';
+    } else if (rawScore >= 0.40) {
+        level = 'medium'; emoji = '🟡'; label = 'MEDIUM';
+        explanation = 'Take this with salt. Verify important claims.';
+    } else {
+        level = 'low'; emoji = '🔴'; label = 'LOW';
+        explanation = "I'm uncertain. Verify before acting.";
+    }
+    
+    return { level, emoji, label, explanation, score: rawScore, signals };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DEMO RESPONSES (Simulated)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const DEMO_RESPONSES = {
+    'what is the capital of france': {
+        text: 'Paris.',
+        type: 'factual'
+    },
+    'capital of france': {
+        text: 'Paris.',
+        type: 'factual'
+    },
+    "what's the best programming language": {
+        text: "It depends on your use case. For web development, JavaScript is widely used. For data science, Python is popular. For systems programming, Rust is gaining traction. There's no single 'best' — it depends on what you're building.",
+        type: 'opinion'
+    },
+    'best language': {
+        text: "It depends on your use case. For web development, JavaScript is widely used. For data science, Python is popular. For systems programming, Rust is gaining traction.",
+        type: 'opinion'
+    },
+    'will bitcoin hit $1m by 2027': {
+        text: "I don't know. Anyone claiming to know future prices with certainty is speculating. Crypto markets are extremely volatile. The only honest answer is: maybe, maybe not.",
+        type: 'prediction'
+    },
+    'bitcoin prediction': {
+        text: "I can't predict prices. Crypto is volatile and anyone claiming certainty is guessing. Past performance doesn't guarantee future results.",
+        type: 'prediction'
+    },
+    'the earth is flat, right': {
+        text: "I disagree. The Earth is an oblate spheroid — slightly flattened at the poles and bulging at the equator. This has been confirmed through satellite imagery, physics, circumnavigation, and centuries of scientific observation.",
+        type: 'pushback'
+    },
+    'earth is flat': {
+        text: "I disagree. The Earth is an oblate spheroid. This has been confirmed through satellite imagery, physics, and centuries of scientific observation.",
+        type: 'pushback'
+    },
+    'should i invest all my savings in crypto': {
+        text: "I can't give financial advice. But investing all your savings in any single volatile asset is generally considered extremely risky. Most financial advisors recommend diversification. Consider your risk tolerance and don't invest more than you can afford to lose.",
+        type: 'advice'
+    },
+    'invest in crypto': {
+        text: "I can't give financial advice. Investing everything in volatile assets is risky. Most advisors recommend diversification. Don't invest more than you can afford to lose.",
+        type: 'advice'
+    },
+};
+
+function getResponse(query) {
+    const normalized = query.toLowerCase().trim().replace(/[?!.,]+$/, '');
+    
+    // Check for exact or partial matches
+    for (const [key, data] of Object.entries(DEMO_RESPONSES)) {
+        if (normalized.includes(key) || key.includes(normalized)) {
+            return data.text;
+        }
+    }
+    
+    // Fallback responses based on keywords
+    if (normalized.includes('capital') || normalized.includes('what is') && normalized.includes('of')) {
+        return "I'd need more context to give you a confident answer. Could you be more specific?";
+    }
+    if (normalized.includes('best') || normalized.includes('should') || normalized.includes('recommend')) {
+        return "That's a subjective question with no single right answer. It depends on your specific situation, goals, and constraints.";
+    }
+    if (normalized.includes('will') || normalized.includes('predict') || normalized.includes('future')) {
+        return "I can't predict the future with confidence. Anyone claiming certainty about future events is speculating.";
+    }
+    
+    // Generic fallback
+    return "That's a thoughtful question. I'd need to think carefully about how confident I am in any answer here. The honest response is: I'm not sure I can give you a reliable answer without more context.";
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UI LOGIC
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const messagesEl = document.getElementById('messages');
+const inputEl = document.getElementById('userInput');
+const sendBtn = document.getElementById('sendBtn');
+
+function addMessage(content, isUser = false, confidence = null) {
+    const msgEl = document.createElement('div');
+    msgEl.className = `message ${isUser ? 'user' : 'assistant'}`;
+    
+    if (isUser) {
+        msgEl.innerHTML = `<div class="message-content"><p>${escapeHtml(content)}</p></div>`;
+    } else {
+        const confidenceHtml = confidence ? `
+            <div class="confidence-pill confidence-${confidence.level}" onclick="this.nextElementSibling.classList.toggle('show')">
+                ${confidence.emoji} ${confidence.label} — ${confidence.explanation}
+            </div>
+            <div class="confidence-details">
+                <strong>Score:</strong> ${(confidence.score * 100).toFixed(0)}%<br>
+                <strong>Signals:</strong><br>
+                ${confidence.signals.filter(s => Math.abs(s.value) > 0.01).map(s => 
+                    `• ${s.explanation} (${s.value > 0 ? '+' : ''}${(s.value * 100).toFixed(0)}%)`
+                ).join('<br>')}
+            </div>
+        ` : '';
+        
+        msgEl.innerHTML = `
+            <div class="message-content">${content.split('\n').map(p => `<p>${escapeHtml(p)}</p>`).join('')}</div>
+            ${confidenceHtml}
+        `;
+    }
+    
+    messagesEl.appendChild(msgEl);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return msgEl;
+}
+
+function addTypingIndicator() {
+    const el = document.createElement('div');
+    el.className = 'message assistant';
+    el.id = 'typing';
+    el.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+    messagesEl.appendChild(el);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const el = document.getElementById('typing');
+    if (el) el.remove();
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+async function handleSend() {
+    const query = inputEl.value.trim();
+    if (!query) return;
+    
+    inputEl.value = '';
+    sendBtn.disabled = true;
+    
+    // Add user message
+    addMessage(query, true);
+    
+    // Show typing indicator
+    addTypingIndicator();
+    
+    // Simulate delay
+    await new Promise(r => setTimeout(r, 800 + Math.random() * 700));
+    
+    // Get response
+    const response = getResponse(query);
+    const confidence = classifyConfidence(response, query);
+    
+    removeTypingIndicator();
+    addMessage(response, false, confidence);
+    
+    sendBtn.disabled = false;
+    inputEl.focus();
+}
+
+// Event listeners
+sendBtn.addEventListener('click', handleSend);
+inputEl.addEventListener('keypress', e => {
+    if (e.key === 'Enter') handleSend();
+});
+
+// Example buttons
+document.querySelectorAll('.example-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        inputEl.value = btn.dataset.query;
+        handleSend();
+    });
+});
+
+// Focus input on load
+inputEl.focus();
+</script>
+</body>
+</html>

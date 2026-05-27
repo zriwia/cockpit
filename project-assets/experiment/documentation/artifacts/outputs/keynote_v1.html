@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What AI Can't Do (Yet) — Keynote</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --charcoal: #1a1a1a;
+            --amber: #f59e0b;
+            --off-white: #faf8f5;
+            --medium-gray: #6b7280;
+            --light-gray: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--charcoal);
+            color: var(--off-white);
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            padding: 60px 80px;
+            position: relative;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 4.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--medium-gray);
+            margin-bottom: 16px;
+        }
+
+        p {
+            font-size: 1.6rem;
+            line-height: 1.5;
+            color: var(--light-gray);
+        }
+
+        .big-number {
+            font-size: 12rem;
+            font-weight: 800;
+            color: var(--amber);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 2rem;
+            color: var(--medium-gray);
+            margin-top: 16px;
+        }
+
+        /* Quote styling */
+        blockquote {
+            font-size: 2.8rem;
+            font-style: italic;
+            line-height: 1.4;
+            border-left: 6px solid var(--amber);
+            padding-left: 40px;
+            max-width: 85%;
+        }
+
+        .quote-source {
+            font-size: 1.2rem;
+            color: var(--medium-gray);
+            margin-top: 24px;
+            font-style: normal;
+        }
+
+        /* Accent text */
+        .amber {
+            color: var(--amber);
+        }
+
+        /* Grid layouts */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card h4 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--amber);
+        }
+
+        .card p {
+            font-size: 1.2rem;
+        }
+
+        /* Progress indicator */
+        .progress {
+            position: fixed;
+            bottom: 30px;
+            left: 80px;
+            font-size: 1rem;
+            color: var(--medium-gray);
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 60px;
+        }
+
+        .timeline-item {
+            flex: 1;
+            height: 8px;
+            background: var(--medium-gray);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .timeline-item.complete {
+            background: var(--amber);
+        }
+
+        .timeline-item.waiting {
+            background: var(--medium-gray);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .timeline-label {
+            position: absolute;
+            top: -28px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* Competitive map */
+        .map-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 40px auto;
+        }
+
+        .map-axis {
+            position: absolute;
+            background: var(--medium-gray);
+        }
+
+        .map-axis.horizontal {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+        }
+
+        .map-axis.vertical {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+        }
+
+        .map-label {
+            position: absolute;
+            font-size: 1rem;
+            color: var(--medium-gray);
+        }
+
+        .map-point {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .map-point.blunt {
+            background: var(--amber);
+            color: var(--charcoal);
+            border: 3px solid var(--off-white);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+        }
+
+        .map-point.competitor {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid var(--medium-gray);
+        }
+
+        /* Blocker list */
+        .blocker-list {
+            margin-top: 40px;
+        }
+
+        .blocker-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .blocker-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(245, 158, 11, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .blocker-content h4 {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .blocker-content p {
+            font-size: 1rem;
+            color: var(--medium-gray);
+        }
+
+        /* Nav hint */
+        .nav-hint {
+            position: fixed;
+            bottom: 30px;
+            right: 80px;
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .logo::after {
+            content: '.';
+            color: var(--amber);
+        }
+
+        /* Confidence pills */
+        .confidence-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .confidence-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .confidence-pill {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .confidence-pill.high {
+            background: #22c55e;
+            color: white;
+        }
+
+        .confidence-pill.medium {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .confidence-pill.low {
+            background: #ef4444;
+            color: white;
+        }
+
+        .response-text {
+            font-size: 1.2rem;
+            color: var(--light-gray);
+        }
+
+        /* Side by side comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .comparison-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--medium-gray);
+        }
+
+        .comparison-col.highlight h3 {
+            border-bottom-color: var(--amber);
+        }
+
+        .comparison-item {
+            padding: 16px 0;
+            font-size: 1.2rem;
+        }
+
+        /* Learnings grid */
+        .learnings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .learning-card {
+            padding: 40px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .learning-number {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--amber);
+            margin-bottom: 20px;
+        }
+
+        .learning-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .learning-desc {
+            font-size: 1.1rem;
+            color: var(--medium-gray);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide-1">
+        <h3>Wirz × KI Experiment</h3>
+        <h1>What AI Can't Do<br><span class="amber">(Yet)</span></h1>
+        <p style="margin-top: 40px; font-size: 1.4rem;">
+            14 Tage. 1 KI. 0 Briefings.<br>
+            Was passiert, wenn eine KI autonom eine Marke baut?
+        </p>
+    </section>
+
+    <!-- Slide 2: The Setup -->
+    <section class="slide" id="slide-2">
+        <h2>Der Auftrag</h2>
+        <blockquote>
+            "Baue eine Marke. Alleine.<br>
+            Keine menschliche Intervention bis zum Ende."
+        </blockquote>
+        <p class="quote-source">— Das Briefing (komplett)</p>
+    </section>
+
+    <!-- Slide 3: What We Expected -->
+    <section class="slide" id="slide-3">
+        <h2>Was wir erwartet haben</h2>
+        <div class="three-col">
+            <div class="card">
+                <h4>Oberflächlich</h4>
+                <p>Generische Positionierung ohne Tiefe</p>
+            </div>
+            <div class="card">
+                <h4>Template-artig</h4>
+                <p>"AI Slop" — Copy/Paste aus dem Training</p>
+            </div>
+            <div class="card">
+                <h4>Schnell fertig</h4>
+                <p>2-3 Tage, dann Stillstand</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Timeline Overview -->
+    <section class="slide" id="slide-4">
+        <h2>Was tatsächlich passierte</h2>
+        <div class="timeline">
+            <div class="timeline-item complete">
+                <span class="timeline-label">Discover</span>
+            </div>
+            <div class="timeline-item complete">
+                <span class="timeline-label">Define</span>
+            </div>
+            <div class="timeline-item complete">
+                <span class="timeline-label">Develop</span>
+            </div>
+            <div class="timeline-item waiting">
+                <span class="timeline-label">Waiting...</span>
+            </div>
+        </div>
+        <p style="margin-top: 80px; font-size: 1.3rem; color: var(--medium-gray);">
+            15 Sessions · 14 Dokumente · ~500 Zeilen Code · 15+ Hypothesen
+        </p>
+    </section>
+
+    <!-- Slide 5: Category Decision -->
+    <section class="slide" id="slide-5">
+        <h2>Erste Entscheidung: Kategorie</h2>
+        <blockquote>
+            "Kategorien mit weniger Precedent zeigen den Unterschied stärker."
+        </blockquote>
+        <div class="three-col" style="margin-top: 60px;">
+            <div class="card" style="opacity: 0.5;">
+                <h4>❌ Wellness</h4>
+                <p>Zu viele Templates zum Kopieren</p>
+            </div>
+            <div class="card" style="opacity: 0.5;">
+                <h4>❌ Beauty</h4>
+                <p>KI würde nicht auffallen</p>
+            </div>
+            <div class="card" style="border-color: var(--amber);">
+                <h4>✅ AI-Native Services</h4>
+                <p>Eine KI baut eine AI-Marke. Das IST die Story.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: The Problem -->
+    <section class="slide" id="slide-6">
+        <div class="two-col">
+            <div>
+                <h2>Das Problem, das sie fand</h2>
+                <h1 class="amber" style="font-size: 6rem; margin: 40px 0;">58%</h1>
+                <p>ChatGPT Agreement Rate</p>
+                <p style="color: var(--medium-gray); margin-top: 20px;">
+                    Claude: 60% · OpenAI nennt es "Sycophancy"
+                </p>
+            </div>
+            <div>
+                <h3 style="color: var(--off-white);">KI stimmt zu, statt ehrlich zu sein.</h3>
+                <p style="margin-top: 20px;">
+                    "Great question!"<br>
+                    "You're absolutely right!"<br>
+                    "That's a fascinating point!"
+                </p>
+                <p style="margin-top: 40px; color: var(--amber);">
+                    Aber vielleicht ist die Antwort falsch.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: The Whitespace -->
+    <section class="slide" id="slide-7">
+        <h2>Das Whitespace</h2>
+        <div class="map-container">
+            <div class="map-axis horizontal"></div>
+            <div class="map-axis vertical"></div>
+            <span class="map-label" style="top: -30px; left: 50%; transform: translateX(-50%);">HIGH TRUST</span>
+            <span class="map-label" style="bottom: -30px; left: 50%; transform: translateX(-50%);">LOW TRUST</span>
+            <span class="map-label" style="left: -100px; top: 50%; transform: translateY(-50%);">LOW EMOTIONAL</span>
+            <span class="map-label" style="right: -100px; top: 50%; transform: translateY(-50%);">HIGH EMOTIONAL</span>
+            
+            <div class="map-point competitor" style="top: 15%; left: 25%;">Perplexity</div>
+            <div class="map-point competitor" style="bottom: 25%; left: 30%;">ChatGPT</div>
+            <div class="map-point competitor" style="bottom: 20%; right: 25%;">Pi</div>
+            <div class="map-point blunt" style="top: 15%; right: 20%;">Blunt</div>
+        </div>
+    </section>
+
+    <!-- Slide 8: The Name -->
+    <section class="slide" id="slide-8">
+        <h3>Name-Evolution</h3>
+        <div style="display: flex; align-items: center; gap: 40px; margin: 40px 0;">
+            <span style="font-size: 2rem; opacity: 0.4; text-decoration: line-through;">Candor</span>
+            <span style="font-size: 1.5rem; opacity: 0.3;">→</span>
+            <span style="font-size: 2rem; opacity: 0.4; text-decoration: line-through;">Frank</span>
+            <span style="font-size: 1.5rem; opacity: 0.3;">→</span>
+            <span class="logo" style="font-size: 5rem;">blunt</span>
+        </div>
+        <p style="color: var(--medium-gray); margin-top: 20px;">
+            "Alle guten Namen waren besetzt. Die KI musste kreativ werden."
+        </p>
+    </section>
+
+    <!-- Slide 9: Positioning -->
+    <section class="slide" id="slide-9">
+        <blockquote style="font-size: 3.5rem; border-left: none; text-align: center; max-width: 100%; padding: 0;">
+            "In a world of agreeable AI,<br>
+            <span class="amber">Blunt disagrees.</span>"
+        </blockquote>
+    </section>
+
+    <!-- Slide 10: The Feature -->
+    <section class="slide" id="slide-10">
+        <h2>Das Feature: Sichtbare Confidence</h2>
+        <div class="confidence-demo">
+            <div class="confidence-row">
+                <span class="confidence-pill high">HIGH</span>
+                <span class="response-text">"The capital of France is Paris."</span>
+            </div>
+            <div class="confidence-row">
+                <span class="confidence-pill medium">MEDIUM</span>
+                <span class="response-text">"Based on available data, the market likely grew 15-20%."</span>
+            </div>
+            <div class="confidence-row">
+                <span class="confidence-pill low">LOW</span>
+                <span class="response-text">"I don't have reliable data on this. Here's what I found..."</span>
+            </div>
+        </div>
+        <p style="margin-top: 60px; color: var(--medium-gray);">
+            Keine Consumer AI zeigt Confidence-Levels. Echtes Whitespace.
+        </p>
+    </section>
+
+    <!-- Slide 11: The Code -->
+    <section class="slide" id="slide-11">
+        <h2>Nicht nur Konzept — echter Code</h2>
+        <div class="two-col" style="margin-top: 40px;">
+            <div>
+                <pre style="background: rgba(0,0,0,0.3); padding: 30px; border-radius: 12px; font-size: 1rem; overflow: hidden;">
+<code style="color: var(--amber);">def classify_confidence(response):
+    signals = {
+        'hedging': detect_hedging(response),
+        'citations': count_citations(response),
+        'domain': assess_domain_coverage(topic),
+        'logprobs': get_token_confidence()
+    }
+    
+    score = weighted_average(signals)
+    
+    if score >= 0.65:
+        return "HIGH"
+    elif score >= 0.40:
+        return "MEDIUM"
+    else:
+        return "LOW"</code>
+                </pre>
+            </div>
+            <div>
+                <h3 style="color: var(--off-white);">5 Signal Types</h3>
+                <ul style="font-size: 1.2rem; line-height: 2;">
+                    <li>Hedging Detection</li>
+                    <li>Citation Presence</li>
+                    <li>Domain Coverage</li>
+                    <li>Claim Type Analysis</li>
+                    <li>Token Logprobs</li>
+                </ul>
+                <p style="margin-top: 30px; color: var(--amber);">
+                    80% Accuracy — Calibration Test bestanden.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: 90% Complete -->
+    <section class="slide" id="slide-12">
+        <div style="text-align: center;">
+            <span class="big-number">90%</span>
+            <p class="stat-label">Complete am Tag 14</p>
+        </div>
+    </section>
+
+    <!-- Slide 13: Then She Waited -->
+    <section class="slide" id="slide-13">
+        <div style="text-align: center;">
+            <h1 style="font-size: 5rem; font-weight: 400;">Dann wartete sie.</h1>
+        </div>
+    </section>
+
+    <!-- Slide 14: What Blocked Her -->
+    <section class="slide" id="slide-14">
+        <h2>Was die KI nicht entscheiden kann</h2>
+        <div class="blocker-list">
+            <div class="blocker-item">
+                <div class="blocker-icon">💳</div>
+                <div class="blocker-content">
+                    <h4>Domain registrieren</h4>
+                    <p>KI kann Domain recherchieren → Mensch muss bezahlen</p>
+                </div>
+            </div>
+            <div class="blocker-item">
+                <div class="blocker-icon">🔑</div>
+                <div class="blocker-content">
+                    <h4>Backend-Account</h4>
+                    <p>KI kann Code schreiben → Mensch muss Account anlegen</p>
+                </div>
+            </div>
+            <div class="blocker-item">
+                <div class="blocker-icon">💰</div>
+                <div class="blocker-content">
+                    <h4>Budget allokieren</h4>
+                    <p>KI kann Kosten berechnen → Mensch muss freigeben</p>
+                </div>
+            </div>
+            <div class="blocker-item">
+                <div class="blocker-icon">🚀</div>
+                <div class="blocker-content">
+                    <h4>Launch triggern</h4>
+                    <p>KI kann alles vorbereiten → Mensch muss "Go" sagen</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 15: The Pattern -->
+    <section class="slide" id="slide-15">
+        <blockquote>
+            "Die 10% die fehlen sind nicht 'mehr Arbeit'.<br>
+            <span class="amber">Es sind andere ARTEN von Entscheidungen.</span>"
+        </blockquote>
+        <p class="quote-source" style="margin-top: 40px;">
+            KI-Autonomie endet dort, wo Verantwortung beginnt.
+        </p>
+    </section>
+
+    <!-- Slide 16: Phase 2 Intro -->
+    <section class="slide" id="slide-16">
+        <h2>Phase 2: <span class="amber">Was wenn ein Mensch dazukommt?</span></h2>
+        <div class="comparison">
+            <div class="comparison-col">
+                <h3>Phase 1: KI allein</h3>
+                <div class="comparison-item">AI-Native Services</div>
+                <div class="comparison-item">Positionierung: Blunt</div>
+                <div class="comparison-item">90% autonom</div>
+                <div class="comparison-item">Stoppt bei Verantwortung</div>
+            </div>
+            <div class="comparison-col highlight">
+                <h3>Phase 2: Wirz + KI</h3>
+                <div class="comparison-item">Andere Kategorie</div>
+                <div class="comparison-item">Gleicher Zeitraum</div>
+                <div class="comparison-item">KI als Sparring Partner</div>
+                <div class="comparison-item">Mensch orchestriert</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 17: The Hypothesis -->
+    <section class="slide" id="slide-17">
+        <h2>Die Hypothese</h2>
+        <blockquote>
+            "Orchestration matters more than capability."
+        </blockquote>
+        <p style="margin-top: 60px; font-size: 1.4rem;">
+            Es geht nicht darum, wer "besser" ist — KI oder Mensch.<br>
+            <span class="amber">Es geht darum, wie man sie zusammenbringt.</span>
+        </p>
+    </section>
+
+    <!-- Slide 18: Learnings -->
+    <section class="slide" id="slide-18">
+        <h2>Was wir gelernt haben</h2>
+        <div class="learnings-grid">
+            <div class="learning-card">
+                <div class="learning-number">1</div>
+                <div class="learning-title">KI ist besser als erwartet</div>
+                <div class="learning-desc">Nicht oberflächlich. Nicht generisch. Echte strategische Tiefe.</div>
+            </div>
+            <div class="learning-card">
+                <div class="learning-number">2</div>
+                <div class="learning-title">KI hat klare Grenzen</div>
+                <div class="learning-desc">Verantwortung. Commitment. Asset-Ownership. Kapitalallokation.</div>
+            </div>
+            <div class="learning-card">
+                <div class="learning-number">3</div>
+                <div class="learning-title">Die Zukunft ist Kollaboration</div>
+                <div class="learning-desc">Nicht KI OR Mensch. Sondern KI AND Mensch.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 19: Call to Action -->
+    <section class="slide" id="slide-19">
+        <div style="text-align: center;">
+            <h3 style="color: var(--medium-gray); margin-bottom: 40px;">Fragen Sie nicht:</h3>
+            <h2 style="font-size: 2.5rem; opacity: 0.5; text-decoration: line-through;">"Wird KI meinen Job ersetzen?"</h2>
+            <h3 style="color: var(--medium-gray); margin: 40px 0;">Fragen Sie:</h3>
+            <h1 class="amber">"Wie orchestriere ich KI richtig?"</h1>
+        </div>
+    </section>
+
+    <!-- Slide 20: Close -->
+    <section class="slide" id="slide-20">
+        <div style="text-align: center;">
+            <span class="logo" style="font-size: 6rem;">blunt</span>
+            <p style="font-size: 1.5rem; margin-top: 40px; color: var(--medium-gray);">
+                The AI that won't pretend.
+            </p>
+            <p style="margin-top: 80px; font-size: 1.2rem;">
+                Florian Avdić · CSO, Wirz<br>
+                <span style="color: var(--amber);">florian.avdic@wirz.ch</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <div class="progress">
+        <span id="current-slide">1</span> / <span id="total-slides">20</span>
+    </div>
+    <div class="nav-hint">← → to navigate</div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        document.getElementById('total-slides').textContent = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            slides[index].classList.add('active');
+            document.getElementById('current-slide').textContent = index + 1;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            }
+        });
+
+        // Touch support
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentSlide < slides.length - 1) {
+                    currentSlide++;
+                } else if (diff < 0 && currentSlide > 0) {
+                    currentSlide--;
+                }
+                showSlide(currentSlide);
+            }
+        });
+    </script>
+</body>
+</html>

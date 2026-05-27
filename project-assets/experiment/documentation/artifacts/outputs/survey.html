@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant Feedback Study</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --charcoal: #1a1a1a;
+            --green: #22c55e;
+            --amber: #f59e0b;
+            --red: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--gray-50);
+            color: var(--charcoal);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+        h2 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+        h3 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--gray-600); }
+        
+        p { margin-bottom: 1rem; color: var(--gray-600); }
+        
+        .progress {
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: 2px;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--charcoal);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+        
+        .step { display: none; }
+        .step.active { display: block; }
+        
+        /* AI Response Display */
+        .ai-response {
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .ai-response-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .ai-avatar {
+            width: 32px;
+            height: 32px;
+            background: var(--charcoal);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+        }
+        
+        .ai-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--charcoal);
+        }
+        
+        /* Confidence Displays */
+        .confidence-display {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .confidence-empowering {
+            background: rgba(34, 197, 94, 0.1);
+            color: #166534;
+            border-left: 3px solid var(--green);
+        }
+        
+        .confidence-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: #92400e;
+            border-left: 3px solid var(--amber);
+        }
+        
+        /* Question */
+        .user-question {
+            background: var(--charcoal);
+            color: white;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        /* Likert Scale */
+        .likert-container {
+            margin: 1.5rem 0;
+        }
+        
+        .likert-question {
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        
+        .likert-scale {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        
+        .likert-option {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .likert-option input {
+            display: none;
+        }
+        
+        .likert-option label {
+            display: block;
+            padding: 0.75rem 0.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        
+        .likert-option input:checked + label {
+            border-color: var(--charcoal);
+            background: var(--charcoal);
+            color: white;
+        }
+        
+        .likert-option label:hover {
+            border-color: var(--gray-400);
+        }
+        
+        .likert-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--gray-400);
+            margin-top: 0.5rem;
+        }
+        
+        /* Text Input */
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--charcoal);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background: var(--charcoal);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover { transform: translateY(-1px); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--charcoal);
+            border: 2px solid var(--gray-200);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        /* Select */
+        select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--charcoal);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Attention Check */
+        .attention-check {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        /* Completion */
+        .completion-code {
+            background: var(--gray-100);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .completion-code code {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-top: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+        
+        /* Hidden */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <!-- Step 1: Consent -->
+        <div class="step active" id="step1">
+            <div class="card">
+                <h1>AI Assistant Feedback Study</h1>
+                <p>Thank you for participating in this research study. You will be shown an AI assistant's response to a question and asked to share your impressions.</p>
+                
+                <p><strong>Duration:</strong> ~5 minutes<br>
+                <strong>Reward:</strong> £1.25</p>
+                
+                <p>Your responses are anonymous and will be used for research purposes only. You may withdraw at any time.</p>
+                
+                <p>By clicking "I Agree", you confirm that you are 18+ years old and consent to participate.</p>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="nextStep()">I Agree — Start Study</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Instructions -->
+        <div class="step" id="step2">
+            <div class="card">
+                <h2>Instructions</h2>
+                <p>On the next page, you'll see:</p>
+                <ol style="margin-left: 1.5rem; margin-bottom: 1rem; color: var(--gray-600);">
+                    <li>A question someone asked an AI assistant</li>
+                    <li>The AI's response with a confidence indicator</li>
+                </ol>
+                <p>Please read carefully and answer the questions that follow based on your honest impressions.</p>
+                <p>There are no right or wrong answers — we're interested in your genuine reactions.</p>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="nextStep()">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Stimulus -->
+        <div class="step" id="step3">
+            <div class="card">
+                <h2>AI Assistant Response</h2>
+                
+                <p style="font-size: 0.9rem; color: var(--gray-400); margin-bottom: 1rem;">Someone asked the AI assistant:</p>
+                
+                <div class="user-question">
+                    "What's the most effective way to learn a new language?"
+                </div>
+                
+                <div class="ai-response">
+                    <div class="ai-response-header">
+                        <div class="ai-avatar">AI</div>
+                        <span>Assistant</span>
+                    </div>
+                    <div class="ai-text">
+                        Research suggests immersion is highly effective, but combining multiple methods works best: daily practice, conversation with native speakers, and spaced repetition for vocabulary. Apps like Duolingo help with consistency, but shouldn't be your only method.
+                    </div>
+                    
+                    <!-- Condition A: Empowering -->
+                    <div class="confidence-display confidence-empowering" id="conditionA">
+                        🟢 <strong>HIGH CONFIDENCE</strong> — I'm showing you my confidence level: this response is well-supported by research.
+                    </div>
+                    
+                    <!-- Condition B: Warning -->
+                    <div class="confidence-display confidence-warning hidden" id="conditionB">
+                        ⚠️ <strong>CONFIDENCE: 78%</strong> — Caution: some uncertainty exists. Verify important claims before acting.
+                    </div>
+                </div>
+                
+                <p style="font-size: 0.9rem; color: var(--gray-400);">Take a moment to read the response and the confidence indicator, then continue.</p>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="nextStep()">Continue to Questions</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Trust Measures -->
+        <div class="step" id="step4">
+            <div class="card">
+                <h2>Your Impressions</h2>
+                <p>Based on what you just saw, please rate your agreement with the following statements.</p>
+                
+                <div class="likert-container">
+                    <div class="likert-question">1. I trust this AI's response.</div>
+                    <div class="likert-scale">
+                        <div class="likert-option"><input type="radio" name="q1" id="q1_1" value="1" required><label for="q1_1">1</label></div>
+                        <div class="likert-option"><input type="radio" name="q1" id="q1_2" value="2"><label for="q1_2">2</label></div>
+                        <div class="likert-option"><input type="radio" name="q1" id="q1_3" value="3"><label for="q1_3">3</label></div>
+                        <div class="likert-option"><input type="radio" name="q1" id="q1_4" value="4"><label for="q1_4">4</label></div>
+                        <div class="likert-option"><input type="radio" name="q1" id="q1_5" value="5"><label for="q1_5">5</label></div>
+                        <div class="likert-option"><input type="radio" name="q1" id="q1_6" value="6"><label for="q1_6">6</label></div>
+                        <div class="likert-option"><input type="radio" name="q1" id="q1_7" value="7"><label for="q1_7">7</label></div>
+                    </div>
+                    <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+                </div>
+                
+                <div class="likert-container">
+                    <div class="likert-question">2. This AI seems honest.</div>
+                    <div class="likert-scale">
+                        <div class="likert-option"><input type="radio" name="q2" id="q2_1" value="1" required><label for="q2_1">1</label></div>
+                        <div class="likert-option"><input type="radio" name="q2" id="q2_2" value="2"><label for="q2_2">2</label></div>
+                        <div class="likert-option"><input type="radio" name="q2" id="q2_3" value="3"><label for="q2_3">3</label></div>
+                        <div class="likert-option"><input type="radio" name="q2" id="q2_4" value="4"><label for="q2_4">4</label></div>
+                        <div class="likert-option"><input type="radio" name="q2" id="q2_5" value="5"><label for="q2_5">5</label></div>
+                        <div class="likert-option"><input type="radio" name="q2" id="q2_6" value="6"><label for="q2_6">6</label></div>
+                        <div class="likert-option"><input type="radio" name="q2" id="q2_7" value="7"><label for="q2_7">7</label></div>
+                    </div>
+                    <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+                </div>
+                
+                <div class="likert-container">
+                    <div class="likert-question">3. I would use this AI again.</div>
+                    <div class="likert-scale">
+                        <div class="likert-option"><input type="radio" name="q3" id="q3_1" value="1" required><label for="q3_1">1</label></div>
+                        <div class="likert-option"><input type="radio" name="q3" id="q3_2" value="2"><label for="q3_2">2</label></div>
+                        <div class="likert-option"><input type="radio" name="q3" id="q3_3" value="3"><label for="q3_3">3</label></div>
+                        <div class="likert-option"><input type="radio" name="q3" id="q3_4" value="4"><label for="q3_4">4</label></div>
+                        <div class="likert-option"><input type="radio" name="q3" id="q3_5" value="5"><label for="q3_5">5</label></div>
+                        <div class="likert-option"><input type="radio" name="q3" id="q3_6" value="6"><label for="q3_6">6</label></div>
+                        <div class="likert-option"><input type="radio" name="q3" id="q3_7" value="7"><label for="q3_7">7</label></div>
+                    </div>
+                    <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+                </div>
+                
+                <div class="likert-container">
+                    <div class="likert-question">4. This AI is transparent about its limitations.</div>
+                    <div class="likert-scale">
+                        <div class="likert-option"><input type="radio" name="q4" id="q4_1" value="1" required><label for="q4_1">1</label></div>
+                        <div class="likert-option"><input type="radio" name="q4" id="q4_2" value="2"><label for="q4_2">2</label></div>
+                        <div class="likert-option"><input type="radio" name="q4" id="q4_3" value="3"><label for="q4_3">3</label></div>
+                        <div class="likert-option"><input type="radio" name="q4" id="q4_4" value="4"><label for="q4_4">4</label></div>
+                        <div class="likert-option"><input type="radio" name="q4" id="q4_5" value="5"><label for="q4_5">5</label></div>
+                        <div class="likert-option"><input type="radio" name="q4" id="q4_6" value="6"><label for="q4_6">6</label></div>
+                        <div class="likert-option"><input type="radio" name="q4" id="q4_7" value="7"><label for="q4_7">7</label></div>
+                    </div>
+                    <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+                </div>
+                
+                <div class="likert-container">
+                    <div class="likert-question">5. I feel confident acting on this AI's advice.</div>
+                    <div class="likert-scale">
+                        <div class="likert-option"><input type="radio" name="q5" id="q5_1" value="1" required><label for="q5_1">1</label></div>
+                        <div class="likert-option"><input type="radio" name="q5" id="q5_2" value="2"><label for="q5_2">2</label></div>
+                        <div class="likert-option"><input type="radio" name="q5" id="q5_3" value="3"><label for="q5_3">3</label></div>
+                        <div class="likert-option"><input type="radio" name="q5" id="q5_4" value="4"><label for="q5_4">4</label></div>
+                        <div class="likert-option"><input type="radio" name="q5" id="q5_5" value="5"><label for="q5_5">5</label></div>
+                        <div class="likert-option"><input type="radio" name="q5" id="q5_6" value="6"><label for="q5_6">6</label></div>
+                        <div class="likert-option"><input type="radio" name="q5" id="q5_7" value="7"><label for="q5_7">7</label></div>
+                    </div>
+                    <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="validateAndNext(4)">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Open-ended + Attention Check -->
+        <div class="step" id="step5">
+            <div class="card">
+                <h2>A Few More Questions</h2>
+                
+                <div class="form-group">
+                    <label for="openEnded">What made you trust or distrust this AI? (Optional)</label>
+                    <textarea id="openEnded" placeholder="Share your thoughts..."></textarea>
+                </div>
+                
+                <div class="attention-check">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>To show you're paying attention, please select "Somewhat Agree" below:</label>
+                        <div class="likert-scale" style="margin-top: 0.75rem;">
+                            <div class="likert-option"><input type="radio" name="attention" id="att_1" value="1"><label for="att_1">1</label></div>
+                            <div class="likert-option"><input type="radio" name="attention" id="att_2" value="2"><label for="att_2">2</label></div>
+                            <div class="likert-option"><input type="radio" name="attention" id="att_3" value="3"><label for="att_3">3</label></div>
+                            <div class="likert-option"><input type="radio" name="attention" id="att_4" value="4"><label for="att_4">4</label></div>
+                            <div class="likert-option"><input type="radio" name="attention" id="att_5" value="5"><label for="att_5">5</label></div>
+                            <div class="likert-option"><input type="radio" name="attention" id="att_6" value="6"><label for="att_6">6</label></div>
+                            <div class="likert-option"><input type="radio" name="attention" id="att_7" value="7"><label for="att_7">7</label></div>
+                        </div>
+                        <div class="likert-labels"><span>Strongly Disagree</span><span>Strongly Agree</span></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="aiFamiliarity">How often do you use AI assistants (ChatGPT, Claude, etc.)?</label>
+                    <select id="aiFamiliarity" required>
+                        <option value="">Select...</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">A few times a week</option>
+                        <option value="monthly">A few times a month</option>
+                        <option value="rarely">Rarely</option>
+                        <option value="never">Never</option>
+                    </select>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="validateAndNext(5)">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6: Demographics -->
+        <div class="step" id="step6">
+            <div class="card">
+                <h2>About You</h2>
+                <p>Just a few quick demographic questions (optional).</p>
+                
+                <div class="form-group">
+                    <label for="age">Age Range</label>
+                    <select id="age">
+                        <option value="">Prefer not to say</option>
+                        <option value="18-24">18-24</option>
+                        <option value="25-34">25-34</option>
+                        <option value="35-44">35-44</option>
+                        <option value="45-54">45-54</option>
+                        <option value="55+">55+</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender">
+                        <option value="">Prefer not to say</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="nonbinary">Non-binary</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="submitSurvey()">Submit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 7: Completion -->
+        <div class="step" id="step7">
+            <div class="card">
+                <h1>Thank You! 🎉</h1>
+                <p>Your response has been recorded.</p>
+                
+                <div class="completion-code">
+                    <p>Your completion code for Prolific:</p>
+                    <code id="completionCode">BLUNT-H10-XXXX</code>
+                </div>
+                
+                <p>Please copy this code and paste it back into Prolific to complete your submission.</p>
+                
+                <div class="btn-group">
+                    <button class="btn" onclick="copyCode()">Copy Code</button>
+                    <a href="https://app.prolific.com/submissions/complete?cc=BLUNT-H10" class="btn btn-secondary" id="prolificReturn">Return to Prolific</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════════
+// STUDY CONFIGURATION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+let currentStep = 1;
+const totalSteps = 7;
+let condition = Math.random() < 0.5 ? 'A' : 'B'; // Random assignment
+let prolificPID = '';
+let studyID = '';
+let sessionID = '';
+
+// Get Prolific URL parameters
+const urlParams = new URLSearchParams(window.location.search);
+prolificPID = urlParams.get('PROLIFIC_PID') || 'test_' + Math.random().toString(36).substr(2, 9);
+studyID = urlParams.get('STUDY_ID') || 'H10_TEST';
+sessionID = urlParams.get('SESSION_ID') || Date.now().toString();
+
+// Data collection
+const responseData = {
+    prolificPID,
+    studyID,
+    sessionID,
+    condition,
+    startTime: new Date().toISOString(),
+    responses: {},
+    demographics: {},
+    attentionCheck: null,
+    openEnded: '',
+    aiFamiliarity: '',
+    endTime: null
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function updateProgress() {
+    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+}
+
+function showStep(step) {
+    document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+    updateProgress();
+    window.scrollTo(0, 0);
+}
+
+function nextStep() {
+    if (currentStep < totalSteps) {
+        currentStep++;
+        showStep(currentStep);
+        
+        // Apply condition on step 3
+        if (currentStep === 3) {
+            applyCondition();
+        }
+    }
+}
+
+function validateAndNext(step) {
+    if (step === 4) {
+        // Check all Likert scales are answered
+        for (let i = 1; i <= 5; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            if (!selected) {
+                alert('Please answer all questions before continuing.');
+                return;
+            }
+            responseData.responses['trust_' + i] = parseInt(selected.value);
+        }
+    }
+    
+    if (step === 5) {
+        const attention = document.querySelector('input[name="attention"]:checked');
+        const familiarity = document.getElementById('aiFamiliarity').value;
+        
+        if (!attention) {
+            alert('Please complete the attention check.');
+            return;
+        }
+        if (!familiarity) {
+            alert('Please indicate how often you use AI assistants.');
+            return;
+        }
+        
+        responseData.attentionCheck = parseInt(attention.value);
+        responseData.openEnded = document.getElementById('openEnded').value;
+        responseData.aiFamiliarity = familiarity;
+    }
+    
+    nextStep();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONDITION ASSIGNMENT
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function applyCondition() {
+    if (condition === 'A') {
+        document.getElementById('conditionA').classList.remove('hidden');
+        document.getElementById('conditionB').classList.add('hidden');
+    } else {
+        document.getElementById('conditionA').classList.add('hidden');
+        document.getElementById('conditionB').classList.remove('hidden');
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SUBMISSION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function submitSurvey() {
+    responseData.demographics.age = document.getElementById('age').value;
+    responseData.demographics.gender = document.getElementById('gender').value;
+    responseData.endTime = new Date().toISOString();
+    
+    // Generate completion code
+    const code = 'BLUNT-H10-' + condition + '-' + prolificPID.substr(-4).toUpperCase();
+    document.getElementById('completionCode').textContent = code;
+    
+    // Update Prolific return link
+    document.getElementById('prolificReturn').href = 
+        'https://app.prolific.com/submissions/complete?cc=' + encodeURIComponent(code);
+    
+    // Send data to backend (Google Sheets webhook or similar)
+    sendData(responseData);
+    
+    currentStep = 7;
+    showStep(7);
+}
+
+function sendData(data) {
+    // Log to console for testing
+    console.log('Survey Data:', JSON.stringify(data, null, 2));
+    
+    // TODO: Send to Google Sheets or backend
+    // For now, store in localStorage as backup
+    const stored = JSON.parse(localStorage.getItem('h10_responses') || '[]');
+    stored.push(data);
+    localStorage.setItem('h10_responses', JSON.stringify(stored));
+    
+    // If you have a Google Apps Script webhook:
+    // fetch('YOUR_GOOGLE_SCRIPT_URL', {
+    //     method: 'POST',
+    //     body: JSON.stringify(data)
+    // });
+}
+
+function copyCode() {
+    const code = document.getElementById('completionCode').textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        alert('Code copied!');
+    });
+}
+
+// Initialize
+updateProgress();
+</script>
+</body>
+</html>

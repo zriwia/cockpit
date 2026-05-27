@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blunt Manifesto 40s</title>
+  <style>
+    :root {
+      --bg: #050505;
+      --fg: #f4f4f0;
+      --muted: #8f8f88;
+      --dim: #242424;
+      --line: #d9d9d2;
+      --warn: #ff2f2f;
+      --paper: #eeeeea;
+      --ink: #090909;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    #stage {
+      position: relative;
+      width: min(100vw, 177.7778vh);
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 8.333% 100%,
+        linear-gradient(0deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 100% 12.5%,
+        var(--bg);
+      isolation: isolate;
+    }
+
+    #stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(0deg, rgba(255,255,255,.09), rgba(255,255,255,0) 1px) 0 0 / 100% 4px,
+        radial-gradient(circle at 50% 48%, rgba(255,255,255,.08), transparent 48%);
+      mix-blend-mode: screen;
+      opacity: .22;
+      z-index: 20;
+    }
+
+    #stage::after {
+      content: "";
+      position: absolute;
+      inset: -10%;
+      pointer-events: none;
+      background: linear-gradient(115deg, transparent 0 44%, rgba(255,255,255,.09) 45%, transparent 46% 100%);
+      opacity: var(--wipe, 0);
+      transform: translateX(var(--wipe-x, -35%));
+      z-index: 19;
+    }
+
+    .safe {
+      position: absolute;
+      inset: 7.4%;
+    }
+
+    .label {
+      position: absolute;
+      top: 5.2%;
+      left: 5.2%;
+      color: var(--muted);
+      font-size: clamp(10px, 1.05vw, 19px);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      line-height: 1.25;
+    }
+
+    .timecode {
+      position: absolute;
+      right: 5.2%;
+      top: 5.2%;
+      color: var(--muted);
+      font-size: clamp(10px, 1.05vw, 19px);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .08em;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: translateY(1.5%);
+      transition: opacity 120ms linear, transform 120ms linear;
+    }
+
+    .scene.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .headline {
+      position: absolute;
+      left: 7.4%;
+      right: 7.4%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: clamp(46px, 8.4vw, 156px);
+      font-weight: 900;
+      line-height: .92;
+      letter-spacing: 0;
+      text-transform: none;
+      text-wrap: balance;
+    }
+
+    .headline.center {
+      text-align: center;
+    }
+
+    .type-cursor::after {
+      content: "";
+      display: inline-block;
+      width: .055em;
+      height: .84em;
+      margin-left: .06em;
+      background: var(--fg);
+      transform: translateY(.1em);
+      opacity: var(--cursor, 1);
+    }
+
+    .enemy-list {
+      position: absolute;
+      left: 10%;
+      top: 18%;
+      width: 55%;
+      display: grid;
+      gap: clamp(14px, 2vw, 34px);
+    }
+
+    .enemy {
+      position: relative;
+      display: inline-block;
+      width: max-content;
+      max-width: 100%;
+      color: var(--fg);
+      font-size: clamp(31px, 5.2vw, 96px);
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+      opacity: var(--line-alpha, .15);
+      transform: translateX(var(--line-x, -2%));
+    }
+
+    .enemy::after {
+      content: "";
+      position: absolute;
+      left: -.04em;
+      right: -.04em;
+      top: 52%;
+      height: .09em;
+      background: var(--warn);
+      transform: scaleX(var(--strike, 0));
+      transform-origin: left center;
+    }
+
+    .vo {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 10%;
+      color: var(--fg);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(25px, 3.2vw, 58px);
+      font-style: italic;
+      line-height: 1.08;
+      text-wrap: balance;
+      opacity: var(--vo-alpha, 0);
+    }
+
+    .position-grid {
+      position: absolute;
+      inset: 14% 8% 25%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+    }
+
+    .position-card {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      min-height: 0;
+      padding: clamp(20px, 2.5vw, 46px);
+      background: var(--bg);
+      overflow: hidden;
+      opacity: var(--card-alpha, .15);
+    }
+
+    .position-card::before {
+      content: attr(data-no);
+      position: absolute;
+      top: clamp(14px, 1.3vw, 22px);
+      left: clamp(18px, 1.7vw, 32px);
+      color: var(--muted);
+      font-size: clamp(11px, 1vw, 18px);
+      letter-spacing: .14em;
+    }
+
+    .position-card strong {
+      display: block;
+      max-width: 12ch;
+      font-size: clamp(31px, 4.6vw, 82px);
+      line-height: .9;
+      letter-spacing: 0;
+    }
+
+    .position-card.on {
+      color: var(--ink);
+      background: var(--paper);
+      opacity: 1;
+    }
+
+    .position-card.on::before {
+      color: #555;
+    }
+
+    .proof {
+      position: absolute;
+      inset: 11% 5.4% 9%;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 2.4%;
+      align-items: center;
+    }
+
+    .proof-frame {
+      position: relative;
+      height: 76%;
+      border: 1px solid var(--line);
+      background: #111;
+      overflow: hidden;
+      box-shadow: 0 0 0 9px #050505;
+    }
+
+    .proof-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.18);
+      transform: scale(var(--proof-scale, 1.02)) translate(var(--proof-x, 0), var(--proof-y, 0));
+    }
+
+    .proof-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent);
+      opacity: var(--scan-alpha, .14);
+      transform: translateX(var(--scan-x, -80%));
+    }
+
+    .proof-copy {
+      display: grid;
+      gap: clamp(14px, 2vw, 28px);
+      align-content: center;
+    }
+
+    .proof-kicker {
+      color: var(--muted);
+      font-size: clamp(11px, 1.1vw, 18px);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .proof-title {
+      font-size: clamp(33px, 5.4vw, 104px);
+      font-weight: 900;
+      line-height: .88;
+      text-transform: uppercase;
+    }
+
+    .proof-paths {
+      display: grid;
+      gap: .7em;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: clamp(11px, 1.15vw, 19px);
+      line-height: 1.25;
+    }
+
+    .proof-paths span {
+      display: block;
+      padding-top: .75em;
+      border-top: 1px solid var(--dim);
+    }
+
+    .close-mark {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .close-line {
+      width: min(82%, 1320px);
+      font-size: clamp(43px, 7.7vw, 146px);
+      font-weight: 900;
+      line-height: .9;
+      text-transform: uppercase;
+      text-wrap: balance;
+    }
+
+    .close-sub {
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      bottom: 10%;
+      color: var(--muted);
+      font-size: clamp(15px, 1.7vw, 31px);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .burn {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: var(--burn-y, 50%);
+      height: 2px;
+      background: var(--fg);
+      opacity: var(--burn-a, 0);
+      z-index: 18;
+    }
+
+    @media (max-width: 720px) {
+      .enemy-list { width: 78%; }
+      .position-grid { grid-template-columns: 1fr; inset: 13% 8% 12%; }
+      .proof { grid-template-columns: 1fr; inset: 10% 6% 8%; }
+      .proof-frame { height: 42vh; }
+    }
+  </style>
+</head>
+<body>
+  <main id="stage" aria-label="Blunt manifesto 40 second motion piece">
+    <div class="label">BLUNT / MANIFESTO</div>
+    <div class="timecode" id="timecode">00:00.0</div>
+    <div class="burn" id="burn"></div>
+
+    <section class="scene" id="scene-open">
+      <div class="headline center type-cursor" id="open-headline"></div>
+    </section>
+
+    <section class="scene" id="scene-enemy">
+      <div class="enemy-list">
+        <div class="enemy" id="enemy-0">Great question.</div>
+        <div class="enemy" id="enemy-1">Happy to help.</div>
+        <div class="enemy" id="enemy-2">You're absolutely right.</div>
+      </div>
+      <div class="vo" id="enemy-vo">That is not intelligence.<br>That is compliance.</div>
+    </section>
+
+    <section class="scene" id="scene-position">
+      <div class="position-grid">
+        <div class="position-card" id="pos-0" data-no="01"><strong>Blunt does not flatter.</strong></div>
+        <div class="position-card" id="pos-1" data-no="02"><strong>Blunt shows uncertainty.</strong></div>
+        <div class="position-card" id="pos-2" data-no="03"><strong>Blunt cites sources.</strong></div>
+        <div class="position-card" id="pos-3" data-no="04"><strong>Blunt disagrees.</strong></div>
+      </div>
+      <div class="vo" id="position-vo">Because useful AI should not protect your feelings.<br>It should protect your decisions.</div>
+    </section>
+
+    <section class="scene" id="scene-proof">
+      <div class="proof">
+        <figure class="proof-frame">
+          <img id="proof-image" src="assets/blunt_demo_live.jpg" alt="">
+        </figure>
+        <div class="proof-copy">
+          <div class="proof-kicker" id="proof-kicker">LOCAL ARTIFACT 01</div>
+          <div class="proof-title" id="proof-title">Demo, research, code.</div>
+          <div class="proof-paths">
+            <span id="proof-path-a">experiment/blunt-demo/index.html</span>
+            <span id="proof-path-b">experiment/documentation/screenshots/2026-02-12_blunt_demo_live.jpg</span>
+            <span id="proof-path-c">experiment/blunt-classifier/confidence_classifier.py</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene" id="scene-close">
+      <div class="close-mark">
+        <div class="close-line" id="close-line">Blunt shows you what it doesn't know.</div>
+        <div class="close-sub" id="close-sub">An autonomous AI brand experiment.</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const DURATION = 40;
+    const qs = new URLSearchParams(location.search);
+    const fixedTime = qs.has("t") ? Number(qs.get("t")) : null;
+    const speed = qs.has("speed") ? Number(qs.get("speed")) : 1;
+
+    const scenes = {
+      open: document.getElementById("scene-open"),
+      enemy: document.getElementById("scene-enemy"),
+      position: document.getElementById("scene-position"),
+      proof: document.getElementById("scene-proof"),
+      close: document.getElementById("scene-close")
+    };
+
+    const proofItems = [
+      {
+        image: "assets/blunt_demo_live.jpg",
+        kicker: "LOCAL ARTIFACT 01",
+        title: "A live demo, not a claim.",
+        paths: [
+          "experiment/blunt-demo/index.html",
+          "experiment/documentation/screenshots/2026-02-12_blunt_demo_live.jpg",
+          "hook: Blunt shows you what it doesn't know"
+        ]
+      },
+      {
+        image: "assets/prolific_project_created.jpg",
+        kicker: "LOCAL ARTIFACT 02",
+        title: "Research infrastructure.",
+        paths: [
+          "experiment/documentation/screenshots/2026-02-12_prolific_project_created.jpg",
+          "experiment/documentation/artifacts/outputs/survey.html",
+          "experiment/h10-framing-test/survey.html"
+        ]
+      },
+      {
+        image: "assets/showmanship_sycophancy_v1.png",
+        kicker: "LOCAL ARTIFACT 03",
+        title: "The enemy had a name.",
+        paths: [
+          "experiment/assets/showmanship_sycophancy_v1.png",
+          "experiment/documentation/artifact_dashboard.html",
+          "experiment/documentation/keynote-material/moment_cards.html"
+        ]
+      }
+    ];
+
+    const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+    const lerp = (a, b, p) => a + (b - a) * p;
+    const ease = p => 1 - Math.pow(1 - clamp(p), 3);
+    const smooth = p => {
+      p = clamp(p);
+      return p * p * (3 - 2 * p);
+    };
+
+    function setScene(active) {
+      for (const [name, el] of Object.entries(scenes)) {
+        el.classList.toggle("active", name === active);
+      }
+    }
+
+    function typeText(el, text, progress) {
+      const n = Math.floor(clamp(progress) * text.length);
+      el.textContent = text.slice(0, n);
+    }
+
+    function setEnemy(index, alpha, strike, x = 0) {
+      const el = document.getElementById(`enemy-${index}`);
+      el.style.setProperty("--line-alpha", alpha.toFixed(3));
+      el.style.setProperty("--strike", strike.toFixed(3));
+      el.style.setProperty("--line-x", `${x.toFixed(2)}%`);
+    }
+
+    function setProof(item, p) {
+      document.getElementById("proof-image").src = item.image;
+      document.getElementById("proof-kicker").textContent = item.kicker;
+      document.getElementById("proof-title").textContent = item.title;
+      document.getElementById("proof-path-a").textContent = item.paths[0];
+      document.getElementById("proof-path-b").textContent = item.paths[1];
+      document.getElementById("proof-path-c").textContent = item.paths[2];
+      document.documentElement.style.setProperty("--proof-scale", (1.04 + p * .05).toFixed(3));
+      document.documentElement.style.setProperty("--proof-x", `${lerp(-1.2, 1.2, p).toFixed(3)}%`);
+      document.documentElement.style.setProperty("--proof-y", `${lerp(.5, -1, p).toFixed(3)}%`);
+      document.documentElement.style.setProperty("--scan-x", `${lerp(-110, 110, p).toFixed(2)}%`);
+    }
+
+    function render(t) {
+      t = ((t % DURATION) + DURATION) % DURATION;
+      document.getElementById("timecode").textContent = `00:${t.toFixed(1).padStart(4, "0")}`;
+      document.getElementById("burn").style.setProperty("--burn-y", `${18 + ((t * 37) % 68)}%`);
+      document.getElementById("burn").style.setProperty("--burn-a", (Math.sin(t * 11) > .93 ? .55 : 0).toString());
+      document.documentElement.style.setProperty("--cursor", (Math.sin(t * 10) > 0 ? 1 : 0).toString());
+      document.documentElement.style.setProperty("--wipe", (Math.sin(t * 2.7) > .96 ? .22 : 0).toString());
+      document.documentElement.style.setProperty("--wipe-x", `${((t * 24) % 170) - 55}%`);
+
+      if (t < 4) {
+        setScene("open");
+        typeText(document.getElementById("open-headline"), "Every AI wants to be liked.", smooth(t / 3.2));
+      } else if (t < 10) {
+        setScene("enemy");
+        const p = (t - 4) / 6;
+        [0, 1, 2].forEach(i => {
+          const lp = clamp((p - i * .18) / .28);
+          setEnemy(i, lerp(.13, 1, ease(lp)), ease(clamp((p - i * .18 - .12) / .2)), lerp(-4, 0, ease(lp)));
+        });
+        document.getElementById("enemy-vo").style.setProperty("--vo-alpha", ease((t - 7.2) / 1.4).toFixed(3));
+      } else if (t < 22) {
+        setScene("position");
+        const p = (t - 10) / 12;
+        [0, 1, 2, 3].forEach(i => {
+          const card = document.getElementById(`pos-${i}`);
+          const on = p > i * .16 + .04;
+          card.classList.toggle("on", on);
+          card.style.setProperty("--card-alpha", on ? "1" : ".18");
+        });
+        document.getElementById("position-vo").style.setProperty("--vo-alpha", ease((t - 16.2) / 1.5).toFixed(3));
+      } else if (t < 34) {
+        setScene("proof");
+        const p = (t - 22) / 12;
+        const i = Math.min(2, Math.floor(p * 3));
+        const lp = (p * 3) % 1;
+        setProof(proofItems[i], lp);
+      } else {
+        setScene("close");
+        const p = (t - 34) / 6;
+        document.getElementById("close-line").style.opacity = ease(p / .42).toFixed(3);
+        document.getElementById("close-line").style.transform = `translateY(${lerp(4, 0, ease(p / .42)).toFixed(2)}%)`;
+        document.getElementById("close-sub").style.opacity = ease((p - .45) / .22).toFixed(3);
+      }
+    }
+
+    const start = performance.now();
+    function tick(now) {
+      const t = fixedTime === null ? ((now - start) / 1000) * speed : fixedTime;
+      render(t);
+      if (fixedTime === null) requestAnimationFrame(tick);
+    }
+
+    tick(start);
+  </script>
+</body>
+</html>

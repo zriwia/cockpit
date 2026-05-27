@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blunt — The AI that won't pretend</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --charcoal: #1a1a1a;
+            --amber: #f59e0b;
+            --off-white: #f8f7f4;
+            --gray-100: #f3f4f6;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --green: #22c55e;
+            --yellow: #eab308;
+            --red: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--off-white);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--off-white);
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+        
+        .logo::after {
+            content: '.';
+            color: var(--amber);
+        }
+        
+        .nav-cta {
+            background: var(--charcoal);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s;
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1 span {
+            color: var(--amber);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--charcoal);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+        
+        .hero-cta:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Problem Section */
+        .section {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .section-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        
+        .section h2 {
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .stat {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray-100);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--amber);
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray-600);
+            margin-top: 0.5rem;
+        }
+        
+        /* Feature Demo */
+        .demo-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 1px solid var(--gray-100);
+        }
+        
+        .demo-message {
+            background: var(--gray-100);
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .demo-response {
+            padding: 1rem 0;
+        }
+        
+        .confidence-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1rem;
+        }
+        
+        .confidence-high {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--green);
+        }
+        
+        .confidence-medium {
+            background: rgba(234, 179, 8, 0.1);
+            color: var(--yellow);
+        }
+        
+        .confidence-pushback {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--red);
+        }
+        
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature {
+            padding: 1.5rem;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: var(--charcoal);
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+            margin-top: 4rem;
+        }
+        
+        .cta-section h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            color: var(--gray-400);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .waitlist-form {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .waitlist-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .waitlist-form button {
+            background: var(--amber);
+            color: var(--charcoal);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .waitlist-form button:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 640px) {
+            .hero {
+                padding: 5rem 1.5rem 3rem;
+            }
+            
+            .section {
+                padding: 4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo">blunt</a>
+        <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+    </nav>
+    
+    <section class="hero">
+        <h1>In a world of agreeable AI,<br><span>Blunt disagrees.</span></h1>
+        <p class="hero-subtitle">The AI that shows you what it doesn't know. Every. Single. Time.</p>
+        <a href="#waitlist" class="hero-cta">
+            Get Early Access →
+        </a>
+    </section>
+    
+    <section class="section">
+        <span class="section-label">The Problem</span>
+        <h2>Today's AI has a sycophancy problem.</h2>
+        <p style="color: var(--gray-600); font-size: 1.1rem; max-width: 600px;">
+            They're designed to make you feel smart, not to make you smarter. They agree with you even when you're wrong.
+        </p>
+        
+        <div class="stats-grid">
+            <div class="stat">
+                <div class="stat-number">58%</div>
+                <div class="stat-label">ChatGPT agrees with users — even when they're wrong</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">60%</div>
+                <div class="stat-label">Claude's agreement rate on subjective claims</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">82%</div>
+                <div class="stat-label">of users are skeptical of AI accuracy</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <span class="section-label">The Solution</span>
+        <h2>AI that's honest about what it knows.</h2>
+        
+        <div class="demo-container">
+            <div class="demo-message">
+                "What's the capital of France?"
+            </div>
+            <div class="demo-response">
+                <p>Paris.</p>
+                <div class="confidence-pill confidence-high">
+                    🟢 HIGH — Sources verified
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-container">
+            <div class="demo-message">
+                "What's the best programming language?"
+            </div>
+            <div class="demo-response">
+                <p>It depends on your use case. For web development, JavaScript. For data science, Python. For systems programming, Rust.</p>
+                <div class="confidence-pill confidence-medium">
+                    🟡 MEDIUM — Opinion territory
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-container">
+            <div class="demo-message">
+                "Crypto is definitely going to $1M by 2027."
+            </div>
+            <div class="demo-response">
+                <p><strong>I disagree.</strong></p>
+                <p style="margin-top: 0.5rem;">Predicting specific price points in volatile markets is speculation, not analysis. No reliable model supports this target.</p>
+                <div class="confidence-pill confidence-pushback">
+                    🔴 PUSHBACK — I disagree
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <span class="section-label">Features</span>
+        <h2>Honesty, built in.</h2>
+        
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">🟢🟡🔴</div>
+                <h3>Visible Confidence</h3>
+                <p>Every response shows how certain we are. High, medium, or low — you always know.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📚</div>
+                <h3>Sources First</h3>
+                <p>Factual claims come with citations. No source, no claim.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🚫</div>
+                <h3>Anti-Sycophancy</h3>
+                <p>We disagree when you're wrong. Because the truth is more valuable than your feelings.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">❓</div>
+                <h3>"I Don't Know"</h3>
+                <p>We say it often. Uncertainty is information, not failure.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-section" id="waitlist">
+        <h2>The AI that won't pretend.</h2>
+        <p>Join the waitlist for early access.</p>
+        <form class="waitlist-form" action="#" method="post">
+            <input type="email" placeholder="your@email.com" required>
+            <button type="submit">Join Waitlist</button>
+        </form>
+    </section>
+    
+    <footer>
+        <p>© 2026 Blunt. An experiment in honest AI.</p>
+        <p style="margin-top: 0.5rem;">beblunt.ai</p>
+    </footer>
+</body>
+</html>

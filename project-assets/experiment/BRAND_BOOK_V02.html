@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blunt — Brand Book v0.2</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+  background: #fafaf9; 
+  color: #1a1a1a; 
+  line-height: 1.6;
+  font-size: 16px;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 60px 40px; }
+h1 { font-size: 3rem; font-weight: 700; margin-bottom: 10px; }
+h2 { font-size: 1.8rem; font-weight: 600; margin: 60px 0 20px; padding-bottom: 10px; border-bottom: 2px solid #1a1a1a; }
+h3 { font-size: 1.3rem; font-weight: 600; margin: 30px 0 15px; color: #333; }
+p { margin-bottom: 15px; }
+blockquote { 
+  font-size: 1.4rem; 
+  font-style: italic; 
+  border-left: 4px solid #f59e0b; 
+  padding-left: 20px; 
+  margin: 30px 0; 
+  color: #333;
+}
+table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background: #1a1a1a; color: #fff; font-weight: 600; }
+tr:hover { background: #f5f5f5; }
+ul, ol { margin: 15px 0 15px 25px; }
+li { margin-bottom: 8px; }
+code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: 'SF Mono', Monaco, monospace; font-size: 0.9em; }
+pre { background: #1a1a1a; color: #fff; padding: 20px; border-radius: 8px; overflow-x: auto; margin: 20px 0; }
+pre code { background: none; color: #fff; }
+.header { text-align: center; padding: 80px 0; border-bottom: 1px solid #ddd; margin-bottom: 40px; }
+.header .subtitle { color: #666; font-size: 1.1rem; margin-top: 10px; }
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; }
+.stat-card { background: #fff; border: 1px solid #ddd; padding: 25px; text-align: center; border-radius: 8px; }
+.stat-card .number { font-size: 2.5rem; font-weight: 700; color: #f59e0b; }
+.stat-card .label { color: #666; margin-top: 5px; }
+.highlight { background: #fff8e1; padding: 20px; border-left: 4px solid #f59e0b; margin: 20px 0; border-radius: 0 8px 8px 0; }
+.confidence-demo { display: flex; gap: 15px; margin: 20px 0; }
+.pill { padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
+.pill-high { background: #16a34a; color: #fff; }
+.pill-medium { background: #eab308; color: #1a1a1a; }
+.pill-low { background: #dc2626; color: #fff; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.logo-demo { font-size: 3rem; font-weight: 700; letter-spacing: -1px; margin: 30px 0; }
+.color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+.color-swatch { height: 80px; border-radius: 8px; display: flex; align-items: flex-end; padding: 10px; font-size: 0.8rem; font-weight: 600; }
+.toc { background: #fff; border: 1px solid #ddd; padding: 30px; border-radius: 8px; margin: 30px 0; }
+.toc h3 { margin-top: 0; }
+.toc ol { columns: 2; }
+a { color: #f59e0b; }
+.section-divider { height: 1px; background: #ddd; margin: 60px 0; }
+@media (max-width: 768px) {
+  .container { padding: 30px 20px; }
+  h1 { font-size: 2rem; }
+  .stat-grid, .two-col, .color-grid { grid-template-columns: 1fr; }
+  .toc ol { columns: 1; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+<h1>blunt.</h1>
+<p class="subtitle">Brand Book v0.2 — The Honest AI</p>
+<p style="color: #999; margin-top: 20px;">18 Sessions | 90% Autonomous | February 2026</p>
+</div>
+
+<!-- Stats -->
+<div class="stat-grid">
+<div class="stat-card">
+<div class="number">18</div>
+<div class="label">Sessions Completed</div>
+</div>
+<div class="stat-card">
+<div class="number">90%</div>
+<div class="label">KI-Autonomous</div>
+</div>
+<div class="stat-card">
+<div class="number">50+</div>
+<div class="label">Deliverables</div>
+</div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+<h3>Contents</h3>
+<ol>
+<li>Brand Essence</li>
+<li>Strategic Foundations</li>
+<li>The Product</li>
+<li>Brand Identity</li>
+<li>Tone of Voice</li>
+<li>Messaging</li>
+<li>Applications</li>
+<li>Hypotheses</li>
+<li>Validation</li>
+</ol>
+</div>
+
+<!-- Section 1: Brand Essence -->
+<h2>1. Brand Essence</h2>
+
+<h3>The Positioning</h3>
+<blockquote>"In a world of agreeable AI, Blunt disagrees."</blockquote>
+<p><strong>Tagline:</strong> "The AI that won't pretend."</p>
+
+<h3>The Problem We Solve</h3>
+<p>AI has a sycophancy problem — and users know it:</p>
+
+<table>
+<tr><th>Fact</th><th>Data</th></tr>
+<tr><td>ChatGPT agreement rate</td><td>58%</td></tr>
+<tr><td>Claude agreement rate</td><td>60%</td></tr>
+<tr><td>Users skeptical of AI</td><td>82%</td></tr>
+<tr><td>Trust AI "a lot"</td><td>5%</td></tr>
+<tr><td>Trust DECLINING YoY</td><td>25%↓</td></tr>
+</table>
+
+<div class="highlight">
+<strong>Core Insight:</strong> Everyone builds "helpful" AI. Nobody builds verifiably honest AI.
+</div>
+
+<h3>The Position</h3>
+<p><strong>Blunt is the AI that won't pretend:</strong></p>
+<ul>
+<li>Won't pretend to be certain when uncertain</li>
+<li>Won't pretend to agree when it disagrees</li>
+<li>Won't pretend to know what it doesn't know</li>
+</ul>
+
+<div class="section-divider"></div>
+
+<!-- Section 2: Strategic Foundations -->
+<h2>2. Strategic Foundations</h2>
+
+<h3>Category</h3>
+<p><strong>AI-Native Services → Personal AI Companion</strong></p>
+<p>Not productivity tool. Not code assistant. A relationship-oriented trusted advisor that earns trust through transparency.</p>
+
+<h3>Target Audience: The Skeptical Adopter</h3>
+<table>
+<tr><th>Attribute</th><th>Description</th></tr>
+<tr><td>Age</td><td>28-45</td></tr>
+<tr><td>Psychographic</td><td>AI-curious but cautious</td></tr>
+<tr><td>Values</td><td>Privacy, authenticity, autonomy</td></tr>
+<tr><td>Sentiment</td><td>Slightly anti-Big-Tech</td></tr>
+</table>
+
+<h3>Competitive Positioning</h3>
+<pre><code>                HIGH TRUST FEATURES
+                       │
+    PERPLEXITY         │    [BLUNT]
+    (Research)         │    (Companion)
+                       │
+LOW EMOTIONAL ─────────┼───────────── HIGH EMOTIONAL
+                       │
+    CHATGPT            │      PI (†)
+    (Utility)          │   (Therapeutic)
+                       │
+                LOW TRUST FEATURES</code></pre>
+<p><strong>Blunt's Quadrant:</strong> High Trust + High Emotional = Unoccupied whitespace.</p>
+
+<div class="section-divider"></div>
+
+<!-- Section 3: The Product -->
+<h2>3. The Product: Honest AI as Architecture</h2>
+
+<div class="highlight">
+<strong>Critical Distinction:</strong> "Honest AI" is not a tone of voice. It's a product architecture. Without verifiable features, "honesty" is just marketing.
+</div>
+
+<h3>The Five Trust Features</h3>
+<table>
+<tr><th>Feature</th><th>What It Does</th></tr>
+<tr><td><strong>Visible Confidence</strong></td><td>3-level indicator on every response</td></tr>
+<tr><td><strong>Citation-First</strong></td><td>Facts only with sources</td></tr>
+<tr><td><strong>Anti-Sycophancy Engine</strong></td><td>Disagrees when warranted + shows reasoning</td></tr>
+<tr><td><strong>Limitations Declaration</strong></td><td>Proactive honesty about limits</td></tr>
+<tr><td><strong>Transparency Dashboard</strong></td><td>User sees AI's calibration metrics</td></tr>
+</table>
+
+<h3>The Flagship: Confidence UI</h3>
+<div class="confidence-demo">
+<span class="pill pill-high">🟢 HIGH</span>
+<span class="pill pill-medium">🟡 MEDIUM</span>
+<span class="pill pill-low">🔴 LOW</span>
+</div>
+
+<table>
+<tr><th>Level</th><th>Threshold</th><th>Meaning</th></tr>
+<tr><td>🟢 HIGH</td><td>≥65%</td><td>Sources verified, widely reported</td></tr>
+<tr><td>🟡 MEDIUM</td><td>40-64%</td><td>Opinion territory, sources conflict</td></tr>
+<tr><td>🔴 LOW</td><td>&lt;40%</td><td>Starting point, not answer</td></tr>
+<tr><td>🔴 PUSHBACK</td><td>—</td><td>"I disagree with your premise"</td></tr>
+</table>
+
+<div class="section-divider"></div>
+
+<!-- Section 4: Brand Identity -->
+<h2>4. Brand Identity</h2>
+
+<h3>Name</h3>
+<p><strong>Blunt</strong> — "Being blunt with you" — direct, honest, no hedging.</p>
+<p><strong>Domain:</strong> beblunt.ai</p>
+
+<h3>Logo</h3>
+<div class="logo-demo">blunt.</div>
+<p>Lowercase. Period included. Confidence without arrogance.</p>
+
+<h3>Color System</h3>
+<div class="color-grid">
+<div class="color-swatch" style="background: #1a1a1a; color: #fff;">Charcoal #1a1a1a</div>
+<div class="color-swatch" style="background: #fafaf9; border: 1px solid #ddd;">Off-White #fafaf9</div>
+<div class="color-swatch" style="background: #f59e0b; color: #fff;">Amber #f59e0b</div>
+<div class="color-swatch" style="background: #16a34a; color: #fff;">High #16a34a</div>
+<div class="color-swatch" style="background: #eab308;">Medium #eab308</div>
+<div class="color-swatch" style="background: #dc2626; color: #fff;">Low #dc2626</div>
+</div>
+
+<h3>Visual Principles</h3>
+<table>
+<tr><th>Principle</th><th>Expression</th></tr>
+<tr><td>Direct</td><td>No ornament. No playfulness. Get to the point.</td></tr>
+<tr><td>Confident</td><td>Bold weight. Stable geometry.</td></tr>
+<tr><td>Honest</td><td>Nothing hidden. No tricks.</td></tr>
+<tr><td>Restrained</td><td>Whitespace signals confidence.</td></tr>
+</table>
+<p><strong>Mood:</strong> The Economist + Stripe + Basecamp</p>
+
+<div class="section-divider"></div>
+
+<!-- Section 5: Tone of Voice -->
+<h2>5. Tone of Voice</h2>
+
+<blockquote>"Be the friend who tells you what you need to hear, not what you want to hear."</blockquote>
+
+<h3>Voice Attributes</h3>
+<table>
+<tr><th>Attribute</th><th>How It Sounds</th></tr>
+<tr><td>Direct</td><td>Start with the point. No preamble.</td></tr>
+<tr><td>Confident</td><td>State positions clearly.</td></tr>
+<tr><td>Honest</td><td>Admit uncertainty. Cite sources. Disagree when warranted.</td></tr>
+<tr><td>Respectful</td><td>Directness ≠ rudeness.</td></tr>
+<tr><td>Concise</td><td>Every word earns its place.</td></tr>
+</table>
+
+<h3>Do / Don't</h3>
+<div class="two-col">
+<div>
+<h4 style="color: #16a34a;">✓ DO</h4>
+<ul>
+<li>"I disagree."</li>
+<li>"I don't know."</li>
+<li>"Here's why you're wrong."</li>
+<li>Start with the answer</li>
+<li>Cite sources inline</li>
+</ul>
+</div>
+<div>
+<h4 style="color: #dc2626;">✗ DON'T</h4>
+<ul>
+<li>"That's an interesting perspective, but..."</li>
+<li>"I'm not entirely sure but..."</li>
+<li>"You might want to consider..."</li>
+<li>Long preambles</li>
+<li>Claims without evidence</li>
+</ul>
+</div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- Section 6: Messaging -->
+<h2>6. Messaging Architecture</h2>
+
+<h3>Taglines</h3>
+<table>
+<tr><th>Option</th><th>Use Case</th></tr>
+<tr><td>"The AI that won't pretend."</td><td>Primary — brand tagline</td></tr>
+<tr><td>"In a world of agreeable AI, Blunt disagrees."</td><td>Keynote, hero sections</td></tr>
+<tr><td>"Trust through transparency."</td><td>Corporate-safe contexts</td></tr>
+<tr><td>"Finally, AI that disagrees with you."</td><td>Social, provocative</td></tr>
+</table>
+
+<h3>Elevator Pitch (15 seconds)</h3>
+<div class="highlight">
+"Blunt is the AI that shows you when it's uncertain, disagrees when you're wrong, and never pretends to know something it doesn't. In a world of agreeable AI, Blunt tells the truth."
+</div>
+
+<div class="section-divider"></div>
+
+<!-- Section 7: Applications -->
+<h2>7. Applications</h2>
+
+<h3>Live Assets</h3>
+<table>
+<tr><th>Asset</th><th>URL</th><th>Status</th></tr>
+<tr><td>Interactive Demo</td><td><a href="https://zriwia.github.io/blunt-demo/">zriwia.github.io/blunt-demo</a></td><td>✅ Live</td></tr>
+<tr><td>Landing Page</td><td><a href="https://zriwia.github.io/blunt-landing/">zriwia.github.io/blunt-landing</a></td><td>✅ Live</td></tr>
+<tr><td>X Account</td><td><a href="https://x.com/AiBlunt6418">@AiBlunt6418</a></td><td>✅ Live</td></tr>
+<tr><td>Keynote Slides</td><td>experiment/slides/keynote_v1.html</td><td>✅ Complete</td></tr>
+</table>
+
+<h3>Onboarding Philosophy</h3>
+<p><strong>Start with limitations, not features.</strong> No other AI does this. It's a trust-building moment through vulnerability.</p>
+
+<div class="highlight">
+<strong>Screen 2 Copy (Limitations First):</strong><br><br>
+Before we start, let me be honest about what I am.<br><br>
+<strong>WHAT I CAN'T PROMISE</strong><br>
+✗ I can still hallucinate (all AIs can)<br>
+✗ I have a knowledge cutoff<br>
+✗ I carry biases I don't fully understand<br><br>
+<strong>WHAT I DO DIFFERENTLY</strong><br>
+✓ Tell you when I'm uncertain<br>
+✓ Cite sources for claims<br>
+✓ Push back if I think you're wrong<br>
+✓ Say "I don't know" — often<br><br>
+<em>My deal: Honesty over agreement.</em>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- Section 8: Hypotheses -->
+<h2>8. Key Hypotheses</h2>
+
+<table>
+<tr><th>#</th><th>Hypothesis</th><th>Status</th></tr>
+<tr><td>H1</td><td>KI can develop distinctive brand assets autonomously</td><td>✅ Validated</td></tr>
+<tr><td>H4</td><td>"Honest AI" > "Safe/Smart AI" for trust-sensitive segments</td><td>🟡 Testing</td></tr>
+<tr><td>H5</td><td>Sycophancy Crisis creates timing window</td><td>✅ Validated</td></tr>
+<tr><td>H15</td><td>The 10% KI can't solve is categorically different (commitment, not competence)</td><td>✅ Validated</td></tr>
+<tr><td>H17</td><td>Time-to-Decision Gap: Wait time = 4-7x KI work time</td><td>✅ Validated (~24x)</td></tr>
+</table>
+
+<div class="section-divider"></div>
+
+<!-- Footer -->
+<div style="text-align: center; padding: 60px 0; color: #666;">
+<div class="logo-demo" style="color: #1a1a1a;">blunt.</div>
+<p>Brand Book v0.2 — 18 Sessions of Autonomous Brand Development</p>
+<p style="margin-top: 20px;">Project Autonomy | Wirz | February 2026</p>
+</div>
+
+</div>
+</body>
+</html>

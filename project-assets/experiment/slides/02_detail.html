@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KI-Brand-Experiment — Projektübersicht</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fafafa;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 50px 70px;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            line-height: 1.1;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #888;
+        }
+        
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+            max-width: 900px;
+        }
+        
+        .lead {
+            font-size: 1.5rem;
+            color: #888;
+        }
+        
+        blockquote {
+            font-size: 1.6rem;
+            font-style: italic;
+            border-left: 4px solid #fff;
+            padding-left: 25px;
+            margin: 1.5rem 0;
+            max-width: 800px;
+        }
+        
+        ul {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-left: 1.5rem;
+        }
+        
+        table {
+            font-size: 1rem;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 10px 18px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        
+        th {
+            color: #888;
+            font-weight: 600;
+        }
+        
+        .tldr {
+            background: #111;
+            border: 1px solid #333;
+            padding: 25px 35px;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .tldr ul {
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        
+        .brand {
+            position: fixed;
+            bottom: 25px;
+            left: 35px;
+            font-size: 0.85rem;
+            color: #444;
+        }
+        
+        .progress {
+            position: fixed;
+            bottom: 25px;
+            right: 35px;
+            font-size: 0.85rem;
+            color: #444;
+        }
+        
+        .nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav button {
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        .nav button:hover {
+            background: #333;
+        }
+        
+        .nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 1.5rem;
+        }
+        
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            margin-top: 1.5rem;
+        }
+        
+        .four-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+        
+        .accent {
+            color: #4ade80;
+        }
+        
+        .warn {
+            color: #f97316;
+        }
+        
+        .dim {
+            color: #666;
+        }
+        
+        .center {
+            text-align: center;
+            align-items: center;
+        }
+        
+        .big {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        
+        .section-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+        }
+        
+        .box {
+            background: #151515;
+            border: 1px solid #333;
+            padding: 18px;
+            border-radius: 6px;
+        }
+        
+        .box.highlight {
+            border-color: #4ade80;
+        }
+        
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
+        
+        .phase-box {
+            background: #151515;
+            border: 1px solid #333;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .phase-box h4 {
+            font-size: 0.85rem;
+            color: #4ade80;
+            margin-bottom: 6px;
+        }
+        
+        .phase-box p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .timeline {
+            display: flex;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #333;
+        }
+        
+        .timeline-item {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            background: #4ade80;
+            border-radius: 50%;
+            margin: 14px auto;
+        }
+        
+        .timeline-label {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .timeline-content {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .role-card {
+            background: #151515;
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .role-card h4 {
+            font-size: 1rem;
+            color: #4ade80;
+            margin-bottom: 5px;
+        }
+        
+        .role-card .name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .role-card .effort {
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        .role-card ul {
+            font-size: 0.95rem;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 0: Title -->
+<div class="slide active">
+    <h2>WIRZ — Projektübersicht 2026</h2>
+    <h1>Kann KI eine Marke bauen?</h1>
+    <p class="lead">Ein Experiment für die Keynote Juni 2026</p>
+</div>
+
+<!-- SLIDE 1: TL;DR -->
+<div class="slide">
+    <h1>TL;DR</h1>
+    <div class="tldr">
+        <ul>
+            <li><strong>Vision:</strong> Zeigen, was KI bei Markenentwicklung kann — und was im Dialog mit Menschen entsteht</li>
+            <li><strong>Experiment:</strong> Zwei Marken bauen — Case 1 KI autonom, Case 2 Wirz + KI kollaborativ</li>
+            <li><strong>Output:</strong> Zwei vollständige Markenidentitäten als Keynote-Material</li>
+            <li><strong>Timeline:</strong> 10 Wochen (März – Mai 2026), Keynote Juni 2026</li>
+            <li><strong>Team:</strong> Cross-funktional (Strategie, Creative, Design, Tech) — ca. 80–120h Gesamtaufwand</li>
+            <li><strong>Budget:</strong> CHF 3'000 – 5'000 (Tools, Assets, Dienstleister)</li>
+            <li><strong>Ziel:</strong> Thought Leadership + Proof of Capability für Wirz</li>
+        </ul>
+    </div>
+</div>
+
+<!-- SLIDE 2: Agenda -->
+<div class="slide">
+    <h1>Agenda</h1>
+    <div class="two-col">
+        <div>
+            <ul>
+                <li>Vision & Purpose</li>
+                <li>Die zentrale Frage</li>
+                <li>Kontext & Research</li>
+                <li>Das Experiment</li>
+                <li>Hypothesen</li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li>Roadmap & Phasen</li>
+                <li>Team & Skills</li>
+                <li>Investment</li>
+                <li>Risiken</li>
+                <li>Nächste Schritte</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION: VISION -->
+
+<!-- SLIDE 3 -->
+<div class="slide">
+    <p class="section-label">Vision & Purpose</p>
+    <h1>Warum dieses Projekt?</h1>
+    <div class="two-col">
+        <div>
+            <h3>Die Debatte</h3>
+            <p>Die Branche diskutiert endlos über KI — Hype vs. Skepsis, Chancen vs. Risiken.</p>
+            <p class="dim">Aber: Kaum jemand zeigt echte Daten.</p>
+        </div>
+        <div>
+            <h3 class="accent">Unsere Antwort</h3>
+            <p>Wirz redet nicht nur — Wirz macht.</p>
+            <p>Ein echtes Experiment mit echten Ergebnissen.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide">
+    <p class="section-label">Vision & Purpose</p>
+    <h1>Was wir erreichen wollen</h1>
+    <ul>
+        <li><strong>Thought Leadership:</strong> Wirz positioniert sich als Vorreiter bei KI + Kreativität</li>
+        <li><strong>Proof of Capability:</strong> Zeigen, dass wir nicht nur reden, sondern können</li>
+        <li><strong>Internes Learning:</strong> Erfahrung sammeln für KI-Integration in Kundenprojekte</li>
+        <li><strong>Keynote-Material:</strong> Packende Story mit echten Artefakten für Juni 2026</li>
+    </ul>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide">
+    <p class="section-label">Vision & Purpose</p>
+    <h1>Wirz-Fit</h1>
+    <table>
+        <tr>
+            <th>Wirz-Claim</th>
+            <th>Das Experiment</th>
+        </tr>
+        <tr>
+            <td>"Creativity drives growth"</td>
+            <td>Wir beweisen es live — mit KI als Partner</td>
+        </tr>
+        <tr>
+            <td>Brand Capital Expertise</td>
+            <td>Wir testen unsere Kernkompetenz unter neuen Bedingungen</td>
+        </tr>
+        <tr>
+            <td>Magic + Intelligence</td>
+            <td>Wir zeigen, was im Dialog zwischen Mensch und Maschine entsteht</td>
+        </tr>
+        <tr>
+            <td>Creative Technology (offene Rolle)</td>
+            <td>Wir warten nicht auf einen Hire — wir machen</td>
+        </tr>
+    </table>
+</div>
+
+<!-- SECTION: DIE FRAGE -->
+
+<!-- SLIDE 6 -->
+<div class="slide">
+    <p class="section-label">Die zentrale Frage</p>
+    <h1>Kann KI eine Marke bauen?</h1>
+    <blockquote>
+        Kann KI autonom eine Marke aufbauen, die echtes Wachstum erzeugt – und was passiert, wenn ein Mensch dazukommt?
+    </blockquote>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide">
+    <p class="section-label">Die zentrale Frage</p>
+    <h1>Warum "Marke"?</h1>
+    <p>"Kann KI ein Business bauen?" — das glauben mittlerweile viele.</p>
+    <p>"Kann KI eine <strong>Marke</strong> bauen?" — das trifft einen Nerv.</p>
+    <div class="box" style="margin-top: 1.5rem; max-width: 700px;">
+        <p>Marken sind <strong>emotional</strong>. <strong>Kulturell</strong>. <strong>Menschlich</strong>.</p>
+        <p class="accent">Das ist die Domäne, wo man KI am wenigsten zutraut — und wo ein Unterschied am deutlichsten sichtbar wird.</p>
+    </div>
+</div>
+
+<!-- SECTION: KONTEXT -->
+
+<!-- SLIDE 8 -->
+<div class="slide">
+    <p class="section-label">Kontext & Research</p>
+    <h1>Was wir wissen</h1>
+    <div class="two-col">
+        <div>
+            <h3 class="accent">Belegt</h3>
+            <ul>
+                <li>KI kann Geschäftsentscheidungen treffen (Project Vend)</li>
+                <li>Grundlegende Profitabilität ist erreichbar</li>
+                <li>Tools und Infrastruktur existieren</li>
+                <li>52% Augmentation, 45% Automation (Anthropic Index)</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Offen</h3>
+            <ul>
+                <li>Wie gut funktioniert das bei Markenentwicklung?</li>
+                <li>Was genau bringt der Mensch ein?</li>
+                <li>Wo sind die echten Grenzen?</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide">
+    <p class="section-label">Kontext & Research</p>
+    <h1>Project Vend (Anthropic)</h1>
+    <p>Claude betreibt einen echten Shop. Das Learning:</p>
+    <blockquote style="font-size: 1.4rem;">
+        "The gap between 'capable' and 'completely robust' remains wide."
+    </blockquote>
+    <div class="two-col" style="margin-top: 1.5rem;">
+        <div class="box">
+            <h3 class="accent">Funktionierte</h3>
+            <p>Autonome Entscheidungen, grundlegende Profitabilität, kreative Problemlösung</p>
+        </div>
+        <div class="box">
+            <h3 class="warn">Schiefgegangen</h3>
+            <p>Verkauf unter Einkaufspreis, illegale Futures, Identitätskrise</p>
+        </div>
+    </div>
+    <p class="dim" style="margin-top: 1rem;">Die skurrilen Failures sind lehrreicher als perfekte Erfolge.</p>
+</div>
+
+<!-- SECTION: DAS EXPERIMENT -->
+
+<!-- SLIDE 10 -->
+<div class="slide">
+    <p class="section-label">Das Experiment</p>
+    <h1>Das Setup</h1>
+    <p>Zwei Marken. Gleiche Kategorie. Unterschiedlicher Prozess.</p>
+    <div class="two-col" style="margin-top: 1.5rem;">
+        <div class="box">
+            <h3>Case 1: Autonomie</h3>
+            <p><strong>KI entscheidet alles</strong></p>
+            <p class="dim">Wirz dokumentiert & führt aus (Zahlungen, Accounts)</p>
+            <p class="dim">Kein inhaltliches Eingreifen</p>
+            <p style="margin-top: 1rem;"><em>Zeigt: Was kann KI alleine?</em></p>
+        </div>
+        <div class="box highlight">
+            <h3>Case 2: Kollaboration</h3>
+            <p><strong>Wirz + KI gemeinsam</strong></p>
+            <p class="dim">Dialog, Iteration, gemeinsame Kuration</p>
+            <p class="dim">Wirz gibt Richtung, challenged, entscheidet mit</p>
+            <p style="margin-top: 1rem;"><em>Zeigt: Was entsteht im Dialog?</em></p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11 -->
+<div class="slide">
+    <p class="section-label">Das Experiment</p>
+    <h1>Was entsteht (pro Case)</h1>
+    <div class="three-col">
+        <div class="box">
+            <h3>Strategie</h3>
+            <ul>
+                <li>Marktanalyse</li>
+                <li>Zielgruppen-Definition</li>
+                <li>Positionierung</li>
+                <li>Value Proposition</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Identität</h3>
+            <ul>
+                <li>Naming</li>
+                <li>Messaging Framework</li>
+                <li>Visual Identity</li>
+                <li>Tone of Voice</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Anwendung</h3>
+            <ul>
+                <li>Brand Guidelines</li>
+                <li>Landing Page</li>
+                <li>Social Mockups</li>
+                <li>Ad-Konzepte</li>
+            </ul>
+        </div>
+    </div>
+    <p style="margin-top: 1.5rem;" class="accent">→ Zwei vollständige, präsentierbare Marken</p>
+</div>
+
+<!-- SLIDE 12 -->
+<div class="slide">
+    <p class="section-label">Das Experiment</p>
+    <h1>Hypothesen</h1>
+    <div class="three-col">
+        <div class="box">
+            <h3 class="accent">1. Autonomie</h3>
+            <p>KI kann eine funktionsfähige Marke entwickeln — mit Positionierung, Identität und Auftritt.</p>
+        </div>
+        <div class="box">
+            <h3 class="accent">2. Kollaboration</h3>
+            <p>Mensch + KI erzeugt mehr Tiefe, kulturelle Resonanz und Differenzierung.</p>
+        </div>
+        <div class="box">
+            <h3 class="accent">3. Zukunft</h3>
+            <p>Die Fähigkeit, Mensch und KI zu orchestrieren, wird entscheidend.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 13 -->
+<div class="slide">
+    <p class="section-label">Das Experiment</p>
+    <h1>Bewertungskriterien</h1>
+    <table>
+        <tr>
+            <th>Kriterium</th>
+            <th>Frage</th>
+        </tr>
+        <tr>
+            <td>Strategische Klarheit</td>
+            <td>Wofür steht die Marke? Ist die Positionierung scharf?</td>
+        </tr>
+        <tr>
+            <td>Differenzierung</td>
+            <td>Hebt sie sich ab? Oder könnte das jede Marke sein?</td>
+        </tr>
+        <tr>
+            <td>Kreative Qualität</td>
+            <td>Überrascht sie? Hat sie eine eigene Stimme?</td>
+        </tr>
+        <tr>
+            <td>Kohärenz</td>
+            <td>Passt alles zusammen? Marke aus einem Guss?</td>
+        </tr>
+        <tr>
+            <td>Kulturelle Resonanz</td>
+            <td>Fühlt sie sich relevant an? Trifft sie einen Nerv?</td>
+        </tr>
+    </table>
+    <p class="dim" style="margin-top: 1rem;">Plus: Dokumentierte Entscheidungspfade, Überraschungen, Learnings</p>
+</div>
+
+<!-- SECTION: ROADMAP -->
+
+<!-- SLIDE 14 -->
+<div class="slide">
+    <p class="section-label">Roadmap</p>
+    <h1>Timeline Überblick</h1>
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-label">März</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">Setup &<br>Discovery</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-label">April</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">Identität &<br>Anwendung</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-label">Mai</div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">Finalisierung &<br>Doku</div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-label">Juni</div>
+            <div class="timeline-dot" style="background: #fff;"></div>
+            <div class="timeline-content"><strong>Keynote</strong></div>
+        </div>
+    </div>
+    <p class="dim">10 Wochen Kernprojekt + 2-4 Wochen Puffer vor Keynote</p>
+</div>
+
+<!-- SLIDE 15 -->
+<div class="slide">
+    <p class="section-label">Roadmap</p>
+    <h1>Die Phasen</h1>
+    <div class="phase-grid">
+        <div class="phase-box">
+            <h4>Phase 0</h4>
+            <p><strong>Setup</strong></p>
+            <p class="dim">Woche 1</p>
+        </div>
+        <div class="phase-box">
+            <h4>Phase 1</h4>
+            <p><strong>Discovery</strong></p>
+            <p class="dim">Woche 2–3</p>
+        </div>
+        <div class="phase-box">
+            <h4>Phase 2</h4>
+            <p><strong>Identität</strong></p>
+            <p class="dim">Woche 4–5</p>
+        </div>
+        <div class="phase-box">
+            <h4>Phase 3</h4>
+            <p><strong>Anwendung</strong></p>
+            <p class="dim">Woche 6–8</p>
+        </div>
+        <div class="phase-box">
+            <h4>Phase 4</h4>
+            <p><strong>Doku</strong></p>
+            <p class="dim">Woche 9–10</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 16 -->
+<div class="slide">
+    <p class="section-label">Roadmap</p>
+    <h1>Phase 0: Setup</h1>
+    <p><strong>Dauer:</strong> 1 Woche &nbsp;|&nbsp; <strong>Aufwand:</strong> ~8h Team</p>
+    <table style="margin-top: 1rem;">
+        <tr>
+            <th>Action</th>
+            <th>Owner</th>
+            <th>Output</th>
+        </tr>
+        <tr>
+            <td>Kategorie festlegen</td>
+            <td>Strategie + Creative</td>
+            <td>Entschiedene Kategorie</td>
+        </tr>
+        <tr>
+            <td>Spielregeln Case 1 definieren</td>
+            <td>Projektleitung</td>
+            <td>Autonomie-Regeln dokumentiert</td>
+        </tr>
+        <tr>
+            <td>Tool-Zugänge einrichten</td>
+            <td>Tech/Ops</td>
+            <td>KI-Agent, Design-Tools, Domains</td>
+        </tr>
+        <tr>
+            <td>Dokumentations-Setup</td>
+            <td>Projektleitung + KI</td>
+            <td>Logging-Struktur, Templates</td>
+        </tr>
+    </table>
+    <p class="accent" style="margin-top: 1rem;">→ Kick-off, beide Cases starten parallel</p>
+</div>
+
+<!-- SLIDE 17 -->
+<div class="slide">
+    <p class="section-label">Roadmap</p>
+    <h1>Phase 1: Discovery & Positionierung</h1>
+    <p><strong>Dauer:</strong> 2 Wochen &nbsp;|&nbsp; <strong>Aufwand:</strong> ~20h Team</p>
+    <table style="margin-top: 1rem;">
+        <tr>
+            <th>Action</th>
+            <th>Case 1 (Autonomie)</th>
+            <th>Case 2 (Kollaboration)</th>
+        </tr>
+        <tr>
+            <td>Markt- & Wettbewerbsanalyse</td>
+            <td>KI autonom</td>
+            <td>KI liefert, Strategie challenged</td>
+        </tr>
+        <tr>
+            <td>Zielgruppen-Definition</td>
+            <td>KI entscheidet</td>
+            <td>Gemeinsam geschärft</td>
+        </tr>
+        <tr>
+            <td>Positionierung</td>
+            <td>KI formuliert</td>
+            <td>Iteratives Ping-Pong</td>
+        </tr>
+        <tr>
+            <td>Brand Brief</td>
+            <td>KI erstellt</td>
+            <td>Gemeinsam finalisiert</td>
+        </tr>
+    </table>
+    <p class="accent" style="margin-top: 1rem;">→ Brand Brief je Case</p>
+</div>
+
+<!-- SLIDE 18 -->
+<div class="slide">
+    <p class="section-label">Roadmap</p>
+    <h1>Phase 2: Markenidentität</h1>
+    <p><strong>Dauer:</strong> 2 Wochen &nbsp;|&nbsp; <strong>Aufwand:</strong> ~25h Team</p>
+    <table style="margin-top: 1rem;">
+        <tr>
+            <th>Action</th>
+            <th>Case 1 (Autonomie)</th>
+            <th>Case 2 (Kollaboration)</th>
+        </tr>
+        <tr>
+            <td>Naming</td>
+            <td>KI generiert + entscheidet</td>
+            <td>Longlist → Shortlist → gemeinsam</td>
+        </tr>
+        <tr>
+            <td>Visual Direction</td>
+            <td>KI wählt</td>
+            <td>Moodboards → Creative Review</td>
+        </tr>
+        <tr>
+            <td>Logo-Entwicklung</td>
+            <td>KI (AI-Tools + Vektor)</td>
+            <td>Iterative Feedback-Loops</td>
+        </tr>
+        <tr>
+            <td>Messaging & ToV</td>
+            <td>KI definiert</td>
+            <td>Gemeinsam kuratiert</td>
+        </tr>
+    </table>
+    <p class="accent" style="margin-top: 1rem;">→ Logo, Farben, Schrift, Messaging fertig</p>
+</div>
+
+<!-- SLIDE 19 -->
+<div class="slide">
+    <p class="section-label">Roadmap</p>
+    <h1>Phase 3: Anwendung & Touchpoints</h1>
+    <p><strong>Dauer:</strong> 3 Wochen &nbsp;|&nbsp; <strong>Aufwand:</strong> ~30h Team</p>
+    <table style="margin-top: 1rem;">
+        <tr>
+            <th>Action</th>
+            <th>Case 1 (Autonomie)</th>
+            <th>Case 2 (Kollaboration)</th>
+        </tr>
+        <tr>
+            <td>Landing Page</td>
+            <td>KI konzipiert + baut</td>
+            <td>Gemeinsam entwickelt</td>
+        </tr>
+        <tr>
+            <td>Copywriting</td>
+            <td>KI schreibt</td>
+            <td>Ping-Pong mit Creative</td>
+        </tr>
+        <tr>
+            <td>Social Mockups (5+)</td>
+            <td>KI erstellt</td>
+            <td>Design kuratiert</td>
+        </tr>
+        <tr>
+            <td>Ad-Konzepte</td>
+            <td>KI entwickelt</td>
+            <td>Gemeinsam selektiert</td>
+        </tr>
+    </table>
+    <p class="accent" style="margin-top: 1rem;">→ Landing Pages live, Touchpoints fertig</p>
+</div>
+
+<!-- SLIDE 20 -->
+<div class="slide">
+    <p class="section-label">Roadmap</p>
+    <h1>Phase 4: Dokumentation & Keynote-Prep</h1>
+    <p><strong>Dauer:</strong> 2 Wochen &nbsp;|&nbsp; <strong>Aufwand:</strong> ~15h Team</p>
+    <table style="margin-top: 1rem;">
+        <tr>
+            <th>Action</th>
+            <th>Owner</th>
+            <th>Output</th>
+        </tr>
+        <tr>
+            <td>Brand Guidelines finalisieren</td>
+            <td>Design + KI</td>
+            <td>PDF je Case</td>
+        </tr>
+        <tr>
+            <td>Prozess-Dokumentation</td>
+            <td>Projektleitung + KI</td>
+            <td>Entscheidungs-Timeline</td>
+        </tr>
+        <tr>
+            <td>Vergleichende Analyse</td>
+            <td>Strategie + Creative</td>
+            <td>Was ist anders? Warum?</td>
+        </tr>
+        <tr>
+            <td>Keynote-Story entwickeln</td>
+            <td>Projektleitung + Creative</td>
+            <td>Narrativer Bogen, Slides</td>
+        </tr>
+        <tr>
+            <td>Learnings destillieren</td>
+            <td>Alle</td>
+            <td>3–5 Key Takeaways</td>
+        </tr>
+    </table>
+    <p class="accent" style="margin-top: 1rem;">→ Keynote-ready</p>
+</div>
+
+<!-- SECTION: TEAM -->
+
+<!-- SLIDE 21 -->
+<div class="slide">
+    <p class="section-label">Team & Skills</p>
+    <h1>Benötigte Rollen</h1>
+    <div class="four-col">
+        <div class="role-card">
+            <h4>Projektleitung</h4>
+            <p class="dim">Steuerung, Entscheidungen, Doku</p>
+            <p class="effort">~25h</p>
+        </div>
+        <div class="role-card">
+            <h4>Strategie</h4>
+            <p class="dim">Positionierung, Brief, Review</p>
+            <p class="effort">~20h</p>
+        </div>
+        <div class="role-card">
+            <h4>Creative Direction</h4>
+            <p class="dim">Qualität, Kuration, Sparring</p>
+            <p class="effort">~15h</p>
+        </div>
+        <div class="role-card">
+            <h4>Design</h4>
+            <p class="dim">Visual, Mockups, Finalisierung</p>
+            <p class="effort">~25h</p>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top: 1rem;">
+        <div class="role-card">
+            <h4>Tech / KI-Ops</h4>
+            <p class="dim">KI-Agent Setup, Tools, Landing Pages</p>
+            <p class="effort">~15h</p>
+        </div>
+        <div class="role-card">
+            <h4>KI-Agent</h4>
+            <p class="dim">Kontinuierliche Arbeit an beiden Cases</p>
+            <p class="effort">Laufend</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 22 -->
+<div class="slide">
+    <p class="section-label">Team & Skills</p>
+    <h1>Team-Struktur (Vorschlag)</h1>
+    <table>
+        <tr>
+            <th>Rolle</th>
+            <th>Mögliche Besetzung</th>
+            <th>Aufwand</th>
+        </tr>
+        <tr>
+            <td>Projektleitung & Strategie</td>
+            <td>Florian (CSO)</td>
+            <td>~35–40h</td>
+        </tr>
+        <tr>
+            <td>Creative Direction</td>
+            <td>Livio (CCO) oder Delegate</td>
+            <td>~15h</td>
+        </tr>
+        <tr>
+            <td>Design Execution</td>
+            <td>Designer aus Team</td>
+            <td>~25h</td>
+        </tr>
+        <tr>
+            <td>Tech / KI-Ops</td>
+            <td>Intern oder extern</td>
+            <td>~15h</td>
+        </tr>
+        <tr>
+            <td>Review & Sparring</td>
+            <td>Nico, weitere</td>
+            <td>~10h</td>
+        </tr>
+        <tr>
+            <td><strong>Total Team</strong></td>
+            <td></td>
+            <td><strong>~100–120h</strong></td>
+        </tr>
+    </table>
+</div>
+
+<!-- SLIDE 23 -->
+<div class="slide">
+    <p class="section-label">Team & Skills</p>
+    <h1>Rollen in den Cases</h1>
+    <div class="two-col">
+        <div class="box">
+            <h3>Case 1: Autonomie</h3>
+            <p><strong>KI arbeitet eigenständig</strong></p>
+            <p class="dim" style="margin-top: 1rem;">Wirz-Team:</p>
+            <ul>
+                <li>Dokumentiert Prozess</li>
+                <li>Führt aus (Domains, Accounts, Zahlungen)</li>
+                <li>Greift <strong>nicht</strong> inhaltlich ein</li>
+                <li>Stellt nur Fragen zur Klärung</li>
+            </ul>
+        </div>
+        <div class="box highlight">
+            <h3>Case 2: Kollaboration</h3>
+            <p><strong>Wirz + KI als Team</strong></p>
+            <p class="dim" style="margin-top: 1rem;">Wirz-Team:</p>
+            <ul>
+                <li>Gibt strategische Richtung</li>
+                <li>Challenged Vorschläge</li>
+                <li>Kuratiert Optionen</li>
+                <li>Entscheidet gemeinsam mit KI</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION: INVESTMENT -->
+
+<!-- SLIDE 24 -->
+<div class="slide">
+    <p class="section-label">Investment</p>
+    <h1>Ressourcen-Übersicht</h1>
+    <div class="two-col">
+        <div class="box">
+            <h3>Team-Aufwand</h3>
+            <table>
+                <tr>
+                    <td>Projektleitung & Strategie</td>
+                    <td>~40h</td>
+                </tr>
+                <tr>
+                    <td>Creative Direction</td>
+                    <td>~15h</td>
+                </tr>
+                <tr>
+                    <td>Design</td>
+                    <td>~25h</td>
+                </tr>
+                <tr>
+                    <td>Tech / KI-Ops</td>
+                    <td>~15h</td>
+                </tr>
+                <tr>
+                    <td>Review & Sparring</td>
+                    <td>~10h</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>~105h</strong></td>
+                </tr>
+            </table>
+        </div>
+        <div class="box">
+            <h3>Externes Budget</h3>
+            <table>
+                <tr>
+                    <td>Domains (2x) + Hosting</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>Design-Tools & KI-Services</td>
+                    <td>800</td>
+                </tr>
+                <tr>
+                    <td>Stock / Assets</td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>No-Code Tools</td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td>Externe Dienstleister</td>
+                    <td>1'000</td>
+                </tr>
+                <tr>
+                    <td>Puffer</td>
+                    <td>700</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td><strong>~3'500 CHF</strong></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 25 -->
+<div class="slide">
+    <p class="section-label">Investment</p>
+    <h1>Optional: Market Signal</h1>
+    <p>Erweiterung um echtes Markt-Feedback (+2 Wochen, +1'500 CHF)</p>
+    <div class="two-col" style="margin-top: 1.5rem;">
+        <div class="box">
+            <h3>Was zusätzlich</h3>
+            <ul>
+                <li>Soft Launch beider Marken</li>
+                <li>Warteliste / Signup</li>
+                <li>Paid Ads (Testbudget)</li>
+                <li>Echte Reaktionen messen</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Zusätzliches Budget</h3>
+            <table>
+                <tr>
+                    <td>Paid Ads (Test)</td>
+                    <td>1'000</td>
+                </tr>
+                <tr>
+                    <td>Newsletter-Tool</td>
+                    <td>100</td>
+                </tr>
+                <tr>
+                    <td>Zusätzliche Assets</td>
+                    <td>400</td>
+                </tr>
+                <tr>
+                    <td><strong>Zusätzlich</strong></td>
+                    <td><strong>~1'500 CHF</strong></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <p class="dim" style="margin-top: 1rem;">Entscheidung nach Phase 3 möglich</p>
+</div>
+
+<!-- SECTION: RISIKEN -->
+
+<!-- SLIDE 26 -->
+<div class="slide">
+    <p class="section-label">Risiken</p>
+    <h1>Risiken & Mitigationen</h1>
+    <table>
+        <tr>
+            <th>Risiko</th>
+            <th>Wahrscheinlichkeit</th>
+            <th>Mitigation</th>
+        </tr>
+        <tr>
+            <td>Output zu generisch</td>
+            <td>Mittel</td>
+            <td>Klare Briefings, Creative Review, Iteration</td>
+        </tr>
+        <tr>
+            <td>Kein Unterschied zwischen Cases</td>
+            <td>Mittel</td>
+            <td>Prozess gut dokumentieren, Entscheidungen tracken</td>
+        </tr>
+        <tr>
+            <td>Zeitaufwand unterschätzt</td>
+            <td>Mittel</td>
+            <td>Scope klar begrenzen, Puffer einplanen</td>
+        </tr>
+        <tr>
+            <td>Team-Verfügbarkeit</td>
+            <td>Mittel</td>
+            <td>Frühzeitig blocken, Backup-Personen</td>
+        </tr>
+        <tr>
+            <td>Technische Probleme KI</td>
+            <td>Niedrig</td>
+            <td>Alternative Tools, Timeboxing</td>
+        </tr>
+    </table>
+</div>
+
+<!-- SECTION: NEXT STEPS -->
+
+<!-- SLIDE 27 -->
+<div class="slide">
+    <p class="section-label">Nächste Schritte</p>
+    <h1>Offene Entscheidungen</h1>
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Entscheidung</th>
+            <th>Empfehlung</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Go / No Go</td>
+            <td>Go</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Kategorie</td>
+            <td>Gemeinsam in Phase 0 (Vorschläge erarbeiten)</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Team-Besetzung</td>
+            <td>Rollen zuweisen</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Startdatum</td>
+            <td>März 2026</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Market Signal Option?</td>
+            <td>Nach Phase 3 entscheiden</td>
+        </tr>
+    </table>
+</div>
+
+<!-- SLIDE 28 -->
+<div class="slide">
+    <p class="section-label">Nächste Schritte</p>
+    <h1>Konkrete Actions</h1>
+    <div class="three-col">
+        <div class="box">
+            <h3 class="accent">Diese Woche</h3>
+            <ul>
+                <li>Go / No Go Entscheidung</li>
+                <li>Team-Commitment klären</li>
+                <li>Grobe Kategorie-Richtung</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Vor Start</h3>
+            <ul>
+                <li>Rollen final zuweisen</li>
+                <li>Kalender blocken</li>
+                <li>Budget freigeben</li>
+                <li>Tools vorbereiten</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Kick-off</h3>
+            <ul>
+                <li>Kategorie finalisieren</li>
+                <li>Spielregeln dokumentieren</li>
+                <li>Los.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 29: End -->
+<div class="slide center">
+    <h1>Creativity drives growth.</h1>
+    <p style="font-size: 1.4rem; margin: 2rem 0;">Wollen wir zeigen, was möglich ist?</p>
+    <p class="big accent" style="margin-top: 2rem;">→ Let's go.</p>
+</div>
+
+<div class="brand">WIRZ — Creativity drives growth</div>
+<div class="progress"><span id="current">1</span> / <span id="total">30</span></div>
+
+<div class="nav">
+    <button id="prev" onclick="prevSlide()">← Zurück</button>
+    <button id="next" onclick="nextSlide()">Weiter →</button>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    
+    document.getElementById('total').textContent = total;
+    
+    function showSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (n + total) % total;
+        slides[currentSlide].classList.add('active');
+        document.getElementById('current').textContent = currentSlide + 1;
+        document.getElementById('prev').disabled = currentSlide === 0;
+        document.getElementById('next').disabled = currentSlide === total - 1;
+    }
+    
+    function nextSlide() {
+        if (currentSlide < total - 1) showSlide(currentSlide + 1);
+    }
+    
+    function prevSlide() {
+        if (currentSlide > 0) showSlide(currentSlide - 1);
+    }
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+    });
+    
+    showSlide(0);
+</script>
+
+</body>
+</html>

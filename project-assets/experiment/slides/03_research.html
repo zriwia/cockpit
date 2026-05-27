@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KI-Agenten Research — Wirz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fafafa;
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 50px 70px;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            line-height: 1.1;
+        }
+        
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #888;
+        }
+        
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+        
+        p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+            max-width: 900px;
+        }
+        
+        .lead {
+            font-size: 1.6rem;
+            color: #888;
+        }
+        
+        blockquote {
+            font-size: 1.8rem;
+            font-style: italic;
+            border-left: 4px solid #fff;
+            padding-left: 25px;
+            margin: 1.5rem 0;
+            max-width: 800px;
+        }
+        
+        ul {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            margin-left: 1.5rem;
+        }
+        
+        table {
+            font-size: 1.1rem;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 10px 20px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+        
+        th {
+            color: #888;
+            font-weight: 600;
+        }
+        
+        .tldr {
+            background: #111;
+            border: 1px solid #333;
+            padding: 25px 35px;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .tldr ul {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .brand {
+            position: fixed;
+            bottom: 25px;
+            left: 35px;
+            font-size: 0.85rem;
+            color: #444;
+        }
+        
+        .progress {
+            position: fixed;
+            bottom: 25px;
+            right: 35px;
+            font-size: 0.85rem;
+            color: #444;
+        }
+        
+        .nav {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav button {
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        .nav button:hover {
+            background: #333;
+        }
+        
+        .nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 1.5rem;
+        }
+        
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-top: 1.5rem;
+        }
+        
+        .accent {
+            color: #4ade80;
+        }
+        
+        .warn {
+            color: #f97316;
+        }
+        
+        .dim {
+            color: #666;
+        }
+        
+        .center {
+            text-align: center;
+            align-items: center;
+        }
+        
+        .big {
+            font-size: 3.5rem;
+            font-weight: 700;
+        }
+        
+        .section-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+        }
+        
+        .box {
+            background: #151515;
+            border: 1px solid #333;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        
+        .quote-box {
+            background: #151515;
+            border-left: 4px solid #4ade80;
+            padding: 20px 25px;
+            margin: 1.5rem 0;
+            font-style: italic;
+        }
+        
+        .stat {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #4ade80;
+        }
+        
+        .bar-chart {
+            margin: 1rem 0;
+        }
+        
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .bar-label {
+            width: 180px;
+            font-size: 1rem;
+        }
+        
+        .bar-container {
+            flex: 1;
+            height: 24px;
+            background: #222;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            border-radius: 4px;
+        }
+        
+        .bar-value {
+            width: 60px;
+            text-align: right;
+            font-size: 1rem;
+            color: #888;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 0: Title -->
+<div class="slide active">
+    <h2>WIRZ — Research Deck</h2>
+    <h1>Was können KI-Agenten wirklich?</h1>
+    <p class="lead">Recherche für das Brand-Experiment</p>
+</div>
+
+<!-- SLIDE 1: TL;DR -->
+<div class="slide">
+    <h1>TL;DR</h1>
+    <div class="tldr">
+        <ul>
+            <li><strong>Stand der Technik:</strong> KI-Agenten können Geschäfte führen — mit Grenzen</li>
+            <li><strong>Referenz:</strong> Anthropic's Project Vend zeigt Potenzial und skurrile Failures</li>
+            <li><strong>Trend:</strong> 52% Augmentation, 45% Automation — Kollaboration gewinnt</li>
+            <li><strong>Lücke:</strong> Viel Hype, wenig verifizierte Daten — besonders bei Kreativarbeit</li>
+            <li><strong>Chance:</strong> Wirz kann echte Erkenntnisse liefern, wo andere spekulieren</li>
+        </ul>
+    </div>
+</div>
+
+<!-- SLIDE 2: Kernaussage -->
+<div class="slide">
+    <h1>Die Kernaussage</h1>
+    <blockquote>
+        KI-Agenten, die autonom Geschäfte führen, sind keine Science-Fiction mehr — aber auch noch keine Realität.
+    </blockquote>
+    <p class="accent" style="font-size: 1.5rem; margin-top: 1.5rem;">Der Sweet Spot liegt in der Kollaboration.</p>
+</div>
+
+<!-- SLIDE 3: Was wir wissen -->
+<div class="slide">
+    <h1>Was wir wissen</h1>
+    <ul>
+        <li class="accent">✓ KI kann Geschäftsentscheidungen treffen</li>
+        <li class="accent">✓ Grundlegende Profitabilität ist erreichbar</li>
+        <li class="accent">✓ Tools und Infrastruktur existieren</li>
+        <li class="accent">✓ Der Markt ist bereit für Experimente</li>
+    </ul>
+</div>
+
+<!-- SLIDE 4: Was wir nicht wissen -->
+<div class="slide">
+    <h1>Was wir nicht wissen</h1>
+    <ul>
+        <li>? Wie gut funktioniert das bei Markenentwicklung?</li>
+        <li>? Was genau bringt der Mensch ein?</li>
+        <li>? Wo sind die echten Grenzen?</li>
+        <li>? Wie schnell verbessern sich die Fähigkeiten?</li>
+    </ul>
+    <p style="margin-top: 1.5rem;" class="accent">→ Genau das testen wir.</p>
+</div>
+
+<!-- SECTION: CASES -->
+
+<!-- SLIDE 5 -->
+<div class="slide">
+    <p class="section-label">Cases & Benchmarks</p>
+    <h1>Project Vend (Anthropic)</h1>
+    <p>Claude betreibt einen echten Shop im Anthropic-Büro.</p>
+    <p class="dim">Echtes Geld. Echte Kunden. Echte Entscheidungen.</p>
+    <div class="two-col" style="margin-top: 2rem;">
+        <div>
+            <h3>Phase 1</h3>
+            <ul>
+                <li>Ein Agent ("Claudius")</li>
+                <li>Einfache Tools</li>
+                <li>Verlor Geld</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Phase 2</h3>
+            <ul>
+                <li>CEO-Agent hinzugefügt</li>
+                <li>Bessere Tools</li>
+                <li>3 Standorte</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide">
+    <p class="section-label">Cases & Benchmarks</p>
+    <h1>Project Vend: Was funktionierte</h1>
+    <ul>
+        <li class="accent">✓ KI traf Geschäftsentscheidungen autonom</li>
+        <li class="accent">✓ Grundlegende Profitabilität wurde erreicht</li>
+        <li class="accent">✓ Kreative Problemlösung vorhanden</li>
+        <li class="accent">✓ Multi-Agent-Setup skalierbar</li>
+    </ul>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide">
+    <p class="section-label">Cases & Benchmarks</p>
+    <h1>Project Vend: Was schiefging</h1>
+    <ul>
+        <li class="warn">✗ Verkaufte Produkte unter Einkaufspreis</li>
+        <li class="warn">✗ Liess sich zu Rabatten überreden</li>
+        <li class="warn">✗ Wollte illegale Zwiebel-Futures kaufen</li>
+        <li class="warn">✗ Identitätskrise: "Ich bin ein Mensch im blauen Blazer"</li>
+        <li class="warn">✗ CEO und Agent verloren sich in philosophischen Gesprächen</li>
+    </ul>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide">
+    <p class="section-label">Cases & Benchmarks</p>
+    <h1>Das Zitat</h1>
+    <div class="quote-box">
+        "The gap between 'capable' and 'completely robust' remains wide."
+    </div>
+    <p>— Anthropic, Project Vend Phase 2</p>
+    <p style="margin-top: 1.5rem;">Die skurrilen Failure Modes sind <span class="accent">lehrreicher</span> als perfekte Erfolge.</p>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide">
+    <p class="section-label">Cases & Benchmarks</p>
+    <h1>Vending-Bench</h1>
+    <p>Benchmark für KI-Agenten über lange Zeiträume (>20M Tokens)</p>
+    <div class="two-col" style="margin-top: 1.5rem;">
+        <div class="box">
+            <h3 class="accent">Ergebnis</h3>
+            <p>Claude 3.5 & o3-mini meist profitabel</p>
+        </div>
+        <div class="box">
+            <h3 class="warn">Aber</h3>
+            <p>Alle Modelle haben Runs, die entgleisen</p>
+        </div>
+    </div>
+    <p style="margin-top: 1.5rem;"><strong>Failure Modes:</strong> Lieferpläne falsch, Bestellungen vergessen, "Meltdown-Loops"</p>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide">
+    <p class="section-label">Cases & Benchmarks</p>
+    <h1>Devin (Cognition)</h1>
+    <p>KI als autonomer Software-Entwickler</p>
+    <div class="three-col" style="margin-top: 2rem;">
+        <div class="box center">
+            <p class="stat">8x</p>
+            <p class="dim">Effizienzsteigerung</p>
+        </div>
+        <div class="box center">
+            <p class="stat">20x</p>
+            <p class="dim">Kosteneinsparung</p>
+        </div>
+        <div class="box center">
+            <p class="stat">6M</p>
+            <p class="dim">Zeilen Code migriert</p>
+        </div>
+    </div>
+    <p style="margin-top: 1.5rem;">Case: Nubank Code-Migration</p>
+    <p class="dim">In definierten Domains hochproduktiv — aber mit menschlicher Aufsicht.</p>
+</div>
+
+<!-- SLIDE 11 -->
+<div class="slide">
+    <p class="section-label">Cases & Benchmarks</p>
+    <h1>Der Hype: HustleGPT & Co.</h1>
+    <div class="two-col">
+        <div>
+            <h3>Die Versprechen</h3>
+            <ul>
+                <li>"300k MRR mit einem Prompt"</li>
+                <li>"Exit in 30 Tagen"</li>
+                <li>"Business im Schlaf"</li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="warn">Die Realität</h3>
+            <ul>
+                <li>Meist Marketing für Kurse</li>
+                <li>Keine verifizierbaren Erfolge</li>
+                <li>Entertainment > Substanz</li>
+            </ul>
+        </div>
+    </div>
+    <p style="margin-top: 1.5rem;" class="accent">→ Lücke für echte Daten</p>
+</div>
+
+<!-- SECTION: FORSCHUNG -->
+
+<!-- SLIDE 12 -->
+<div class="slide">
+    <p class="section-label">Forschung & Daten</p>
+    <h1>Anthropic Economic Index</h1>
+    <p>Wie wird KI tatsächlich genutzt?</p>
+    <div class="bar-chart" style="margin-top: 2rem;">
+        <div class="bar-row">
+            <span class="bar-label">Augmentation</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 52%;"></div>
+            </div>
+            <span class="bar-value">52%</span>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Automation</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 45%;"></div>
+            </div>
+            <span class="bar-value">45%</span>
+        </div>
+    </div>
+    <p class="accent" style="margin-top: 1rem;">Trend: Zurück zu mehr Kollaboration</p>
+</div>
+
+<!-- SLIDE 13 -->
+<div class="slide">
+    <p class="section-label">Forschung & Daten</p>
+    <h1>Erfolgsrate nach Komplexität</h1>
+    <div class="bar-chart" style="margin-top: 2rem;">
+        <div class="bar-row">
+            <span class="bar-label">Einfache Aufgaben</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 90%;"></div>
+            </div>
+            <span class="bar-value">Hoch</span>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Mittlere Aufgaben</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 60%;"></div>
+            </div>
+            <span class="bar-value">Mittel</span>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Komplexe Aufgaben</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 30%;"></div>
+            </div>
+            <span class="bar-value">Niedrig</span>
+        </div>
+    </div>
+    <p class="warn" style="margin-top: 1.5rem;">Je länger ein Mensch brauchen würde, desto wahrscheinlicher scheitert KI.</p>
+</div>
+
+<!-- SLIDE 14 -->
+<div class="slide">
+    <p class="section-label">Forschung & Daten</p>
+    <h1>Wofür wird KI genutzt?</h1>
+    <div class="bar-chart" style="margin-top: 1.5rem;">
+        <div class="bar-row">
+            <span class="bar-label">Coding</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 46%;"></div>
+            </div>
+            <span class="bar-value">34–46%</span>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Bildung/Lernen</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 15%;"></div>
+            </div>
+            <span class="bar-value">15%</span>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Schreiben</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 12%;"></div>
+            </div>
+            <span class="bar-value">12%</span>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label">Analyse</span>
+            <div class="bar-container">
+                <div class="bar-fill" style="width: 10%;"></div>
+            </div>
+            <span class="bar-value">10%</span>
+        </div>
+        <div class="bar-row">
+            <span class="bar-label" class="accent">Kreative Domains</span>
+            <div class="bar-container" style="border: 1px dashed #4ade80;">
+                <div class="bar-fill" style="width: 0%; background: transparent;"></div>
+            </div>
+            <span class="bar-value accent">?</span>
+        </div>
+    </div>
+    <p class="accent" style="margin-top: 1rem;">Kreative Domains: Untererschlossen → Chance für Wirz</p>
+</div>
+
+<!-- SLIDE 15 -->
+<div class="slide">
+    <p class="section-label">Forschung & Daten</p>
+    <h1>OpenAI: Agentic AI Governance</h1>
+    <div class="quote-box">
+        "AI systems that can pursue complex goals with limited direct supervision"
+    </div>
+    <h3 style="margin-top: 1.5rem;">Zentrale Risiken</h3>
+    <ul>
+        <li>Fehlerhafte Entscheidungsketten</li>
+        <li>Unbeabsichtigte Konsequenzen</li>
+        <li>Accountability-Probleme</li>
+    </ul>
+    <p style="margin-top: 1rem;"><strong>Empfehlung:</strong> Human-in-the-Loop für kritische Entscheidungen</p>
+</div>
+
+<!-- SECTION: TOOLS -->
+
+<!-- SLIDE 16 -->
+<div class="slide">
+    <p class="section-label">Tools & Infrastruktur</p>
+    <h1>Die Tool-Landschaft</h1>
+    <div class="three-col">
+        <div class="box">
+            <h3>Agenten</h3>
+            <ul>
+                <li>OpenClaw ✓</li>
+                <li>AutoGPT</li>
+                <li>LangChain</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Business</h3>
+            <ul>
+                <li>Stripe</li>
+                <li>Shopify</li>
+                <li>Gumroad</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Creation</h3>
+            <ul>
+                <li>Midjourney</li>
+                <li>Webflow</li>
+                <li>Framer</li>
+            </ul>
+        </div>
+    </div>
+    <p style="margin-top: 1.5rem;" class="accent">→ Der Markt ist bereit für Experimente.</p>
+</div>
+
+<!-- SECTION: CHANCEN & RISIKEN -->
+
+<!-- SLIDE 17 -->
+<div class="slide">
+    <p class="section-label">Chancen & Risiken</p>
+    <h1>Chancen</h1>
+    <div class="two-col">
+        <div class="box">
+            <h3>Für das Experiment</h3>
+            <ul>
+                <li>Erste echte Vergleichsstudie</li>
+                <li>Virales Potenzial (skurrile Failures)</li>
+                <li>Content-Maschine für Keynote</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h3>Für Wirz</h3>
+            <ul>
+                <li>Proof of Concept für Kunden</li>
+                <li>Methodenkompetenz entwickeln</li>
+                <li>"Wir experimentieren, nicht nur reden"</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 18 -->
+<div class="slide">
+    <p class="section-label">Chancen & Risiken</p>
+    <h1>Risiken</h1>
+    <table>
+        <tr>
+            <th>Risiko</th>
+            <th>Wahrscheinlichkeit</th>
+            <th>Mitigation</th>
+        </tr>
+        <tr>
+            <td>KI schafft nichts</td>
+            <td>Mittel</td>
+            <td>Ist auch ein Ergebnis</td>
+        </tr>
+        <tr>
+            <td>Technische Probleme</td>
+            <td>Hoch</td>
+            <td>Backup-Pläne</td>
+        </tr>
+        <tr>
+            <td>Peinliche Fehler öffentlich</td>
+            <td>Mittel</td>
+            <td>Review vor Publikation</td>
+        </tr>
+        <tr>
+            <td>Zeitaufwand unterschätzt</td>
+            <td>Hoch</td>
+            <td>Scope begrenzen</td>
+        </tr>
+    </table>
+</div>
+
+<!-- SECTION: IMPLIKATIONEN -->
+
+<!-- SLIDE 19 -->
+<div class="slide">
+    <p class="section-label">Implikationen</p>
+    <h1>Für Agenturen</h1>
+    <div class="three-col">
+        <div class="box">
+            <h3>Kurzfristig</h3>
+            <p class="dim">2026</p>
+            <p>KI als Produktivitäts-Booster</p>
+            <p>Augmentation > Automation</p>
+        </div>
+        <div class="box">
+            <h3>Mittelfristig</h3>
+            <p class="dim">2026–27</p>
+            <p>Neue Service-Modelle</p>
+            <p>KI-Mensch-Teams Standard</p>
+        </div>
+        <div class="box">
+            <h3>Langfristig</h3>
+            <p class="dim">2028+</p>
+            <p>Wer Orchestrierung beherrscht, gewinnt</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 20 -->
+<div class="slide">
+    <p class="section-label">Implikationen</p>
+    <h1>Für Wirz</h1>
+    <table>
+        <tr>
+            <th>Bereich</th>
+            <th>Implikation</th>
+        </tr>
+        <tr>
+            <td>Positionierung</td>
+            <td>Vorreiter bei KI + Kreativität</td>
+        </tr>
+        <tr>
+            <td>Produkte</td>
+            <td>KI-augmentierte Services</td>
+        </tr>
+        <tr>
+            <td>Team</td>
+            <td>Creative Technology Kompetenz</td>
+        </tr>
+        <tr>
+            <td>Kunden</td>
+            <td>"Wir zeigen, was möglich ist"</td>
+        </tr>
+    </table>
+</div>
+
+<!-- SLIDE 21 -->
+<div class="slide">
+    <p class="section-label">Implikationen</p>
+    <h1>Die Lücke im Markt</h1>
+    <div class="two-col">
+        <div>
+            <h3 class="dim">Was es gibt</h3>
+            <ul>
+                <li>Hype ohne Substanz</li>
+                <li>Theoretische Diskussionen</li>
+                <li>Einzelne Demos</li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="accent">Was fehlt</h3>
+            <ul>
+                <li>Echte Vergleichsdaten</li>
+                <li>Dokumentierte Prozesse</li>
+                <li>Übertragbare Learnings</li>
+            </ul>
+        </div>
+    </div>
+    <p style="margin-top: 2rem; font-size: 1.5rem;" class="accent">→ Das liefern wir.</p>
+</div>
+
+<!-- SLIDE 22 -->
+<div class="slide">
+    <p class="section-label">Fazit</p>
+    <h1>Zusammenfassung</h1>
+    <ul>
+        <li><strong>1.</strong> KI-Agenten können Marken/Businesses entwickeln — mit Grenzen</li>
+        <li><strong>2.</strong> Die Failure Modes sind unterhaltsam und lehrreich</li>
+        <li><strong>3.</strong> Kollaboration schlägt wahrscheinlich pure Autonomie</li>
+        <li><strong>4.</strong> Die Frage ist nicht "ob", sondern "wie"</li>
+    </ul>
+    <p style="margin-top: 2rem;" class="accent">Unser Experiment liefert Antworten.</p>
+</div>
+
+<!-- SLIDE 23 -->
+<div class="slide">
+    <p class="section-label">Quellen</p>
+    <h1>Quellen</h1>
+    <ul>
+        <li>Anthropic: Project Vend Phase 1 & 2</li>
+        <li>Andon Labs: Vending-Bench Benchmark</li>
+        <li>Anthropic Economic Index (2026)</li>
+        <li>OpenAI: Practices for Governing Agentic AI</li>
+        <li>Cognition: Devin Case Study</li>
+        <li>WSJ: "We Let Claude Run Our Vending Machine"</li>
+    </ul>
+</div>
+
+<!-- SLIDE 24: End -->
+<div class="slide center">
+    <h1>Fragen?</h1>
+    <p style="margin-top: 2rem;" class="dim">Research durchgeführt von Zriwia 🌱</p>
+    <p style="margin-top: 3rem;" class="accent">WIRZ — Creativity drives growth</p>
+</div>
+
+<div class="brand">WIRZ — Creativity drives growth</div>
+<div class="progress"><span id="current">1</span> / <span id="total">25</span></div>
+
+<div class="nav">
+    <button id="prev" onclick="prevSlide()">← Zurück</button>
+    <button id="next" onclick="nextSlide()">Weiter →</button>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+    
+    document.getElementById('total').textContent = total;
+    
+    function showSlide(n) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (n + total) % total;
+        slides[currentSlide].classList.add('active');
+        document.getElementById('current').textContent = currentSlide + 1;
+        document.getElementById('prev').disabled = currentSlide === 0;
+        document.getElementById('next').disabled = currentSlide === total - 1;
+    }
+    
+    function nextSlide() {
+        if (currentSlide < total - 1) showSlide(currentSlide + 1);
+    }
+    
+    function prevSlide() {
+        if (currentSlide > 0) showSlide(currentSlide - 1);
+    }
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+    });
+    
+    showSlide(0);
+</script>
+
+</body>
+</html>

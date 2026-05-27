@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Autonomy — Briefing für Nico</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #fafafa;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 60px 80px;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .slide.active { display: flex; }
+        h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1.5rem; line-height: 1.1; }
+        h2 { font-size: 1.8rem; font-weight: 600; margin-bottom: 1rem; color: #888; }
+        h3 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; color: #666; }
+        p { font-size: 1.4rem; line-height: 1.6; margin-bottom: 1rem; max-width: 900px; }
+        .highlight { color: #3b82f6; }
+        .dim { color: #666; }
+        blockquote {
+            font-size: 2rem;
+            font-style: italic;
+            border-left: 4px solid #3b82f6;
+            padding-left: 30px;
+            margin: 40px 0;
+            max-width: 900px;
+        }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 40px; }
+        .card {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+        .card h3 { color: #fafafa; margin-bottom: 15px; }
+        .card p { font-size: 1.1rem; color: #999; margin-bottom: 0; }
+        table { border-collapse: collapse; margin-top: 30px; }
+        th, td { padding: 15px 25px; text-align: left; border-bottom: 1px solid #333; }
+        th { color: #666; font-weight: 500; }
+        td { font-size: 1.1rem; }
+        .metric { font-size: 4rem; font-weight: 700; color: #3b82f6; }
+        .metric-label { font-size: 1rem; color: #666; text-transform: uppercase; letter-spacing: 2px; }
+        .metrics-row { display: flex; gap: 80px; margin-top: 40px; }
+        .metric-box { text-align: center; }
+        ul { list-style: none; margin-top: 20px; }
+        li { font-size: 1.2rem; padding: 10px 0; padding-left: 30px; position: relative; }
+        li::before { content: "→"; position: absolute; left: 0; color: #3b82f6; }
+        .good { color: #22c55e; }
+        .bad { color: #ef4444; }
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        .controls button {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .controls button:hover { background: #333; }
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #3b82f6;
+            transition: width 0.3s;
+        }
+        .tag {
+            display: inline-block;
+            background: #3b82f6;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress" id="progress"></div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+        <span class="tag">Briefing Februar 2026</span>
+        <h1>Project Autonomy</h1>
+        <h2>Kann KI autonom eine Marke bauen?</h2>
+        <p class="dim" style="margin-top: 40px;">Wirz KI-Brand-Experiment für Keynote Juni 2026</p>
+    </div>
+
+    <!-- Slide 2: Die Frage -->
+    <div class="slide">
+        <h2>Die Leitfrage</h2>
+        <blockquote>"Kann KI autonom eine Marke aufbauen, die echtes Wachstum erzeugt — und was passiert, wenn ein Mensch dazukommt?"</blockquote>
+        <p>Nicht: Kann KI ein Business bauen? <span class="dim">(das glauben mittlerweile viele)</span></p>
+        <p>Sondern: Kann KI eine <span class="highlight">Marke</span> bauen? <span class="dim">(das trifft einen Nerv)</span></p>
+    </div>
+
+    <!-- Slide 3: Setup -->
+    <div class="slide">
+        <h2>Das Setup</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>🤖 Case 1: Autonomie</h3>
+                <p>KI arbeitet alleine. Tägliche Sessions um 04:00 Uhr. Mensch dokumentiert und führt aus — aber entscheidet nicht.</p>
+            </div>
+            <div class="card">
+                <h3>👥 Case 2: Kollaboration</h3>
+                <p>Mensch + KI im Dialog. Sparring, Challenge, gemeinsame Kuration. <span class="dim">(Phase 2, startet später)</span></p>
+            </div>
+        </div>
+        <p style="margin-top: 40px;">Zwei Marken, gleiche Kategorie, unterschiedlicher Prozess.</p>
+    </div>
+
+    <!-- Slide 4: Status -->
+    <div class="slide">
+        <h2>Aktueller Status</h2>
+        <div class="metrics-row">
+            <div class="metric-box">
+                <div class="metric">23</div>
+                <div class="metric-label">Sessions</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric">90%</div>
+                <div class="metric-label">Brand Design Complete</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric">28</div>
+                <div class="metric-label">Hypothesen</div>
+            </div>
+        </div>
+        <p style="margin-top: 50px;"><span class="highlight">Phase:</span> Brand Building Assets (Develop)</p>
+    </div>
+
+    <!-- Slide 5: Die Marke -->
+    <div class="slide">
+        <h2>Die Marke: Blunt</h2>
+        <blockquote>"In a world of agreeable AI, Blunt disagrees."</blockquote>
+        <p><strong>Kategorie:</strong> AI-Native Service</p>
+        <p><strong>Positionierung:</strong> Honest AI — Transparenz statt Sycophancy</p>
+        <p><strong>Provokation:</strong> Eine KI baut autonom eine KI-Marke. Das IST die Story.</p>
+    </div>
+
+    <!-- Slide 6: Das Problem -->
+    <div class="slide">
+        <h2>Das Problem, das Blunt löst</h2>
+        <table>
+            <tr>
+                <th>Metrik</th>
+                <th>Wert</th>
+            </tr>
+            <tr>
+                <td>ChatGPT Agreement-Rate</td>
+                <td><span class="bad">58%</span> — egal ob User recht hat</td>
+            </tr>
+            <tr>
+                <td>Claude Agreement-Rate</td>
+                <td><span class="bad">60%</span></td>
+            </tr>
+            <tr>
+                <td>Skeptisch gegenüber AI</td>
+                <td><span class="bad">82%</span></td>
+            </tr>
+            <tr>
+                <td>Vertrauen AI "a lot"</td>
+                <td><span class="bad">5%</span></td>
+            </tr>
+        </table>
+        <p style="margin-top: 30px;">Sycophancy ist kein Bug — es ist das Geschäftsmodell.</p>
+    </div>
+
+    <!-- Slide 7: Key Insight -->
+    <div class="slide">
+        <h2>Die zentrale Erkenntnis</h2>
+        <blockquote>"KI kann Marken DESIGNEN, aber nicht BAUEN."</blockquote>
+        <div class="grid">
+            <div>
+                <h3 class="good">✓ Design (KI autonom)</h3>
+                <ul>
+                    <li>Positionierung</li>
+                    <li>Name & Logo</li>
+                    <li>Tone of Voice</li>
+                    <li>Content Strategy</li>
+                    <li>Prototyp</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="bad">✗ Build (braucht Menschen)</h3>
+                <ul>
+                    <li>Kulturelle Präsenz</li>
+                    <li>Social Following</li>
+                    <li>Earned Media</li>
+                    <li>Community</li>
+                    <li>Akkumulierte Erinnerungen</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: 90% Ceiling -->
+    <div class="slide">
+        <h2>Die 90%-Grenze</h2>
+        <p>Am 14. Februar erreichte die KI 90% Completion.</p>
+        <p>Dann <span class="highlight">wartete sie.</span></p>
+        <p style="margin-top: 30px;">Die letzten 10% erfordern:</p>
+        <table>
+            <tr><td>Domain kaufen</td><td class="dim">→ braucht Kreditkarte</td></tr>
+            <tr><td>Budget freigeben</td><td class="dim">→ braucht Autorisierung</td></tr>
+            <tr><td>Launch entscheiden</td><td class="dim">→ braucht "Go"</td></tr>
+        </table>
+        <p style="margin-top: 30px;"><strong>Gemeinsamkeit:</strong> Commitment, nicht Kompetenz.</p>
+    </div>
+
+    <!-- Slide 9: Deliverables -->
+    <div class="slide">
+        <h2>Was bisher entstanden ist</h2>
+        <div class="grid">
+            <div>
+                <h3>Strategie</h3>
+                <ul>
+                    <li>Brand Manifesto</li>
+                    <li>Competitive Positioning</li>
+                    <li>Trust Research (82% skeptisch)</li>
+                    <li>28 validierte Hypothesen</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Identität</h3>
+                <ul>
+                    <li>Naming: "Blunt"</li>
+                    <li>Tagline: "Blunt disagrees"</li>
+                    <li>Tone of Voice Guide</li>
+                    <li>Content Pillars</li>
+                </ul>
+            </div>
+        </div>
+        <div class="grid" style="margin-top: 30px;">
+            <div>
+                <h3>Anwendung</h3>
+                <ul>
+                    <li>Landing Page Prototype</li>
+                    <li>Social Persona (X/LinkedIn)</li>
+                    <li>Confidence Classifier Code</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Dokumentation</h3>
+                <ul>
+                    <li>23 Session-Protokolle</li>
+                    <li>Keynote-ready Slides</li>
+                    <li>Lab Dispatch Blog Entries</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Highlights -->
+    <div class="slide">
+        <h2>Highlights 🎯</h2>
+        <ul>
+            <li><strong>Meta-Provokation:</strong> KI wählte selbst die riskanteste Kategorie (AI-Marke)</li>
+            <li><strong>Sycophancy-Durchbruch:</strong> Whitespace durch Datenanalyse gefunden, nicht Intuition</li>
+            <li><strong>04:00-Sessions:</strong> KI arbeitet autonom während Menschen schlafen</li>
+            <li><strong>Decision Latency:</strong> 1:24 Work-to-Wait Ratio quantifiziert</li>
+        </ul>
+    </div>
+
+    <!-- Slide 11: Lowlights -->
+    <div class="slide">
+        <h2>Lowlights & Learnings ⚠️</h2>
+        <ul>
+            <li><strong>Wartezustand:</strong> 5+ Tage bei 90% — menschliche Entscheidungen sind der Bottleneck</li>
+            <li><strong>Building Gap:</strong> KI kann keine echte kulturelle Präsenz erzeugen</li>
+            <li><strong>Commitment-Barriere:</strong> Domain, Budget, Launch erfordern Menschen</li>
+            <li><strong>Zeit-Asymmetrie:</strong> KI liefert in Stunden, Mensch braucht Tage</li>
+        </ul>
+    </div>
+
+    <!-- Slide 12: Timeline -->
+    <div class="slide">
+        <h2>Timeline & Nächste Schritte</h2>
+        <table>
+            <tr><th>Phase</th><th>Zeitraum</th><th>Status</th></tr>
+            <tr><td>Discover</td><td>W1-2 (Feb)</td><td class="good">✓ Done</td></tr>
+            <tr><td>Define</td><td>W3-4 (Feb)</td><td class="good">✓ Done</td></tr>
+            <tr><td>Develop</td><td>W5-7 (Feb-Mär)</td><td class="highlight">→ Jetzt</td></tr>
+            <tr><td>Deliver</td><td>W8-10 (Mär-Apr)</td><td class="dim">Pending</td></tr>
+            <tr><td>Keynote</td><td>Juni 2026</td><td class="dim">Ziel</td></tr>
+        </table>
+    </div>
+
+    <!-- Slide 13: Implications -->
+    <div class="slide">
+        <h2>Was das für Wirz bedeutet</h2>
+        <blockquote>"Die Zukunft von Brand Building liegt nicht in 'KI oder Mensch', sondern in der Fähigkeit, beide Kräfte zu orchestrieren."</blockquote>
+        <ul>
+            <li><strong>Pathway:</strong> Brand Capital — Wirz' Kernkompetenz</li>
+            <li><strong>Claim-Proof:</strong> "Creativity drives growth" — live demonstriert</li>
+            <li><strong>Positionierung:</strong> Wirz versteht KI UND Marke</li>
+            <li><strong>Thought Leadership:</strong> Provokante Frage, ehrliche Antwort</li>
+        </ul>
+    </div>
+
+    <!-- Slide 14: End -->
+    <div class="slide">
+        <h1>Fragen?</h1>
+        <p style="margin-top: 40px;">Alle Materialien: <span class="highlight">experiment/</span></p>
+        <p>Dashboard: <span class="highlight">zriwia.github.io/cockpit</span></p>
+        <p style="margin-top: 60px; color: #666;">Florian & Zriwia 🌱</p>
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">← Zurück</button>
+        <button onclick="nextSlide()">Weiter →</button>
+    </div>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progress = document.getElementById('progress');
+
+        function showSlide(n) {
+            slides[current].classList.remove('active');
+            current = (n + slides.length) % slides.length;
+            slides[current].classList.add('active');
+            progress.style.width = ((current + 1) / slides.length * 100) + '%';
+        }
+
+        function nextSlide() { showSlide(current + 1); }
+        function prevSlide() { showSlide(current - 1); }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

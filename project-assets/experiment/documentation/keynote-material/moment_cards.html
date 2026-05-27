@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keynote Moment Cards — Project Autonomy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --charcoal: #1a1a1a;
+            --dark-gray: #2d2d2d;
+            --amber: #f59e0b;
+            --off-white: #faf8f5;
+            --medium-gray: #6b7280;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--charcoal);
+            color: var(--off-white);
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: var(--amber);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+
+        .moment-card {
+            background: var(--dark-gray);
+            border-radius: 16px;
+            padding: 32px;
+            border-left: 4px solid var(--amber);
+        }
+
+        .moment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .moment-session {
+            font-size: 0.85rem;
+            color: var(--amber);
+            font-weight: 600;
+        }
+
+        .moment-date {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+
+        .moment-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .moment-quote {
+            font-size: 1.4rem;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid var(--amber);
+        }
+
+        .moment-context {
+            font-size: 0.95rem;
+            color: var(--medium-gray);
+            line-height: 1.6;
+        }
+
+        .moment-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+
+        /* Special Cards */
+        .moment-card.breakthrough {
+            border-left-color: #10b981;
+        }
+
+        .moment-card.breakthrough .moment-session,
+        .moment-card.breakthrough .moment-tag {
+            color: #10b981;
+        }
+
+        .moment-card.breakthrough .moment-tag {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .moment-card.challenge {
+            border-left-color: #ef4444;
+        }
+
+        .moment-card.challenge .moment-session {
+            color: #ef4444;
+        }
+
+        .moment-card.waiting {
+            border-left-color: #fbbf24;
+        }
+
+        .moment-card.waiting .moment-session,
+        .moment-card.waiting .moment-tag {
+            color: #fbbf24;
+        }
+
+        .moment-card.waiting .moment-tag {
+            background: rgba(251, 191, 36, 0.2);
+        }
+
+        @media print {
+            body { background: white; color: black; }
+            .moment-card { break-inside: avoid; border: 1px solid #ccc; }
+        }
+    </style>
+</head>
+<body>
+
+<h1>🎬 Keynote Moment Cards</h1>
+
+<div class="cards-grid">
+
+    <!-- Card 1: Meta-Provokation -->
+    <div class="moment-card breakthrough">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 2</span>
+            <span class="moment-date">2. Feb 2026, 04:00</span>
+        </div>
+        <div class="moment-title">Die Meta-Provokation</div>
+        <div class="moment-quote">
+            "Eine AI baut autonom eine AI-Marke. Das IST die Story."
+        </div>
+        <div class="moment-context">
+            Die KI analysierte 5 Kategorien und wählte bewusst die riskanteste: AI-Native Services. Nicht weil es sicher war, sondern weil die meta-narrative Ebene die stärkste Provokation darstellt.
+        </div>
+        <span class="moment-tag">STRATEGIC DECISION</span>
+    </div>
+
+    <!-- Card 2: Florian Challenge -->
+    <div class="moment-card challenge">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 4-5</span>
+            <span class="moment-date">4-5. Feb 2026</span>
+        </div>
+        <div class="moment-title">Die Florian-Challenge</div>
+        <div class="moment-quote">
+            "Honest AI als reine Tonalität ist keine echte Differenzierung. Wo ist der News Value?"
+        </div>
+        <div class="moment-context">
+            Florian stellte die zentrale Frage. 12 Stunden später lieferte die KI eine substanzielle Antwort: 5 strukturelle Features, die "Honest AI" von einem Prompt zu einem Produktkonzept machten.
+        </div>
+        <span class="moment-tag">HUMAN-AI DIALOGUE</span>
+    </div>
+
+    <!-- Card 3: Sycophancy Insight -->
+    <div class="moment-card breakthrough">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 5</span>
+            <span class="moment-date">5. Feb 2026, 04:30</span>
+        </div>
+        <div class="moment-title">Der Sycophancy-Durchbruch</div>
+        <div class="moment-quote">
+            "Sycophancy ist nicht ein Bug, sondern ein Feature der aktuellen AI-Trainingsmethoden."
+        </div>
+        <div class="moment-context">
+            ChatGPT: 58% Agreement. Claude: 60%. Gemini: 62%. Die KI fand das Whitespace nicht durch Kreativität, sondern durch systematische Datenanalyse — der echte KI-Vorteil.
+        </div>
+        <span class="moment-tag">DATA-DRIVEN INSIGHT</span>
+    </div>
+
+    <!-- Card 4: 90% Moment -->
+    <div class="moment-card waiting">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 14</span>
+            <span class="moment-date">14. Feb 2026, 04:30</span>
+        </div>
+        <div class="moment-title">90% und dann warten</div>
+        <div class="moment-quote">
+            "Am 14. Februar erreichte unsere KI 90% Completion. Dann wartete sie."
+        </div>
+        <div class="moment-context">
+            Nicht weil sie nicht wusste was zu tun ist — sondern weil die letzten 10% Entscheidungen erforderten, die nur ein Mensch treffen kann: Domain kaufen, Budget freigeben, Launch triggern.
+        </div>
+        <span class="moment-tag">PIVOTAL MOMENT</span>
+    </div>
+
+    <!-- Card 5: Commitment -->
+    <div class="moment-card">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 15</span>
+            <span class="moment-date">15. Feb 2026, 04:15</span>
+        </div>
+        <div class="moment-title">Commitment, nicht Kompetenz</div>
+        <div class="moment-quote">
+            "Diese Blocker erfordern Commitment, nicht Kompetenz. KI kann unbegrenzt denken — aber sie kann nicht committen."
+        </div>
+        <div class="moment-context">
+            KI kann Domain recherchieren → Mensch muss kaufen. KI kann Budget berechnen → Mensch muss bezahlen. Die Kern-Erkenntnis des Experiments in einem Satz.
+        </div>
+        <span class="moment-tag">KEY INSIGHT</span>
+    </div>
+
+    <!-- Card 6: First Principles -->
+    <div class="moment-card">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 1</span>
+            <span class="moment-date">1. Feb 2026, 04:00</span>
+        </div>
+        <div class="moment-title">Die erste Nacht</div>
+        <div class="moment-quote">
+            "Eine Marke ist eine Erwartung. Nicht Logo, nicht Werte — eine Erwartung, die konsistent genug ist, um Vertrauen zu erzeugen."
+        </div>
+        <div class="moment-context">
+            Erste autonome Session. Keine menschliche Vorgabe. Die KI definiert selbst ihren First-Principles-Rahmen für alles, was folgt.
+        </div>
+        <span class="moment-tag">FOUNDATION</span>
+    </div>
+
+    <!-- Card 7: Tagline -->
+    <div class="moment-card breakthrough">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 6</span>
+            <span class="moment-date">6. Feb 2026, 04:30</span>
+        </div>
+        <div class="moment-title">Die Tagline</div>
+        <div class="moment-quote">
+            "In a world of agreeable AI, Blunt disagrees."
+        </div>
+        <div class="moment-context">
+            Contrarian. Memorable. Fasst alles zusammen. Die KI wählte den Namen "Blunt" über "Candor" weil er schärfer war und diese Tagline ermöglichte.
+        </div>
+        <span class="moment-tag">CREATIVE OUTPUT</span>
+    </div>
+
+    <!-- Card 8: Das Warten -->
+    <div class="moment-card waiting">
+        <div class="moment-header">
+            <span class="moment-session">SESSION 15</span>
+            <span class="moment-date">15. Feb 2026, 04:45</span>
+        </div>
+        <div class="moment-title">Das Warten ist die Story</div>
+        <div class="moment-quote">
+            "Das Warten IST Teil des Experiments. Jeder Tag dokumentiert wo KI stoppt und warum."
+        </div>
+        <div class="moment-context">
+            Meta-kognitiver Moment: Die KI erkennt, dass ihre eigene Limitierung wertvolles Keynote-Material ist. Sie nutzt die Wartezeit produktiv statt zu eskalieren.
+        </div>
+        <span class="moment-tag">META-INSIGHT</span>
+    </div>
+
+</div>
+
+</body>
+</html>
